@@ -6,6 +6,13 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 #include <allegro.h>
+// Máximo tamaño de un mensaje a imprimir en el entorno
+const int MAX_MENSAJE   = 50;
+
+/**
+ *   Tipo para los mensajes a imprimir en pantalla
+ */
+typedef char TipoMensaje [MAX_MENSAJE];
 
 using namespace std;
 
@@ -19,6 +26,9 @@ void pon_tortuga(int x1,int y1,int orientacion);
 
 void borra_tortuga(int x1,int y1);
 /*Borra la toruga situada en el punto (x1, x2)*/
+
+void muestra_mensaje (const TipoMensaje msg);
+/*escribe un mensaje en la pantalla*/
 
 void inicio();
 /* Inicia todas las variables necesarias para el resto de los módulos*/
