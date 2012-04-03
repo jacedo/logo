@@ -27,11 +27,19 @@ void MostrarTortuga (Tortuga T);
 
 void OcultarTortuga (Tortuga T);
 
-//calcula la nueva posicion de la tortuga tras avanzar n posiciones el la orientacion de la misma y llama a mover tortuga
+//calcula la nueva posicion de la tortuga tras avanzar n posiciones el la orientacion de la misma y llama a MoverTortuga
 void DesplazarTortuga (Tortuga T, int n);
 //mueve la tortuga desde la posicion origen a la posicion destino
 void MoverTortuga (Tortuga Origen, Tortuga Destino);
 
+//devuelve el valor del angulo correspondiente a la orientacion
+int  obtenerAngulo(Orientacion o);
+//devuelve la orientacion correspondiente al valor del angulo
+Orientacion obtenerOrientacion(int angulo);
+
+//calcula la nueva orientacion de la tortuga, añadiendo el angulo hacia el lado que indique l: 0 derecha, 1 izquierda. 
+//Despues llama a GirarTortuga
+void CambiarDireccion(Tortuga T, int angulo, int l);
 
 void GirarTortuga (Tortuga Origen, Tortuga Destino);
 
