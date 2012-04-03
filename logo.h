@@ -1,5 +1,5 @@
-#ifndef TORTUGA_H_
-#define TORTUGA_H_
+#ifndef LOGO_H_
+#define LOGO_H_
 
 #include "Entorno.h"
 
@@ -38,16 +38,9 @@ int  obtenerAngulo(Orientacion o);
 Orientacion obtenerOrientacion(int angulo);
 
 //calcula la nueva orientacion de la tortuga, añadiendo el angulo hacia el lado que indique l: 0 derecha, 1 izquierda. 
-//Despues llama a GirarTortuga
+//Despues gira la tortuga hacia la nueva orientacion
 void CambiarDireccion(Tortuga T, int angulo, int l);
 
-void GirarTortuga (Tortuga Origen, Tortuga Destino);
 
 
-
-
-
-
-
-
-#endif /* TORTUGA_H_ */
+#endif /* LOGO_H_ */

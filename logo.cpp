@@ -1,5 +1,6 @@
 
 #include "logo.cpp"
+
 void Inicio(){
 	inicio();
 }
@@ -88,7 +89,7 @@ Orientacion obtenerOrientacion(int angulo){
 }
 
 void CambiarDireccion(Tortuga T, int angulo, int l){
-	Tortuga aux=T;
+	//Tortuga aux=T;
 	
 	int a;
 	a=obtenerAngulo(T.orientacion);
@@ -104,15 +105,22 @@ void CambiarDireccion(Tortuga T, int angulo, int l){
 	}
 	a=a%360;
 	T.orientacion=obtenerDireccion(a);
-	GirarTortuga(aux,T);
-}
-
-void GirarTortuga (Tortuga Origen, Tortuga Destino){
-	if(!Origen.oculta){
-		borra_tortuga(Origen.columna,Origen.fila);
-		pon_tortuga(Destino.columna,Destino.fila,Destino.orientacion);
+	
+	//si no esta oculta muestra la tortuga en su nueva orientacion
+	if(!T.oculta){
+		borra_tortuga(T.columna,T.fila);
+		pon_tortuga(T.columna,T.fila,T.orientacion);
 	}
 }
+
+
+//Este modulo no es necesario
+//void GirarTortuga (Tortuga T){
+//	if(!Origen.oculta){
+//		borra_tortuga(T.columna,T.fila);
+////		pon_tortuga(T.columna,T.fila,T.orientacion);
+	//}
+//}
 
 
 
