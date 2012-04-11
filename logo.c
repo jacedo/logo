@@ -83,17 +83,13 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
+extern FILE *yyin;
 
 void yyerror(FILE * yyout,const char * );
 
 
-
-
-
-
-
 /* Line 268 of yacc.c  */
-#line 97 "logo.c"
+#line 93 "logo.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -130,8 +126,7 @@ void yyerror(FILE * yyout,const char * );
      OT = 265,
      ES = 266,
      N_ENTERO = 267,
-     N_REAL = 268,
-     CADENA = 269
+     N_REAL = 268
    };
 #endif
 
@@ -142,16 +137,15 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 30 "logo.y"
+#line 26 "logo.y"
 
 	int c_entero;
 	float c_real;
-	char c_cadena[50];
 
 
 
 /* Line 293 of yacc.c  */
-#line 155 "logo.c"
+#line 149 "logo.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -163,7 +157,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 167 "logo.c"
+#line 161 "logo.c"
 
 #ifdef short
 # undef short
@@ -382,10 +376,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   28
+#define YYLAST   26
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  16
+#define YYNTOKENS  15
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
@@ -395,7 +389,7 @@ union yyalloc
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   269
+#define YYMAXUTOK   268
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -404,7 +398,7 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      15,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      14,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -429,7 +423,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14
+       5,     6,     7,     8,     9,    10,    11,    12,    13
 };
 
 #if YYDEBUG
@@ -444,8 +438,8 @@ static const yytype_uint8 yyprhs[] =
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      17,     0,    -1,    -1,    17,    18,    -1,    15,    -1,    19,
-      15,    -1,     1,    15,    -1,    20,    -1,    19,    20,    -1,
+      16,     0,    -1,    -1,    16,    17,    -1,    14,    -1,    18,
+      14,    -1,     1,    14,    -1,    19,    -1,    18,    19,    -1,
        3,    12,    -1,     4,    12,    -1,     5,    12,    -1,     6,
       12,    -1,     7,    -1,     8,    -1,     9,    -1,    10,    -1
 };
@@ -453,8 +447,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    49,    49,    52,    55,    56,    57,    60,    61,    64,
-      93,    96,    99,   102,   105,   108,   111
+       0,    40,    40,    43,    46,    47,    48,    51,    52,    55,
+      84,    87,    90,    93,    96,    99,   102
 };
 #endif
 
@@ -464,8 +458,8 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "AV", "RE", "GD", "GI", "BL", "SL", "MT",
-  "OT", "ES", "N_ENTERO", "N_REAL", "CADENA", "'\\n'", "$accept",
-  "entrada", "linea", "comandos", "comando", 0
+  "OT", "ES", "N_ENTERO", "N_REAL", "'\\n'", "$accept", "entrada", "linea",
+  "comandos", "comando", 0
 };
 #endif
 
@@ -475,15 +469,15 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,    10
+     265,   266,   267,   268,    10
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    16,    17,    17,    18,    18,    18,    19,    19,    20,
-      20,    20,    20,    20,    20,    20,    20
+       0,    15,    16,    16,    17,    17,    17,    18,    18,    19,
+      19,    19,    19,    19,    19,    19,    19
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -511,18 +505,18 @@ static const yytype_int8 yydefgoto[] =
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -14
+#define YYPACT_NINF -13
 static const yytype_int8 yypact[] =
 {
-     -14,     0,   -14,   -13,    -1,     1,     2,    12,   -14,   -14,
-     -14,   -14,   -14,   -14,    13,   -14,   -14,   -14,   -14,   -14,
-     -14,   -14,   -14
+     -13,     0,   -13,   -12,    -1,     1,    11,    13,   -13,   -13,
+     -13,   -13,   -13,   -13,    12,   -13,   -13,   -13,   -13,   -13,
+     -13,   -13,   -13
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -14,   -14,   -14,   -14,    -2
+     -13,   -13,   -13,   -13,    -2
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -532,30 +526,30 @@ static const yytype_int8 yypgoto[] =
 static const yytype_uint8 yytable[] =
 {
        2,     3,    16,     4,     5,     6,     7,     8,     9,    10,
-      11,    17,    22,    18,    19,    12,     4,     5,     6,     7,
-       8,     9,    10,    11,    20,     0,     0,     0,    21
+      11,    17,    22,    18,    12,     4,     5,     6,     7,     8,
+       9,    10,    11,    19,     0,    20,    21
 };
 
 #define yypact_value_is_default(yystate) \
-  ((yystate) == (-14))
+  ((yystate) == (-13))
 
 #define yytable_value_is_error(yytable_value) \
   YYID (0)
 
 static const yytype_int8 yycheck[] =
 {
-       0,     1,    15,     3,     4,     5,     6,     7,     8,     9,
-      10,    12,    14,    12,    12,    15,     3,     4,     5,     6,
-       7,     8,     9,    10,    12,    -1,    -1,    -1,    15
+       0,     1,    14,     3,     4,     5,     6,     7,     8,     9,
+      10,    12,    14,    12,    14,     3,     4,     5,     6,     7,
+       8,     9,    10,    12,    -1,    12,    14
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    17,     0,     1,     3,     4,     5,     6,     7,     8,
-       9,    10,    15,    18,    19,    20,    15,    12,    12,    12,
-      12,    15,    20
+       0,    16,     0,     1,     3,     4,     5,     6,     7,     8,
+       9,    10,    14,    17,    18,    19,    14,    12,    12,    12,
+      12,    14,    19
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1398,7 +1392,7 @@ yyreduce:
         case 2:
 
 /* Line 1806 of yacc.c  */
-#line 49 "logo.y"
+#line 40 "logo.y"
     {
 			
 		}
@@ -1407,14 +1401,14 @@ yyreduce:
   case 6:
 
 /* Line 1806 of yacc.c  */
-#line 57 "logo.y"
+#line 48 "logo.y"
     {yyerrok;}
     break;
 
   case 9:
 
 /* Line 1806 of yacc.c  */
-#line 64 "logo.y"
+#line 55 "logo.y"
     {
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
@@ -1449,7 +1443,7 @@ yyreduce:
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 93 "logo.y"
+#line 84 "logo.y"
     {
 			//	DesplazarTortuga (T,$2);
 			}
@@ -1458,7 +1452,7 @@ yyreduce:
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 96 "logo.y"
+#line 87 "logo.y"
     {	
 			//	CambiarDireccion(T, $2, 0);
 			}
@@ -1467,7 +1461,7 @@ yyreduce:
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 99 "logo.y"
+#line 90 "logo.y"
     {
 			//	CambiarDireccion(T, $2, 1);
 			}
@@ -1476,7 +1470,7 @@ yyreduce:
   case 13:
 
 /* Line 1806 of yacc.c  */
-#line 102 "logo.y"
+#line 93 "logo.y"
     {
 			//	T.lapiz=true;
 			}
@@ -1485,7 +1479,7 @@ yyreduce:
   case 14:
 
 /* Line 1806 of yacc.c  */
-#line 105 "logo.y"
+#line 96 "logo.y"
     {
 			//	T.lapiz=false;
 			}
@@ -1494,7 +1488,7 @@ yyreduce:
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 108 "logo.y"
+#line 99 "logo.y"
     {
 			//	MostrarTortuga(T);
 			}
@@ -1503,7 +1497,7 @@ yyreduce:
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 111 "logo.y"
+#line 102 "logo.y"
     {
 			//	OcultarTortuga(T);
 			}
@@ -1512,7 +1506,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 1516 "logo.c"
+#line 1510 "logo.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1743,7 +1737,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 116 "logo.y"
+#line 107 "logo.y"
 
 
 
@@ -1757,7 +1751,7 @@ int main( int argc, char **argv )
      int nastiness, randomness;
 	
 	FILE * yyout=fopen("prueba.cpp","wt");
-	FILE * yyin=fopen(argv[1],"rt");
+	yyin=fopen(argv[1],"rt");
 
 			
      	fprintf(yyout,"#include \"entorno.h\"\n\n");

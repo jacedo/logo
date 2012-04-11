@@ -1,4 +1,5 @@
 %{
+#include<stdlib.h>
 #include "logo.h"
 
 extern int numlinea;
@@ -26,12 +27,9 @@ num_real	{num_entero}[.]{num_entero}
 [Mm][Uu][Ee][Ss][Tt][Rr][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] | [Mm][Tt]		{return MT;}
 [Oo][Cc][Uu][Ll][Tt][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] | [Oo][Tt]			{return OT;}
 
-
-{num_entero}            {yylval.c_entero=atoi(yytext);
+ {num_entero}            {yylval.c_entero=atoi(yytext);
 			return N_ENTERO;}
  
-\n			{return yytext[0];}
-[ ]			;
-.			{return yytext[0];}
 
+.	;
 %%

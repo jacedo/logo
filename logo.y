@@ -16,13 +16,9 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
+extern FILE *yyin;
 
 void yyerror(FILE * yyout,const char * );
-
-
-
-
-
 %}
 
 
@@ -30,19 +26,14 @@ void yyerror(FILE * yyout,const char * );
 %union {
 	int c_entero;
 	float c_real;
-	char c_cadena[50];
 }
 
 %token AV RE GD GI BL SL MT OT ES
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
-%token <c_cadena> CADENA
 
 
 %parse-param {FILE * yyout}
-
- 
-
 
 %%
 
@@ -126,7 +117,7 @@ int main( int argc, char **argv )
      int nastiness, randomness;
 	
 	FILE * yyout=fopen("prueba.cpp","wt");
-	FILE * yyin=fopen(argv[1],"rt");
+	yyin=fopen(argv[1],"rt");
 
 			
      	fprintf(yyout,"#include \"entorno.h\"\n\n");
