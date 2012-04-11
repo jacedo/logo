@@ -78,29 +78,68 @@ comando: AV N_ENTERO 	{
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
 				fprintf(yyout,"readkey();\n");
-			//	DesplazarTortuga (T,$2);
 			
 			}
 	|RE N_ENTERO 	{
-			//	DesplazarTortuga (T,$2);
+				if(oculta==0){
+					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+				}
+				if(lapiz==1){
+					switch(orientacion){
+						case '0':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+								fila=fila-$2;
+								break;//norte
+						case '1': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+								fila=fila+$2;
+								break;//este
+						case '2': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+								columna=columna+$2;
+								break;//sur
+						case '3':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+								columna=columna-$2;
+								break;//oeste
+					};
+					
+				}
+				
+				if(oculta==0){
+					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+				}
+				fprintf(yyout,"readkey();\n");
 			}
 	|GD N_ENTERO 	{	
-			//	CambiarDireccion(T, $2, 0);
+				if(oculta==0){
+					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+				}
+				orientacion=(orientacion+($2/90))%4;
+				if(oculta==0){
+					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+				}
+				fprintf(yyout,"readkey();\n");
 			}
-	|GI N_ENTERO 	{
-			//	CambiarDireccion(T, $2, 1);
+	|GI N_ENTERO 	{	if(oculta==0){
+					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+				}
+				orientacion=(orientacion+($2/90))%4;
+				if(orientacion<0){
+					orientacion=orientacion+4;
+				}
+				if(oculta==0){
+					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+				}
+				fprintf(yyout,"readkey();\n");
 			}
 	|BL		{
-			//	T.lapiz=true;
+				lapiz=1;
 			}
 	|SL		{
-			//	T.lapiz=false;
+				lapiz=0;
 			}
 	|MT		{
-			//	MostrarTortuga(T);
+				oculta=0;
 			}
        	|OT		{
-			//	OcultarTortuga(T);
+				oculta=1;
 			}       	
        	;
 
@@ -129,11 +168,10 @@ int main( int argc, char **argv )
 
      	yyparse(yyout);
 
-     	fprintf(yyout,"fin();n");
+     	fprintf(yyout,"fin();\n");
     	fprintf(yyout,"}");
 
      	getchar();
-  
 
      
 	fclose(yyin);
@@ -146,7 +184,7 @@ int main( int argc, char **argv )
 
 void yyerror(FILE * yyout,const char *s )             /* llamada por error sintactico de yacc */
 {
-	printf("\nError sintáctico en la línea %s\n",numlinea );
+	printf("\nError sintáctico en la línea %d\n",numlinea );
 	
 }
 
