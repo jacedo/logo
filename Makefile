@@ -1,13 +1,19 @@
 #fichero Makefile
 
-prueba : prueba.o Entorno.o 
-	g++ -oprueba Entorno.o prueba.o -lalleg -lX11 -lXpm -lXext -lXcursor -lpthread -lXxf86vm
+logo: lexico.o logo.o
+	gcc -ologo -lm lexico.o logo.o
 
-Entorno.o : Entorno.cpp
-	g++ -c Entorno.cpp
+logo.o: logo.c 
+	gcc -c logo.c
 
-prueba.o : prueba.cpp 
-	g++ -c prueba.cpp 
+lexico.o :lexico.c logo.h
+	gcc -c lexico.c
 
-#prueba.cpp : prueba.lgo
-#	./logo prueba.lgo 	
+logo.c : logo.y 
+	bison -d -ologo.c logo.y
+
+lexico.c : lexico.l
+	flex -olexico.c lexico.l
+
+clean : 
+	rm  -f  *.o *.c

@@ -8,11 +8,21 @@
 extern int yylex();
 int  numlinea = 1;
 
+int fila=300;
+
+int columna=400;
+
+int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
+int lapiz=1;  //true pinta, false no
+int oculta=0; //true oculta, false visible
+
+
 void yyerror(const char * );
 
 
 %}
-%union{
+
+%union {
 	int c_entero;
 	float c_real;
 	char c_cadena[50];
@@ -28,16 +38,8 @@ void yyerror(const char * );
 
 %%
 entrada: 	{
-				//TODO : aqui se abre el fichero prueba.lgo
-				//(que vendra por el 2º argumento al ejecutar)
-				//y escribe en prueba.cpp:
-				//#include "Entorno.h"
-				//int main(){
-				//  inicio();
-				 // pon_tortuga(400,300,0);
-				  //readkey();
-
-			}	
+			
+		}	
      |entrada linea   
       ;
       
@@ -48,21 +50,58 @@ linea: 	'\n'
 
 comandos:comando
 		|comandos comando
-		;
+			;
         	    
-comando: AV N_ENTERO {//aqui escribe(teniendo en cuenta el valoe de N_ENTERO):
-				//borra_tortuga(400,300);
-				  //linea(400,300,400,200);
-				  	//pon_tortuga(400,200,0);
-				  //readkey();
-	}
-		|RE N_ENTERO 		{}
-		|GD N_ENTERO {}
-		|GI N_ENTERO {}
-		|BL				{}
-		|SL			{}
-		|MT			{}
-       	|OT			{}       	
+comando: AV N_ENTERO 	{
+				if(oculta==0){
+					//fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+				}
+				if(lapiz==1){
+					switch(orientacion){
+						case '0':	//fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+								fila=fila+$2;
+								break;//norte
+						case '1': 	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+								fila=fila-$2;
+								break;//este
+						case '2': 	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+								columna=columna-$2;
+								break;//sur
+						case '3':	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+								columna=columna+$2;
+								break;//oeste
+					};
+					
+				}
+				
+				if(oculta==0){
+					//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+				}
+				//fprintf(yyout,"readkey();\n");
+			//	DesplazarTortuga (T,$2);
+			
+			}
+	|RE N_ENTERO 	{
+			//	DesplazarTortuga (T,$2);
+			}
+	|GD N_ENTERO 	{	
+			//	CambiarDireccion(T, $2, 0);
+			}
+	|GI N_ENTERO 	{
+			//	CambiarDireccion(T, $2, 1);
+			}
+	|BL		{
+			//	T.lapiz=true;
+			}
+	|SL		{
+			//	T.lapiz=false;
+			}
+	|MT		{
+			//	MostrarTortuga(T);
+			}
+       	|OT		{
+			//	OcultarTortuga(T);
+			}       	
        	;
 
 %%
@@ -71,26 +110,31 @@ comando: AV N_ENTERO {//aqui escribe(teniendo en cuenta el valoe de N_ENTERO):
 
 int main( int argc, char **argv )
 {
-     if (argc !=3){
+     if (argc !=2){
      	printf("Sintaxis incorrecta\n");
-     	exit(-1);
+     	return(-1);
      } 
+	
+	FILE * yyout=fopen("prueba.cpp","wt");
+	FILE * yyin=fopen(argv[1],"rt");
 
-     printf("\n****************************************************\n");
-     printf("*      Este es un compilador del lenguaje  *\n");  
-     printf("*        LOGO     *\n");
-     printf("****************************************************\n\n\n");
-     yyparse();
+			
+     	fprintf(yyout,"#include \"entorno.h\"\n\n");
+    	fprintf(yyout,"int main(){\n");
+	fprintf(yyout,"inicio();\n");
+	fprintf(yyout,"pon_tortuga(400,300,0);\n");
+	fprintf(yyout,"readkey();\n");
 
-     printf("\n\nPulse una tecla para salir...\n");
-     getchar();
-     printf("\n****************************************************\n");
-     printf("*       LOGO es un lenguaje sencillo               *\n");
-     printf("*                                                  *\n");
-     printf("*       ya hemos terminado -- ADIOS!!!!            *\n");
-     printf("****************************************************\n");
+
+     	yyparse();
+
+     	getchar();
+  
      
-     return 0;
+	fclose(yyin);
+	fclose(yyout);
+    
+ 	return 0;
 }
 
 
