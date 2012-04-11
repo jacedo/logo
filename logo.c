@@ -84,13 +84,16 @@ int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
 
-void yyerror(const char * );
+void yyerror(FILE * yyout,const char * );
+
+
+
 
 
 
 
 /* Line 268 of yacc.c  */
-#line 94 "logo.c"
+#line 97 "logo.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -139,7 +142,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 25 "logo.y"
+#line 30 "logo.y"
 
 	int c_entero;
 	float c_real;
@@ -148,7 +151,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 152 "logo.c"
+#line 155 "logo.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -160,7 +163,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 164 "logo.c"
+#line 167 "logo.c"
 
 #ifdef short
 # undef short
@@ -450,8 +453,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    40,    40,    43,    46,    47,    48,    51,    52,    55,
-      84,    87,    90,    93,    96,    99,   102
+       0,    49,    49,    52,    55,    56,    57,    60,    61,    64,
+      93,    96,    99,   102,   105,   108,   111
 };
 #endif
 
@@ -593,7 +596,7 @@ do								\
     }								\
   else								\
     {								\
-      yyerror (YY_("syntax error: cannot back up")); \
+      yyerror (yyout, YY_("syntax error: cannot back up")); \
       YYERROR;							\
     }								\
 while (YYID (0))
@@ -664,7 +667,7 @@ do {									  \
     {									  \
       YYFPRINTF (stderr, "%s ", Title);					  \
       yy_symbol_print (stderr,						  \
-		  Type, Value); \
+		  Type, Value, yyout); \
       YYFPRINTF (stderr, "\n");						  \
     }									  \
 } while (YYID (0))
@@ -678,17 +681,19 @@ do {									  \
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, FILE * yyout)
 #else
 static void
-yy_symbol_value_print (yyoutput, yytype, yyvaluep)
+yy_symbol_value_print (yyoutput, yytype, yyvaluep, yyout)
     FILE *yyoutput;
     int yytype;
     YYSTYPE const * const yyvaluep;
+    FILE * yyout;
 #endif
 {
   if (!yyvaluep)
     return;
+  YYUSE (yyout);
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
@@ -710,13 +715,14 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, FILE * yyout)
 #else
 static void
-yy_symbol_print (yyoutput, yytype, yyvaluep)
+yy_symbol_print (yyoutput, yytype, yyvaluep, yyout)
     FILE *yyoutput;
     int yytype;
     YYSTYPE const * const yyvaluep;
+    FILE * yyout;
 #endif
 {
   if (yytype < YYNTOKENS)
@@ -724,7 +730,7 @@ yy_symbol_print (yyoutput, yytype, yyvaluep)
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, yyout);
   YYFPRINTF (yyoutput, ")");
 }
 
@@ -767,12 +773,13 @@ do {								\
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_reduce_print (YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (YYSTYPE *yyvsp, int yyrule, FILE * yyout)
 #else
 static void
-yy_reduce_print (yyvsp, yyrule)
+yy_reduce_print (yyvsp, yyrule, yyout)
     YYSTYPE *yyvsp;
     int yyrule;
+    FILE * yyout;
 #endif
 {
   int yynrhs = yyr2[yyrule];
@@ -786,7 +793,7 @@ yy_reduce_print (yyvsp, yyrule)
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
 		       &(yyvsp[(yyi + 1) - (yynrhs)])
-		       		       );
+		       		       , yyout);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -794,7 +801,7 @@ yy_reduce_print (yyvsp, yyrule)
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
   if (yydebug)				\
-    yy_reduce_print (yyvsp, Rule); \
+    yy_reduce_print (yyvsp, Rule, yyout); \
 } while (YYID (0))
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -1071,16 +1078,18 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, FILE * yyout)
 #else
 static void
-yydestruct (yymsg, yytype, yyvaluep)
+yydestruct (yymsg, yytype, yyvaluep, yyout)
     const char *yymsg;
     int yytype;
     YYSTYPE *yyvaluep;
+    FILE * yyout;
 #endif
 {
   YYUSE (yyvaluep);
+  YYUSE (yyout);
 
   if (!yymsg)
     yymsg = "Deleting";
@@ -1104,7 +1113,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (void);
+int yyparse (FILE * yyout);
 #else
 int yyparse ();
 #endif
@@ -1139,11 +1148,11 @@ yyparse (YYPARSE_PARAM)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 int
-yyparse (void)
+yyparse (FILE * yyout)
 #else
 int
-yyparse ()
-
+yyparse (yyout)
+    FILE * yyout;
 #endif
 #endif
 {
@@ -1389,7 +1398,7 @@ yyreduce:
         case 2:
 
 /* Line 1806 of yacc.c  */
-#line 40 "logo.y"
+#line 49 "logo.y"
     {
 			
 		}
@@ -1398,30 +1407,30 @@ yyreduce:
   case 6:
 
 /* Line 1806 of yacc.c  */
-#line 48 "logo.y"
+#line 57 "logo.y"
     {yyerrok;}
     break;
 
   case 9:
 
 /* Line 1806 of yacc.c  */
-#line 55 "logo.y"
+#line 64 "logo.y"
     {
 				if(oculta==0){
-					//fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
 				if(lapiz==1){
 					switch(orientacion){
-						case '0':	//fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+						case '0':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
 								fila=fila+(yyvsp[(2) - (2)].c_entero);
 								break;//norte
-						case '1': 	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+						case '1': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
 								fila=fila-(yyvsp[(2) - (2)].c_entero);
 								break;//este
-						case '2': 	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+						case '2': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
 								columna=columna-(yyvsp[(2) - (2)].c_entero);
 								break;//sur
-						case '3':	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+						case '3':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
 								columna=columna+(yyvsp[(2) - (2)].c_entero);
 								break;//oeste
 					};
@@ -1429,9 +1438,9 @@ yyreduce:
 				}
 				
 				if(oculta==0){
-					//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
-				//fprintf(yyout,"readkey();\n");
+				fprintf(yyout,"readkey();\n");
 			//	DesplazarTortuga (T,$2);
 			
 			}
@@ -1440,7 +1449,7 @@ yyreduce:
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 84 "logo.y"
+#line 93 "logo.y"
     {
 			//	DesplazarTortuga (T,$2);
 			}
@@ -1449,7 +1458,7 @@ yyreduce:
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 87 "logo.y"
+#line 96 "logo.y"
     {	
 			//	CambiarDireccion(T, $2, 0);
 			}
@@ -1458,7 +1467,7 @@ yyreduce:
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 90 "logo.y"
+#line 99 "logo.y"
     {
 			//	CambiarDireccion(T, $2, 1);
 			}
@@ -1467,7 +1476,7 @@ yyreduce:
   case 13:
 
 /* Line 1806 of yacc.c  */
-#line 93 "logo.y"
+#line 102 "logo.y"
     {
 			//	T.lapiz=true;
 			}
@@ -1476,7 +1485,7 @@ yyreduce:
   case 14:
 
 /* Line 1806 of yacc.c  */
-#line 96 "logo.y"
+#line 105 "logo.y"
     {
 			//	T.lapiz=false;
 			}
@@ -1485,7 +1494,7 @@ yyreduce:
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 99 "logo.y"
+#line 108 "logo.y"
     {
 			//	MostrarTortuga(T);
 			}
@@ -1494,7 +1503,7 @@ yyreduce:
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 102 "logo.y"
+#line 111 "logo.y"
     {
 			//	OcultarTortuga(T);
 			}
@@ -1503,7 +1512,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 1507 "logo.c"
+#line 1516 "logo.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1553,7 +1562,7 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (YY_("syntax error"));
+      yyerror (yyout, YY_("syntax error"));
 #else
 # define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
                                         yyssp, yytoken)
@@ -1580,7 +1589,7 @@ yyerrlab:
                 yymsgp = yymsg;
               }
           }
-        yyerror (yymsgp);
+        yyerror (yyout, yymsgp);
         if (yysyntax_error_status == 2)
           goto yyexhaustedlab;
       }
@@ -1604,7 +1613,7 @@ yyerrlab:
       else
 	{
 	  yydestruct ("Error: discarding",
-		      yytoken, &yylval);
+		      yytoken, &yylval, yyout);
 	  yychar = YYEMPTY;
 	}
     }
@@ -1660,7 +1669,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-		  yystos[yystate], yyvsp);
+		  yystos[yystate], yyvsp, yyout);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -1695,7 +1704,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (yyout, YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -1707,7 +1716,7 @@ yyreturn:
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
       yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval);
+                  yytoken, &yylval, yyout);
     }
   /* Do not reclaim the symbols of the rule which action triggered
      this YYABORT or YYACCEPT.  */
@@ -1716,7 +1725,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-		  yystos[*yyssp], yyvsp);
+		  yystos[*yyssp], yyvsp, yyout);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -1734,7 +1743,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 107 "logo.y"
+#line 116 "logo.y"
 
 
 
@@ -1745,6 +1754,7 @@ int main( int argc, char **argv )
      	printf("Sintaxis incorrecta\n");
      	return(-1);
      } 
+     int nastiness, randomness;
 	
 	FILE * yyout=fopen("prueba.cpp","wt");
 	FILE * yyin=fopen(argv[1],"rt");
@@ -1757,10 +1767,14 @@ int main( int argc, char **argv )
 	fprintf(yyout,"readkey();\n");
 
 
-     	yyparse();
+     	yyparse(yyout);
+
+     	fprintf(yyout,"fin();n");
+    	fprintf(yyout,"}");
 
      	getchar();
   
+
      
 	fclose(yyin);
 	fclose(yyout);
@@ -1770,7 +1784,7 @@ int main( int argc, char **argv )
 
 
 
-void yyerror(const char *s )             /* llamada por error sintactico de yacc */
+void yyerror(FILE * yyout,const char *s )             /* llamada por error sintactico de yacc */
 {
 	printf("\nError sintáctico en la línea %s\n",numlinea );
 	

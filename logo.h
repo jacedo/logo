@@ -59,7 +59,7 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 25 "logo.y"
+#line 30 "logo.y"
 
 	int c_entero;
 	float c_real;

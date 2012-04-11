@@ -17,10 +17,15 @@ int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
 
-void yyerror(const char * );
+void yyerror(FILE * yyout,const char * );
+
+
+
 
 
 %}
+
+
 
 %union {
 	int c_entero;
@@ -33,10 +38,14 @@ void yyerror(const char * );
 %token <c_real> N_REAL 
 %token <c_cadena> CADENA
 
+
+%parse-param {FILE * yyout}
+
  
 
 
 %%
+
 entrada: 	{
 			
 		}	
@@ -54,20 +63,20 @@ comandos:comando
         	    
 comando: AV N_ENTERO 	{
 				if(oculta==0){
-					//fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
 				if(lapiz==1){
 					switch(orientacion){
-						case '0':	//fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+						case '0':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
 								fila=fila+$2;
 								break;//norte
-						case '1': 	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+						case '1': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
 								fila=fila-$2;
 								break;//este
-						case '2': 	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+						case '2': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
 								columna=columna-$2;
 								break;//sur
-						case '3':	//printf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+						case '3':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
 								columna=columna+$2;
 								break;//oeste
 					};
@@ -75,9 +84,9 @@ comando: AV N_ENTERO 	{
 				}
 				
 				if(oculta==0){
-					//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
-				//fprintf(yyout,"readkey();\n");
+				fprintf(yyout,"readkey();\n");
 			//	DesplazarTortuga (T,$2);
 			
 			}
@@ -114,6 +123,7 @@ int main( int argc, char **argv )
      	printf("Sintaxis incorrecta\n");
      	return(-1);
      } 
+     int nastiness, randomness;
 	
 	FILE * yyout=fopen("prueba.cpp","wt");
 	FILE * yyin=fopen(argv[1],"rt");
@@ -126,10 +136,14 @@ int main( int argc, char **argv )
 	fprintf(yyout,"readkey();\n");
 
 
-     	yyparse();
+     	yyparse(yyout);
+
+     	fprintf(yyout,"fin();n");
+    	fprintf(yyout,"}");
 
      	getchar();
   
+
      
 	fclose(yyin);
 	fclose(yyout);
@@ -139,7 +153,7 @@ int main( int argc, char **argv )
 
 
 
-void yyerror(const char *s )             /* llamada por error sintactico de yacc */
+void yyerror(FILE * yyout,const char *s )             /* llamada por error sintactico de yacc */
 {
 	printf("\nError sintáctico en la línea %s\n",numlinea );
 	
