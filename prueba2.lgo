@@ -1,0 +1,6 @@
+#este ejemplo tiene tabuladores, cuidado
+	avanza 100	gi 180 gd 270
+	av 100    	gd 90
+	
+	av 100		giraderecha 90
+	av 100		gi 360

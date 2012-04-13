@@ -8,6 +8,7 @@ extern int numlinea;
 
 
 %option noyywrap
+%x  COM1
 
 digito		[0-9]	
 num_entero	{digito}+	
@@ -16,6 +17,12 @@ num_real	{num_entero}[.]{num_entero}
 
 
 %%
+
+[#]				BEGIN(COM1);
+<COM1>"\n"                      BEGIN(0);
+
+
+<COM1>.							;
 
 
 [aA][vV][aA][nN][zZ][aA]					{return AV;}
@@ -41,6 +48,8 @@ num_real	{num_entero}[.]{num_entero}
 \n                  		{numlinea++;return yytext[0];}
 
 [ ]                 		;
+
+
 
 .                   		{return yytext[0];}
 

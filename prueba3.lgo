@@ -1,0 +1,11 @@
+#este ejemplo tiene errores
+#se deben dar mensajes que indiquen correctamente el número de las líneas
+avanza 100	gd 
+90
+esto no tiene sentido
+#no se admiten números reales
+av 100.65
+#la coma sobra
+	av 100;		giraderecha 90
+	av 100
+mal
