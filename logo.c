@@ -68,7 +68,7 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 189 of yacc.c  */
-#line 3 "logo.y"
+#line 1 "logo.y"
 
 /* Intérprete para una versión sencilla de Logo */
 
@@ -85,13 +85,15 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
+FILE * yyout;
+
 extern FILE *yyin;
 
 void yyerror(FILE * yyout,const char * );
 
 
 /* Line 189 of yacc.c  */
-#line 95 "logo.c"
+#line 97 "logo.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -147,7 +149,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 151 "logo.c"
+#line 153 "logo.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -159,7 +161,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 163 "logo.c"
+#line 165 "logo.c"
 
 #ifdef short
 # undef short
@@ -374,7 +376,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   26
+#define YYLAST   27
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  15
@@ -429,7 +431,7 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     4,     7,     9,    12,    15,    17,    20,
+       0,     0,     3,     4,     7,     9,    12,    15,    18,    20,
       23,    26,    29,    32,    34,    36,    38
 };
 
@@ -437,7 +439,7 @@ static const yytype_uint8 yyprhs[] =
 static const yytype_int8 yyrhs[] =
 {
       16,     0,    -1,    -1,    16,    17,    -1,    14,    -1,    18,
-      14,    -1,     1,    14,    -1,    19,    -1,    18,    19,    -1,
+      14,    -1,    17,    18,    -1,     1,    14,    -1,    19,    -1,
        3,    12,    -1,     4,    12,    -1,     5,    12,    -1,     6,
       12,    -1,     7,    -1,     8,    -1,     9,    -1,    10,    -1
 };
@@ -445,8 +447,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    40,    40,    43,    46,    47,    48,    51,    52,    55,
-      83,   110,   120,   132,   135,   138,   141
+       0,    40,    40,    43,    46,    47,    48,    49,    52,    56,
+      89,   116,   126,   138,   141,   144,   149
 };
 #endif
 
@@ -474,14 +476,14 @@ static const yytype_uint16 yytoknum[] =
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    15,    16,    16,    17,    17,    17,    18,    18,    19,
+       0,    15,    16,    16,    17,    17,    17,    17,    18,    19,
       19,    19,    19,    19,    19,    19,    19
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     2,     1,     2,     2,     1,     2,     2,
+       0,     2,     0,     2,     1,     2,     2,     2,     1,     2,
        2,     2,     2,     1,     1,     1,     1
 };
 
@@ -491,8 +493,8 @@ static const yytype_uint8 yyr2[] =
 static const yytype_uint8 yydefact[] =
 {
        2,     0,     1,     0,     0,     0,     0,     0,    13,    14,
-      15,    16,     4,     3,     0,     7,     6,     9,    10,    11,
-      12,     5,     8
+      15,    16,     4,     3,     0,     8,     7,     9,    10,    11,
+      12,     6,     5
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -507,14 +509,14 @@ static const yytype_int8 yydefgoto[] =
 static const yytype_int8 yypact[] =
 {
      -13,     0,   -13,   -12,    -1,     1,    11,    13,   -13,   -13,
-     -13,   -13,   -13,   -13,    12,   -13,   -13,   -13,   -13,   -13,
+     -13,   -13,   -13,    12,    -2,   -13,   -13,   -13,   -13,   -13,
      -13,   -13,   -13
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -13,   -13,   -13,   -13,    -2
+     -13,   -13,   -13,    14,   -13
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -526,14 +528,14 @@ static const yytype_uint8 yytable[] =
 {
        2,     3,    16,     4,     5,     6,     7,     8,     9,    10,
       11,    17,    22,    18,    12,     4,     5,     6,     7,     8,
-       9,    10,    11,    19,     0,    20,    21
+       9,    10,    11,    19,     0,    20,     0,    21
 };
 
 static const yytype_int8 yycheck[] =
 {
        0,     1,    14,     3,     4,     5,     6,     7,     8,     9,
       10,    12,    14,    12,    14,     3,     4,     5,     6,     7,
-       8,     9,    10,    12,    -1,    12,    14
+       8,     9,    10,    12,    -1,    12,    -1,    13
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -542,7 +544,7 @@ static const yytype_uint8 yystos[] =
 {
        0,    16,     0,     1,     3,     4,     5,     6,     7,     8,
        9,    10,    14,    17,    18,    19,    14,    12,    12,    12,
-      12,    14,    19
+      12,    18,    14
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1368,34 +1370,39 @@ yyreduce:
 		;}
     break;
 
-  case 6:
+  case 7:
 
 /* Line 1455 of yacc.c  */
-#line 48 "logo.y"
+#line 49 "logo.y"
     {yyerrok;;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 55 "logo.y"
+#line 56 "logo.y"
     {
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
 				if(lapiz==1){
+					/*if(orientacion==0){
+						fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+						fila=fila-$2;
+					}*/
 					switch(orientacion){
-						case '0':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
-								fila=fila+(yyvsp[(2) - (2)].c_entero);
-								break;//norte
-						case '1': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
+
+						case 0:	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
 								fila=fila-(yyvsp[(2) - (2)].c_entero);
-								break;//este
-						case '2': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
-								columna=columna-(yyvsp[(2) - (2)].c_entero);
-								break;//sur
-						case '3':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
+								break;//norte
+						case 1: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
 								columna=columna+(yyvsp[(2) - (2)].c_entero);
+								break;//este
+						case 2: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
+								fila=fila+(yyvsp[(2) - (2)].c_entero);
+								break;//sur
+						case 3:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
+								columna=columna-(yyvsp[(2) - (2)].c_entero);
 								break;//oeste
 					};
 					
@@ -1404,7 +1411,7 @@ yyreduce:
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
-				fprintf(yyout,"readkey();\n");
+				fprintf(yyout,"readkey();\n\n");
 			
 			;}
     break;
@@ -1412,23 +1419,23 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 83 "logo.y"
+#line 89 "logo.y"
     {
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
 				if(lapiz==1){
 					switch(orientacion){
-						case '0':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
+						case 0:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
 								fila=fila-(yyvsp[(2) - (2)].c_entero);
 								break;//norte
-						case '1': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
+						case 1: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
 								fila=fila+(yyvsp[(2) - (2)].c_entero);
 								break;//este
-						case '2': 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
+						case 2: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
 								columna=columna+(yyvsp[(2) - (2)].c_entero);
 								break;//sur
-						case '3':	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
+						case 3:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
 								columna=columna-(yyvsp[(2) - (2)].c_entero);
 								break;//oeste
 					};
@@ -1438,14 +1445,14 @@ yyreduce:
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
-				fprintf(yyout,"readkey();\n");
+				fprintf(yyout,"readkey();\n\n");
 			;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 110 "logo.y"
+#line 116 "logo.y"
     {	
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
@@ -1454,14 +1461,14 @@ yyreduce:
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
-				fprintf(yyout,"readkey();\n");
+				fprintf(yyout,"readkey();\n\n");
 			;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 120 "logo.y"
+#line 126 "logo.y"
     {	if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
@@ -1472,14 +1479,14 @@ yyreduce:
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
-				fprintf(yyout,"readkey();\n");
+				fprintf(yyout,"readkey();\n\n");
 			;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 132 "logo.y"
+#line 138 "logo.y"
     {
 				lapiz=1;
 			;}
@@ -1488,7 +1495,7 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 135 "logo.y"
+#line 141 "logo.y"
     {
 				lapiz=0;
 			;}
@@ -1497,8 +1504,10 @@ yyreduce:
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 138 "logo.y"
-    {
+#line 144 "logo.y"
+    {	
+				fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+				fprintf(yyout,"readkey();\n\n");				
 				oculta=0;
 			;}
     break;
@@ -1506,8 +1515,10 @@ yyreduce:
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 141 "logo.y"
+#line 149 "logo.y"
     {
+				fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+				fprintf(yyout,"readkey();\n\n");
 				oculta=1;
 			;}
     break;
@@ -1515,7 +1526,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1519 "logo.c"
+#line 1530 "logo.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1727,7 +1738,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 146 "logo.y"
+#line 156 "logo.y"
 
 
 
@@ -1740,7 +1751,7 @@ int main( int argc, char **argv )
      } 
      int nastiness, randomness;
 	
-	FILE * yyout=fopen("prueba.cpp","wt");
+	yyout=fopen("prueba.cpp","wt");
 	yyin=fopen(argv[1],"rt");
 
 			
@@ -1748,12 +1759,12 @@ int main( int argc, char **argv )
     	fprintf(yyout,"int main(){\n");
 	fprintf(yyout,"inicio();\n");
 	fprintf(yyout,"pon_tortuga(400,300,0);\n");
-	fprintf(yyout,"readkey();\n");
-
+	fprintf(yyout,"readkey();\n\n");
 
      	yyparse(yyout);
 
      	fprintf(yyout,"fin();\n");
+	fprintf(yyout,"return(0);\n");
     	fprintf(yyout,"}");
 
      	getchar();
