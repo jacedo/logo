@@ -43,9 +43,11 @@ entrada: 	{
      |entrada linea   
       ;
       
-linea: 	'\n' 
+linea: 	'\n'
+		|'\t'
       	|comandos '\n'
-	|linea comandos
+      	|comandos '\t'
+		|linea comandos
       	|error '\n' {yyerrok;}
 	 ;
 

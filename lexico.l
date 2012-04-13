@@ -19,11 +19,9 @@ num_real	{num_entero}[.]{num_entero}
 %%
 
 [#]				BEGIN(COM1);
-<COM1>"\n"                      BEGIN(0);
-
+<COM1>"\n"      {numlinea++;BEGIN(0);}
 
 <COM1>.							;
-
 
 [aA][vV][aA][nN][zZ][aA]					{return AV;}
 [aA][vV]							{return AV;}
@@ -43,9 +41,13 @@ num_real	{num_entero}[.]{num_entero}
 [oO][tT]							{return OT;}
 
 {num_entero}            	{yylval.c_entero=atoi(yytext);
-				return N_ENTERO;
-				}
+								return N_ENTERO;
+							}
+\t 							; 
+
 \n                  		{numlinea++;return yytext[0];}
+
+
 
 [ ]                 		;
 
