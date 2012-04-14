@@ -1,5 +1,7 @@
 %{
 /* Intérprete para una versión sencilla de Logo */
+//Julio Acedo Durán
+//Héctor Molano Macías
 
 #include <stdio.h>
 #include <string.h>

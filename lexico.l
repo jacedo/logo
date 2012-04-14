@@ -1,4 +1,6 @@
 %{
+//Julio Acedo Durán
+//Héctor Molano Macías
 #include<stdlib.h>
 #include "logo.h"
 
