@@ -5,37 +5,30 @@
 #include <string.h>
 
 extern int yylex();
-int  numlinea = 1;
 
+int numlinea = 1;
 int error = 0;
-
 int fila=300;
-
 int columna=400;
-
 int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
 FILE * yyout;
-
 extern FILE *yyin;
 
 void yyerror(FILE * yyout,const char * );
+
 %}
-
-
 
 %union {
 	int c_entero;
-	float c_real;
 }
 
 %token AV RE GD GI BL SL MT OT ES
-%token <c_entero> N_ENTERO 
-%token <c_real> N_REAL 
+%token <c_entero> N_ENTERO
 
-
+//utilizado para pasarselo a yyparse()
 %parse-param {FILE * yyout}
 
 %%
@@ -138,7 +131,8 @@ comando: AV N_ENTERO 	{
 				}
 				fprintf(yyout,"readkey();\n\n");
 			}
-	|GI N_ENTERO 	{	if(oculta==0){
+	|GI N_ENTERO 	{	
+				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
 				orientacion=(orientacion+($2/90))%4;
@@ -161,13 +155,12 @@ comando: AV N_ENTERO 	{
 				fprintf(yyout,"readkey();\n\n");				
 				oculta=0;
 			}
-       	|OT		{
+   	|OT		{
 				fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				fprintf(yyout,"readkey();\n\n");
 				oculta=1;
 			}       	
-       	;
-
+   	;
 %%
 
 
@@ -195,22 +188,20 @@ int main( int argc, char **argv )
 	yyout=fopen(nombre_cpp,"wt");
 	//printf("%s\n",nombre_lgo );
 	yyin=fopen(nombre_lgo,"rt");
-
 			
-     	fprintf(yyout,"#include \"entorno.h\"\n\n");
-    	fprintf(yyout,"int main(){\n");
+    fprintf(yyout,"#include \"entorno.h\"\n\n");
+    fprintf(yyout,"int main(){\n");
 	fprintf(yyout,"inicio();\n");
 	fprintf(yyout,"pon_tortuga(400,300,0);\n");
 	fprintf(yyout,"readkey();\n\n");
 
-     	yyparse(yyout);
+    yyparse(yyout);
 
-     	fprintf(yyout,"fin();\n");
+    fprintf(yyout,"fin();\n");
 	fprintf(yyout,"return(0);\n");
-    	fprintf(yyout,"}");
+    fprintf(yyout,"}");
 
-     	getchar();
-
+     getchar();
      
 	fclose(yyin);
 	fclose(yyout);
@@ -218,8 +209,10 @@ int main( int argc, char **argv )
 	if (error == 1){
 		remove(nombre_cpp);
 		printf("Archivo de salida eliminado por errores de sintaxis\n");
-	}    
-
+	}  
+	else{
+		printf("Archvo de salida generado correctamente\n");
+	}  
 
  	return 0;
 }

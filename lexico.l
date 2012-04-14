@@ -6,13 +6,11 @@ extern int numlinea;
 
 %}
 
-
 %option noyywrap
 %x  COM1
 
 digito		[0-9]	
 num_entero	{digito}+	
-num_real	{num_entero}[.]{num_entero}
 
 %%
 
@@ -41,17 +39,13 @@ num_real	{num_entero}[.]{num_entero}
 {num_entero}            	{yylval.c_entero=atoi(yytext);
 								return N_ENTERO;
 							}
+							
 \t 							; 
 
 \n                  		{numlinea++;return yytext[0];}
 
-
-
 [ ]                 		;
-
-
 
 .                   		{return yytext[0];}
 
-
-%% | [aA][vV]	
+%% 
