@@ -44,15 +44,15 @@ entrada: 	{
       ;
       
 linea: 	'\n'
-		|'\t'
+	|'\t'
       	|comandos '\n'
-      	|comandos '\t'
-		|linea comandos
+      	|comandos '\t'	
+	|linea comandos
       	|error '\n' {yyerrok;}
 	 ;
 
 comandos:comando
-	//|comandos comando
+	|comandos comando
 			;
         	    
 comando: AV N_ENTERO 	{
