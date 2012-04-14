@@ -33,18 +33,15 @@ void yyerror(FILE * yyout,const char * );
 
 %%
 
-entrada: 	{
-			
-		}	
-     |entrada linea   
+entrada: 
+    |entrada linea   
       ;
       
 linea: 	'\n'
 	|'\t'
-      	|comandos '\n'
-      	|comandos '\t'	
-	|linea comandos
-      	|error '\n' {yyerrok;}
+    |comandos '\n'
+    |comandos '\t'	
+    |error '\n' {yyerrok;}
 	 ;
 
 comandos:comando
@@ -199,9 +196,10 @@ int main( int argc, char **argv )
 
     fprintf(yyout,"fin();\n");
 	fprintf(yyout,"return(0);\n");
-    fprintf(yyout,"}");
+    fprintf(yyout,"}\n");
 
-     getchar();
+    printf("Generando la salida.Pulse una tecla para continuar...\n");
+    getchar();
      
 	fclose(yyin);
 	fclose(yyout);
