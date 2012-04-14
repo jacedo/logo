@@ -2,6 +2,7 @@
 /* Intérprete para una versión sencilla de Logo */
 
 #include <stdio.h>
+#include <string.h>
 
 extern int yylex();
 int  numlinea = 1;
@@ -173,14 +174,27 @@ comando: AV N_ENTERO 	{
 
 int main( int argc, char **argv )
 {
+	char nombre_cpp[50];
+    char nombre_lgo[50];
+
      if (argc !=2){
      	printf("Sintaxis incorrecta\n");
      	return(-1);
-     } 
-     int nastiness, randomness;
-	
-	yyout=fopen("prueba.cpp","wt");
-	yyin=fopen(argv[1],"rt");
+     }    
+
+    // copio primero, porque strtok modifica argv[1] 
+    strcpy(nombre_lgo,argv[1]);
+    // separo por el punto, queda pruebaX
+    strcpy(nombre_cpp,strtok(argv[1],"."));
+
+    //printf("%s\n", nombre_cpp);
+    // y le concateno el .cpp, queda pruebaX.cpp
+    strcat(nombre_cpp,".cpp");
+
+	//printf("%s\n", nombre_cpp);	
+	yyout=fopen(nombre_cpp,"wt");
+	//printf("%s\n",nombre_lgo );
+	yyin=fopen(nombre_lgo,"rt");
 
 			
      	fprintf(yyout,"#include \"entorno.h\"\n\n");
@@ -202,7 +216,7 @@ int main( int argc, char **argv )
 	fclose(yyout);
 
 	if (error == 1){
-		remove("prueba.cpp");
+		remove(nombre_cpp);
 		printf("Archivo de salida eliminado por errores de sintaxis\n");
 	}    
 
