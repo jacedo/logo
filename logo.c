@@ -1780,9 +1780,9 @@ int main( int argc, char **argv )
 	fclose(yyin);
 	fclose(yyout);
 
-	if (error = 1){
+	if (error == 1){
 		remove("prueba.cpp");
-		printf("Archivo de salida eliminado por errores de sintaxis");
+		printf("Archivo de salida eliminado por errores de sintaxis\n");
 	}    
 
 
@@ -1793,9 +1793,9 @@ int main( int argc, char **argv )
 
 void yyerror(FILE * yyout,const char *s )             /* llamada por error sintactico de yacc */
 {
-	error = 1;
-	printf("\nError sintáctico en la línea %d\n",numlinea );
 	
+	printf("\nError sintáctico en la línea %d\n",numlinea );
+	error = 1;
 	
 }
 
