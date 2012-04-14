@@ -6,6 +6,8 @@
 extern int yylex();
 int  numlinea = 1;
 
+int error = 0;
+
 int fila=300;
 
 int columna=400;
@@ -188,7 +190,13 @@ int main( int argc, char **argv )
      
 	fclose(yyin);
 	fclose(yyout);
-    
+
+	if (error = 1){
+		remove("prueba.cpp");
+		printf("Archivo de salida eliminado por errores de sintaxis\n");
+	}    
+
+
  	return 0;
 }
 
@@ -196,7 +204,9 @@ int main( int argc, char **argv )
 
 void yyerror(FILE * yyout,const char *s )             /* llamada por error sintactico de yacc */
 {
+	error = 1;
 	printf("\nError sintáctico en la línea %d\n",numlinea );
+	
 	
 }
 

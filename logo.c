@@ -77,6 +77,8 @@
 extern int yylex();
 int  numlinea = 1;
 
+int error = 0;
+
 int fila=300;
 
 int columna=400;
@@ -93,7 +95,7 @@ void yyerror(FILE * yyout,const char * );
 
 
 /* Line 189 of yacc.c  */
-#line 97 "logo.c"
+#line 99 "logo.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -141,7 +143,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 26 "logo.y"
+#line 28 "logo.y"
 
 	int c_entero;
 	float c_real;
@@ -149,7 +151,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 153 "logo.c"
+#line 155 "logo.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -161,7 +163,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 165 "logo.c"
+#line 167 "logo.c"
 
 #ifdef short
 # undef short
@@ -448,8 +450,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    40,    40,    43,    46,    47,    48,    49,    50,    51,
-      54,    55,    58,    91,   118,   128,   140,   143,   146,   151
+       0,    42,    42,    45,    48,    49,    50,    51,    52,    53,
+      56,    57,    60,    93,   120,   130,   142,   145,   148,   153
 };
 #endif
 
@@ -1369,7 +1371,7 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 40 "logo.y"
+#line 42 "logo.y"
     {
 			
 		;}
@@ -1378,14 +1380,14 @@ yyreduce:
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 51 "logo.y"
+#line 53 "logo.y"
     {yyerrok;;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 58 "logo.y"
+#line 60 "logo.y"
     {
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
@@ -1424,7 +1426,7 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 91 "logo.y"
+#line 93 "logo.y"
     {
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
@@ -1457,7 +1459,7 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 118 "logo.y"
+#line 120 "logo.y"
     {	
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
@@ -1473,7 +1475,7 @@ yyreduce:
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 128 "logo.y"
+#line 130 "logo.y"
     {	if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
@@ -1491,7 +1493,7 @@ yyreduce:
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 140 "logo.y"
+#line 142 "logo.y"
     {
 				lapiz=1;
 			;}
@@ -1500,7 +1502,7 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 143 "logo.y"
+#line 145 "logo.y"
     {
 				lapiz=0;
 			;}
@@ -1509,7 +1511,7 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 146 "logo.y"
+#line 148 "logo.y"
     {	
 				fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				fprintf(yyout,"readkey();\n\n");				
@@ -1520,7 +1522,7 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 151 "logo.y"
+#line 153 "logo.y"
     {
 				fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				fprintf(yyout,"readkey();\n\n");
@@ -1531,7 +1533,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1535 "logo.c"
+#line 1537 "logo.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1743,7 +1745,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 158 "logo.y"
+#line 160 "logo.y"
 
 
 
@@ -1777,7 +1779,13 @@ int main( int argc, char **argv )
      
 	fclose(yyin);
 	fclose(yyout);
-    
+
+	if (error = 1){
+		remove("prueba.cpp");
+		printf("Archivo de salida eliminado por errores de sintaxis");
+	}    
+
+
  	return 0;
 }
 
@@ -1785,7 +1793,9 @@ int main( int argc, char **argv )
 
 void yyerror(FILE * yyout,const char *s )             /* llamada por error sintactico de yacc */
 {
+	error = 1;
 	printf("\nError sintáctico en la línea %d\n",numlinea );
+	
 	
 }
 
