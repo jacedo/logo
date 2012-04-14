@@ -451,7 +451,7 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    42,    42,    45,    48,    49,    50,    51,    52,    53,
-      56,    57,    60,    93,   120,   130,   142,   145,   148,   153
+      56,    57,    60,    96,   130,   140,   152,   155,   158,   163
 };
 #endif
 
@@ -1392,28 +1392,31 @@ yyreduce:
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
-				if(lapiz==1){
-					/*if(orientacion==0){
-						fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
-						fila=fila-$2;
-					}*/
-					switch(orientacion){
 
-						case 0:	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
-								fila=fila-(yyvsp[(2) - (2)].c_entero);
-								break;//norte
-						case 1: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
-								columna=columna+(yyvsp[(2) - (2)].c_entero);
-								break;//este
-						case 2: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
-								fila=fila+(yyvsp[(2) - (2)].c_entero);
-								break;//sur
-						case 3:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
-								columna=columna-(yyvsp[(2) - (2)].c_entero);
-								break;//oeste
-					};
+				switch(orientacion){
+					case 0:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
+							}								
+							fila=fila-(yyvsp[(2) - (2)].c_entero);
+							break;//norte
+					case 1: 	if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
+							}
+							columna=columna+(yyvsp[(2) - (2)].c_entero);
+							break;//este
+					case 2: 	if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
+							}
+							fila=fila+(yyvsp[(2) - (2)].c_entero);
+							break;//sur
+					case 3:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
+							}
+							columna=columna-(yyvsp[(2) - (2)].c_entero);
+							break;//oeste
+				};
 					
-				}
+				
 				
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
@@ -1426,28 +1429,35 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 93 "logo.y"
+#line 96 "logo.y"
     {
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
-				if(lapiz==1){
-					switch(orientacion){
-						case 0:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
-								fila=fila-(yyvsp[(2) - (2)].c_entero);
-								break;//norte
-						case 1: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
-								fila=fila+(yyvsp[(2) - (2)].c_entero);
-								break;//este
-						case 2: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
-								columna=columna+(yyvsp[(2) - (2)].c_entero);
-								break;//sur
-						case 3:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
-								columna=columna-(yyvsp[(2) - (2)].c_entero);
-								break;//oeste
-					};
+			
+				switch(orientacion){
+					case 0:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(yyvsp[(2) - (2)].c_entero));
+							}
+							fila=fila-(yyvsp[(2) - (2)].c_entero);
+							break;//norte
+					case 1: 	{
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(yyvsp[(2) - (2)].c_entero));
+							}
+							fila=fila+(yyvsp[(2) - (2)].c_entero);
+							break;//este
+					case 2: 	if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(yyvsp[(2) - (2)].c_entero),fila);
+							}
+							columna=columna+(yyvsp[(2) - (2)].c_entero);
+							break;//sur
+					case 3:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(yyvsp[(2) - (2)].c_entero),fila);
+							}
+							columna=columna-(yyvsp[(2) - (2)].c_entero);
+							break;//oeste
+				};
 					
-				}
 				
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
@@ -1459,7 +1469,7 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 120 "logo.y"
+#line 130 "logo.y"
     {	
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
@@ -1475,7 +1485,7 @@ yyreduce:
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 130 "logo.y"
+#line 140 "logo.y"
     {	if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
@@ -1493,7 +1503,7 @@ yyreduce:
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 142 "logo.y"
+#line 152 "logo.y"
     {
 				lapiz=1;
 			;}
@@ -1502,7 +1512,7 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 145 "logo.y"
+#line 155 "logo.y"
     {
 				lapiz=0;
 			;}
@@ -1511,7 +1521,7 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 148 "logo.y"
+#line 158 "logo.y"
     {	
 				fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				fprintf(yyout,"readkey();\n\n");				
@@ -1522,7 +1532,7 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 153 "logo.y"
+#line 163 "logo.y"
     {
 				fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				fprintf(yyout,"readkey();\n\n");
@@ -1533,7 +1543,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1537 "logo.c"
+#line 1547 "logo.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1745,7 +1755,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 160 "logo.y"
+#line 170 "logo.y"
 
 
 

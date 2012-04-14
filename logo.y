@@ -61,28 +61,31 @@ comando: AV N_ENTERO 	{
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
-				if(lapiz==1){
-					/*if(orientacion==0){
-						fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
-						fila=fila-$2;
-					}*/
-					switch(orientacion){
 
-						case 0:	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
-								fila=fila-$2;
-								break;//norte
-						case 1: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
-								columna=columna+$2;
-								break;//este
-						case 2: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
-								fila=fila+$2;
-								break;//sur
-						case 3:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
-								columna=columna-$2;
-								break;//oeste
-					};
+				switch(orientacion){
+					case 0:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+							}								
+							fila=fila-$2;
+							break;//norte
+					case 1: 	if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+							}
+							columna=columna+$2;
+							break;//este
+					case 2: 	if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+							}
+							fila=fila+$2;
+							break;//sur
+					case 3:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+							}
+							columna=columna-$2;
+							break;//oeste
+				};
 					
-				}
+				
 				
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
@@ -94,23 +97,30 @@ comando: AV N_ENTERO 	{
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
-				if(lapiz==1){
-					switch(orientacion){
-						case 0:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
-								fila=fila-$2;
-								break;//norte
-						case 1: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
-								fila=fila+$2;
-								break;//este
-						case 2: 	fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
-								columna=columna+$2;
-								break;//sur
-						case 3:		fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
-								columna=columna-$2;
-								break;//oeste
-					};
+			
+				switch(orientacion){
+					case 0:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+							}
+							fila=fila-$2;
+							break;//norte
+					case 1: 	{
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+							}
+							fila=fila+$2;
+							break;//este
+					case 2: 	if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+							}
+							columna=columna+$2;
+							break;//sur
+					case 3:		if(lapiz==1){
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+							}
+							columna=columna-$2;
+							break;//oeste
+				};
 					
-				}
 				
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
