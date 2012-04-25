@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "Entorno.h"
 
 extern int yylex();
 
@@ -16,7 +17,7 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
-FILE * yyout;
+extern FILE * yyout;
 extern FILE *yyin;
 
 void yyerror(FILE * yyout,const char * );
