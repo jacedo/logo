@@ -41,13 +41,14 @@ num_real	{num_entero}[.]{num_entero}
 [mM][tT]							{return MT;}
 [Oo][Cc][Uu][Ll][Tt][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] 		{return OT;}
 [oO][tT]							{return OT;}
-[rR][eE][pP][iI][tT][eE]					{return REPITE;}
+[rR][eE][pP][iI][tT][eE]					{printf("envio repite \n");return REPITE;}
 
 {num_entero}            	{yylval.c_entero=atoi(yytext);
+				printf("envio entero %d\n",yylval.c_entero);
 								return N_ENTERO;
 							}
 							
-\t 				{return yytext[0];} 
+\t 				; 
 
 \n                  		{numlinea++;return yytext[0];}
 

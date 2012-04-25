@@ -16,6 +16,8 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
+int bucle=0;
+
 FILE * yyout;
 extern FILE *yyin;
 
@@ -50,6 +52,9 @@ entrada:linea
 	|entrada linea   
       ;
       
+bloque:linea 
+	|bloque linea
+	;
 linea: 	'\n'
 	|'\t'
     	|comandos '\n'
@@ -69,8 +74,8 @@ expr: 	N_ENTERO				{$$ = $1;}
        	| expr '*' expr                		{$$ = $1 * $3;}
        	| expr '/' expr				{$$ = $1 / $3;}
 	| '(' expr ')'		      		{$$ = ( $2 );}
+        ;	    
 
-        	    
 comando: AV expr 	{
 				
 				if(oculta==0){
@@ -181,10 +186,13 @@ comando: AV expr 	{
 				fprintf(yyout,"readkey();\n\n");
 				oculta=1;
 			} 
-	|REPITE expr	{
-				
-			}      	
+	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;}      	
    	;
+
+
+
+
+
 %%
 
 
