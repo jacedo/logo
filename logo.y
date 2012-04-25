@@ -1,7 +1,7 @@
 %{
 /* Intérprete para una versión sencilla de Logo */
-//Julio Acedo Durán
-//Héctor Molano Macías
+/*Julio Acedo Durán*/
+/*Héctor Molano Macías*/
 
 #include <stdio.h>
 #include <string.h>
@@ -26,56 +26,78 @@ void yyerror(FILE * yyout,const char * );
 
 %union {
 	int c_entero;
+	float c_real;
 }
 
-%token AV RE GD GI BL SL MT OT ES
-%token <c_entero> N_ENTERO
+%token AV RE GD GI BL SL MT OT ES 
+%token REPITE
+%token <c_entero> N_ENTERO 
+%token <c_real> N_REAL 
+
+%type <c_real> expr
+
+%left '+' '-' 
+%left '*' '/'  	
+%left MENOSUNARIO 
+%left '(' 
+
 
 //utilizado para pasarselo a yyparse()
 %parse-param {FILE * yyout}
 
 %%
 
-entrada: 
-    |entrada linea   
+entrada:linea
+	|entrada linea   
       ;
       
 linea: 	'\n'
 	|'\t'
-    |comandos '\n'
-    |comandos '\t'	
-    |error '\n' {yyerrok;}
+    	|comandos '\n'
+    	|comandos '\t'	
+    	|error '\n' {yyerrok;}
 	 ;
 
 comandos:comando
 	|comandos comando
 			;
+
+expr: 	N_ENTERO				{$$ = $1;}
+	| N_REAL			      	{$$ = $1;}
+       	| '-' expr  %prec MENOSUNARIO  		{$$ = - $2;}
+       	| expr '+' expr                		{$$ = $1 + $3;}
+       	| expr '-' expr                		{$$ = $1 - $3;}
+       	| expr '*' expr                		{$$ = $1 * $3;}
+       	| expr '/' expr				{$$ = $1 / $3;}
+	| '(' expr ')'		      		{$$ = ( $2 );}
+
         	    
-comando: AV N_ENTERO 	{
+comando: AV expr 	{
+				
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
 
 				switch(orientacion){
 					case 0:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(int)$2);
 							}								
-							fila=fila-$2;
+							fila=fila-(int)$2;
 							break;//norte
 					case 1: 	if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(int)$2,fila);
 							}
-							columna=columna+$2;
+							columna=columna+(int)$2;
 							break;//este
 					case 2: 	if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(int)$2);
 							}
-							fila=fila+$2;
+							fila=fila+(int)$2;
 							break;//sur
 					case 3:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(int)$2,fila);
 							}
-							columna=columna-$2;
+							columna=columna-(int)$2;
 							break;//oeste
 				};
 					
@@ -87,31 +109,31 @@ comando: AV N_ENTERO 	{
 				fprintf(yyout,"readkey();\n\n");
 			
 			}
-	|RE N_ENTERO 	{
+	|RE expr 	{
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
 			
 				switch(orientacion){
 					case 0:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-$2);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(int)$2);
 							}
-							fila=fila-$2;
+							fila=fila-(int)$2;
 							break;//norte
 					case 1: 	{
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+$2);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(int)$2);
 							}
-							fila=fila+$2;
+							fila=fila+(int)$2;
 							break;//este
 					case 2: 	if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+$2,fila);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(int)$2,fila);
 							}
-							columna=columna+$2;
+							columna=columna+(int)$2;
 							break;//sur
 					case 3:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-$2,fila);
+								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(int)$2,fila);
 							}
-							columna=columna-$2;
+							columna=columna-(int)$2;
 							break;//oeste
 				};
 					
@@ -121,21 +143,21 @@ comando: AV N_ENTERO 	{
 				}
 				fprintf(yyout,"readkey();\n\n");
 			}
-	|GD N_ENTERO 	{	
+	|GD expr 	{	
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
-				orientacion=(orientacion+($2/90))%4;
+				orientacion=(orientacion+((int)$2/90))%4;
 				if(oculta==0){
 					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
 				}
 				fprintf(yyout,"readkey();\n\n");
 			}
-	|GI N_ENTERO 	{	
+	|GI expr 	{	
 				if(oculta==0){
 					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				}
-				orientacion=(orientacion+($2/90))%4;
+				orientacion=(orientacion+(int)($2/90))%4;
 				if(orientacion<0){
 					orientacion=orientacion+4;
 				}
@@ -159,7 +181,10 @@ comando: AV N_ENTERO 	{
 				fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 				fprintf(yyout,"readkey();\n\n");
 				oculta=1;
-			}       	
+			} 
+	|REPITE expr	{
+				
+			}      	
    	;
 %%
 

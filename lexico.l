@@ -1,6 +1,8 @@
+/*Julio Acedo Durán*/
+/*Héctor Molano Macías*/
+
 %{
-//Julio Acedo Durán
-//Héctor Molano Macías
+
 #include<stdlib.h>
 #include "logo.h"
 
@@ -13,13 +15,15 @@ extern int numlinea;
 
 digito		[0-9]	
 num_entero	{digito}+	
+num_real	{num_entero}[.]{num_entero}
 
 %%
 
-[#]				BEGIN(COM1);
-<COM1>"\n"      {numlinea++;BEGIN(0);}
 
-<COM1>.							;
+"#"		BEGIN(COM1);
+<COM1>"\n"	BEGIN(0);
+
+<COM1>.				;
 
 [aA][vV][aA][nN][zZ][aA]					{return AV;}
 [aA][vV]							{return AV;}
@@ -37,12 +41,13 @@ num_entero	{digito}+
 [mM][tT]							{return MT;}
 [Oo][Cc][Uu][Ll][Tt][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] 		{return OT;}
 [oO][tT]							{return OT;}
+[rR][eE][pP][iI][tT][eE]					{return REPITE;}
 
 {num_entero}            	{yylval.c_entero=atoi(yytext);
 								return N_ENTERO;
 							}
 							
-\t 							; 
+\t 				{return yytext[0];} 
 
 \n                  		{numlinea++;return yytext[0];}
 
