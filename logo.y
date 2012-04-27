@@ -17,10 +17,10 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
-<<<<<<< HEAD
+
 int bucle=0;
 
-FILE * yyout;
+
 
 extern FILE * yyout;
 extern FILE *yyin;
@@ -45,6 +45,8 @@ void yyerror(FILE * yyout,const char * );
 %left '*' '/'  	
 %left MENOSUNARIO 
 %left '(' 
+
+
 
 
 //utilizado para pasarselo a yyparse()
