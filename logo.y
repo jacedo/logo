@@ -20,6 +20,7 @@ int oculta=0; //true oculta, false visible
 
 //vector de comandos
 instruccion cmd[100];
+int contador_cmd=0;
 
 
 int bucle=0;
@@ -66,9 +67,7 @@ bloque:linea
 	|bloque linea
 	;
 linea: 	'\n'
-	|'\t'
     	|comandos '\n'
-    	|comandos '\t'	
     	|error '\n' {yyerrok;}
 	 ;
 
@@ -115,14 +114,10 @@ int main( int argc, char **argv )
     strcpy(nombre_lgo,argv[1]);
     // separo por el punto, queda pruebaX
     strcpy(nombre_cpp,strtok(argv[1],"."));
-
-    //printf("%s\n", nombre_cpp);
     // y le concateno el .cpp, queda pruebaX.cpp
     strcat(nombre_cpp,".cpp");
-
-	//printf("%s\n", nombre_cpp);	
+	
 	yyout=fopen(nombre_cpp,"wt");
-	//printf("%s\n",nombre_lgo );
 	yyin=fopen(nombre_lgo,"rt");
 			
     cmdInicio(yyout);
