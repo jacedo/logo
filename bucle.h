@@ -11,3 +11,5 @@ void cmdBajaLapiz(int *lapiz);
 void cmdSubeLapiz(int *lapiz);
 void cmdMuestraTortuga(FILE * yyout,int columna, int fila, int orientacion, int *oculta);
 void cmdOcultaTortuga(FILE * yyout,int columna, int fila, int orientacion, int *oculta);
+void cmdInicio(FILE * yyout);
+void cmdFin(FILE * yyout);

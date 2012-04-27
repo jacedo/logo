@@ -125,17 +125,12 @@ int main( int argc, char **argv )
 	//printf("%s\n",nombre_lgo );
 	yyin=fopen(nombre_lgo,"rt");
 			
-    fprintf(yyout,"#include \"entorno.h\"\n\n");
-    fprintf(yyout,"int main(){\n");
-	fprintf(yyout,"inicio();\n");
-	fprintf(yyout,"pon_tortuga(400,300,0);\n");
-	fprintf(yyout,"readkey();\n\n");
+    cmdInicio(yyout);
 
     yyparse(yyout);
 
-    fprintf(yyout,"fin();\n");
-	fprintf(yyout,"return(0);\n");
-    fprintf(yyout,"}\n");
+    cmdFin(yyout);
+
 
     printf("Generando la salida.Pulse una tecla para continuar...\n");
     getchar();

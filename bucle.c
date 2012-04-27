@@ -5,6 +5,22 @@
 #include "bucle.h"
 
 
+void cmdInicio(FILE * yyout){
+
+	fprintf(yyout,"#include \"entorno.h\"\n\n");
+    fprintf(yyout,"int main(){\n");
+	fprintf(yyout,"inicio();\n");
+	fprintf(yyout,"pon_tortuga(400,300,0);\n");
+	fprintf(yyout,"readkey();\n\n");
+}
+
+void cmdFin(FILE * yyout){
+
+    fprintf(yyout,"fin();\n");
+	fprintf(yyout,"return(0);\n");
+    fprintf(yyout,"}\n");
+}
+
 void cmdAvanza(FILE * yyout,int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion){
 
 	if(oculta==0){
