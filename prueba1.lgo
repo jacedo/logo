@@ -4,7 +4,14 @@
 repite 2 [
 	av 100
 	giraderecha 90
+	sl
+	mt
+	gi 90
+	gd 90
+	ot
 	re 100
+	mt
+	av100
 ]
 
 #puede haber lÃ­neas en blanco

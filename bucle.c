@@ -77,3 +77,53 @@ void cmdRetrocede(FILE * yyout,int *columna,int *fila,int valor, int lapiz, int 
 				}
 				fprintf(yyout,"readkey();\n\n");
 }
+
+void cmdGiraDerecha(FILE * yyout,int columna,int fila,int valor, int oculta, int *orientacion){
+
+	if(oculta==0){
+		fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+	}
+	*orientacion=(*orientacion+((int)valor/90))%4;
+	if(oculta==0){
+		fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,*orientacion);
+	}
+	fprintf(yyout,"readkey();\n\n");
+
+}
+
+void cmdGiraIzquierda(FILE * yyout,int columna,int fila,int valor, int oculta, int *orientacion){
+
+	if(oculta==0){
+		fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+	}
+	*orientacion=(*orientacion+(int)(valor/90))%4;
+	if(*orientacion<0){
+		*orientacion=*orientacion+4;
+	}
+	if(oculta==0){
+		fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,*orientacion);
+	}
+	fprintf(yyout,"readkey();\n\n");
+}
+
+void cmdBajaLapiz(int *lapiz){
+	*lapiz=1;
+}
+
+void cmdSubeLapiz(int *lapiz){
+	*lapiz=0;
+}
+
+void cmdMuestraTortuga(FILE * yyout,int columna, int fila, int orientacion, int *oculta){
+
+	fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
+	fprintf(yyout,"readkey();\n\n");				
+	*oculta=0;
+}
+
+void cmdOcultaTortuga(FILE * yyout,int columna, int fila, int orientacion, int *oculta){
+
+	fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
+	fprintf(yyout,"readkey();\n\n");
+	*oculta=1;
+}

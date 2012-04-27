@@ -86,59 +86,16 @@ expr: 	N_ENTERO				{$$ = $1;}
 	| '(' expr ')'		      		{$$ = ( $2 );}
         ;	    
 
-comando: AV expr 	{
-				
-				cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);
-			
-			}
-	|RE expr 	{
-				cmdRetrocede(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);
-			}
-	|GD expr 	{	
-				if(oculta==0){
-					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
-				}
-				orientacion=(orientacion+((int)$2/90))%4;
-				if(oculta==0){
-					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
-				}
-				fprintf(yyout,"readkey();\n\n");
-			}
-	|GI expr 	{	
-				if(oculta==0){
-					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
-				}
-				orientacion=(orientacion+(int)($2/90))%4;
-				if(orientacion<0){
-					orientacion=orientacion+4;
-				}
-				if(oculta==0){
-					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
-				}
-				fprintf(yyout,"readkey();\n\n");
-			}
-	|BL		{
-				lapiz=1;
-			}
-	|SL		{
-				lapiz=0;
-			}
-	|MT		{	
-				fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
-				fprintf(yyout,"readkey();\n\n");				
-				oculta=0;
-			}
-   	|OT		{
-				fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
-				fprintf(yyout,"readkey();\n\n");
-				oculta=1;
-			} 
+comando: AV expr 	{cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
+	|RE expr 		{cmdRetrocede(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
+	|GD expr 		{cmdGiraDerecha(yyout,columna,fila,$2,oculta, &orientacion);}
+	|GI expr 		{cmdGiraIzquierda(yyout,columna,fila,$2,oculta, &orientacion);}
+	|BL				{cmdBajaLapiz(&lapiz);}
+	|SL				{cmdSubeLapiz(&lapiz);}
+	|MT				{cmdMuestraTortuga(yyout,columna,fila,orientacion, &oculta);}
+   	|OT				{cmdOcultaTortuga(yyout,columna,fila,orientacion, &oculta);} 
 	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;}      	
    	;
-
-
-
-
 
 %%
 
