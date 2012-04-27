@@ -1,20 +1,13 @@
 #la tortuga va a dibujar un cuadrado de lado 100
-avanza 100
-gd 90
-av 100 gd 90
-av 100
-giraderecha 90
-av 100
+
 
 repite 2 [
-	av 2
+	av 100
+	giraderecha 90
 ]
 
 #puede haber lÃ­neas en blanco
 
-subelapiz
-av 100
-bajalapiz
-ocultatortuga #ahora se oculta
+
 
 

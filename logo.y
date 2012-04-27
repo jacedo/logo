@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "Entorno.h"
+#include "bucle.h"
 
 extern int yylex();
 
@@ -16,6 +17,9 @@ int columna=400;
 int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
+
+//vector de comandos
+instruccion cmd[100];
 
 
 int bucle=0;
@@ -84,39 +88,7 @@ expr: 	N_ENTERO				{$$ = $1;}
 
 comando: AV expr 	{
 				
-				if(oculta==0){
-					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
-				}
-
-				switch(orientacion){
-					case 0:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(int)$2);
-							}								
-							fila=fila-(int)$2;
-							break;//norte
-					case 1: 	if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(int)$2,fila);
-							}
-							columna=columna+(int)$2;
-							break;//este
-					case 2: 	if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(int)$2);
-							}
-							fila=fila+(int)$2;
-							break;//sur
-					case 3:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(int)$2,fila);
-							}
-							columna=columna-(int)$2;
-							break;//oeste
-				};
-					
-				
-				
-				if(oculta==0){
-					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
-				}
-				fprintf(yyout,"readkey();\n\n");
+				cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);
 			
 			}
 	|RE expr 	{
