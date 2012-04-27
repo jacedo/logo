@@ -4,6 +4,7 @@
 repite 2 [
 	av 100
 	giraderecha 90
+	re 100
 ]
 
 #puede haber lÃ­neas en blanco

@@ -4,3 +4,4 @@ typedef struct instruccion{
 }instruccion;
 
 void cmdAvanza(FILE * yyout,int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion);
+void cmdRetrocede(FILE * yyout,int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion);

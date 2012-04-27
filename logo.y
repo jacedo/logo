@@ -92,38 +92,7 @@ comando: AV expr 	{
 			
 			}
 	|RE expr 	{
-				if(oculta==0){
-					fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
-				}
-			
-				switch(orientacion){
-					case 0:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila-(int)$2);
-							}
-							fila=fila-(int)$2;
-							break;//norte
-					case 1: 	{
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna,fila+(int)$2);
-							}
-							fila=fila+(int)$2;
-							break;//este
-					case 2: 	if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna+(int)$2,fila);
-							}
-							columna=columna+(int)$2;
-							break;//sur
-					case 3:		if(lapiz==1){
-								fprintf(yyout,"linea(%d,%d,%d,%d);\n",columna,fila,columna-(int)$2,fila);
-							}
-							columna=columna-(int)$2;
-							break;//oeste
-				};
-					
-				
-				if(oculta==0){
-					fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
-				}
-				fprintf(yyout,"readkey();\n\n");
+				cmdRetrocede(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);
 			}
 	|GD expr 	{	
 				if(oculta==0){
