@@ -124,8 +124,8 @@ comando: AV expr 	{cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
 	|MT				{cmdMuestraTortuga(yyout,columna,fila,orientacion, &oculta);}
    	|OT				{cmdOcultaTortuga(yyout,columna,fila,orientacion, &oculta);} 
 	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;}      	
-   	|ESCRIBE CADENA{printf("Recibido %s\n",$2 );
-   					muestra_mensaje($2);}//dato {muestra_mensaje($2);}
+   	|ESCRIBE dato {printf("Recibido %s\n",$2 );
+   					muestra_mensaje($2);readkey();}//dato {muestra_mensaje($2);}
    	;
 
 
@@ -152,18 +152,21 @@ int main( int argc, char **argv )
 	
 	yyout=fopen(nombre_cpp,"wt");
 	yyin=fopen(nombre_lgo,"rt");
-			
+		
+
     cmdInicio(yyout);
     //inicializamos allegro
-    inicio();
+   // inicio();
+    
+
 
     yyparse(yyout);
 
     cmdFin(yyout);
 
 
-    printf("Generando la salida.Pulse una tecla para continuar...\n");
-    getchar();
+   // printf("Generando la salida.Pulse una tecla para continuar...\n");
+    //getchar();
      
 	fclose(yyin);
 	fclose(yyout);

@@ -1,19 +1,30 @@
 #la tortuga va a dibujar un cuadrado de lado 100
 
 
-repite 2 [
+repite 2*2 [
 	av 100
 	giraderecha 90
-	sl
-	mt
-	gi 90
-	gd 90
-	escribe "Hola"
-	ot
-	re 100
-	mt
-	av100
 ]
+escribe "hola"
+
+gi 90
+av200
+gd 10
+
+av 100
+giraderecha 90
+
+av 100
+giraderecha 90
+
+av 100
+giraderecha 90
+
+av 100
+giraderecha 90
+
+es 2<3
+
 
 #puede haber lÃ­neas en blanco
 
