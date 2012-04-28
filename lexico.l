@@ -54,7 +54,7 @@ cadena		["][^"]*["]
 							}
 				
 {cadena}					{strcpy(yylval.c_cadena,yytext);
-								return CADENA;
+								printf("envio cadena %s\n",yylval.c_cadena);return CADENA;
 							}					
 							
 \t 				; 

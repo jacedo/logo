@@ -124,7 +124,7 @@ comando: AV expr 	{cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
 	|MT				{cmdMuestraTortuga(yyout,columna,fila,orientacion, &oculta);}
    	|OT				{cmdOcultaTortuga(yyout,columna,fila,orientacion, &oculta);} 
 	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;}      	
-   	|ESCRIBE {muestra_mensaje("hola")}//dato {muestra_mensaje($2);}
+   	|ESCRIBE CADENA{printf("Recibido %s\n",$2 );/*muestra_mensaje("hola");*/}//dato {muestra_mensaje($2);}
    	;
 
 

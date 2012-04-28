@@ -8,6 +8,7 @@ repite 2 [
 	mt
 	gi 90
 	gd 90
+	escribe "Hola"
 	ot
 	re 100
 	mt
