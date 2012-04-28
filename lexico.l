@@ -16,6 +16,7 @@ extern int numlinea;
 digito		[0-9]	
 num_entero	{digito}+	
 num_real	{num_entero}[.]{num_entero}
+cadena		["][^"]*["]
 
 %%
 
@@ -42,18 +43,29 @@ num_real	{num_entero}[.]{num_entero}
 [Oo][Cc][Uu][Ll][Tt][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] 		{return OT;}
 [oO][tT]							{return OT;}
 [rR][eE][pP][iI][tT][eE]					{printf("envio repite \n");return REPITE;}
+[eE][sS][cC][rR][iI][bB][eE]		{return ESCRIBE;}
+[eE][sS]							{return ESCRIBE;}
 
-{num_entero}            	{yylval.c_entero=atoi(yytext);
-				printf("envio entero %d\n",yylval.c_entero);
+{num_entero}            	{yylval.c_entero=atof(yytext);
 								return N_ENTERO;
 							}
+{num_real}					{yylval.c_real = atof(yytext);
+								return N_REAL;
+							}
+				
+{cadena}					{strcpy(yylval.c_cadena,yytext);
+								return CADENA;
+							}					
 							
 \t 				; 
 
-\n                  		{numlinea++;return yytext[0];}
+\n                  		{numlinea++;
+							return yytext[0];
+							}
 
 [ ]                 		;
 
-.                   		{return yytext[0];}
+.                   		{return yytext[0];
+							}
 
 %% 

@@ -18,6 +18,8 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
+int tipoexp=0;  //2 si el logica
+
 //vector de comandos
 instruccion cmd[100];
 int contador_cmd=0;
@@ -37,13 +39,17 @@ void yyerror(FILE * yyout,const char * );
 %union {
 	int c_entero;
 	float c_real;
+	char c_cadena[50];
 }
 
 %token AV RE GD GI BL SL MT OT ES 
-%token REPITE
+%token REPITE ESCRIBE
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
+%token <c_cadena> CADENA
 
+%type <c_cadena> dato
+%type <c_entero> exprlog
 %type <c_real> expr
 
 %left '+' '-' 
@@ -82,8 +88,32 @@ expr: 	N_ENTERO				{$$ = $1;}
        	| expr '-' expr                		{$$ = $1 - $3;}
        	| expr '*' expr                		{$$ = $1 * $3;}
        	| expr '/' expr				{$$ = $1 / $3;}
-	| '(' expr ')'		      		{$$ = ( $2 );}
-        ;	    
+		| '(' expr ')'		      		{$$ = ( $2 );}
+	 ;
+
+exprlog: '(' exprlog ')' 		  { $$ = $2; }
+	   | expr '<' expr		      { if($1 < $3) $$ = 1; else $$ = 0;}
+       | expr '>' expr		      { if($1 > $3) $$ = 1; else $$ = 0;}
+       | expr '<''=' expr	      { if($1 <= $4) $$ = 1; else $$ = 0;}
+       | expr '>''=' expr	      { if($1 >= $4) $$ = 1; else $$ = 0;}
+       | expr '!''=' expr	      { if($1 != $4) $$ = 1; else $$ = 0;}
+       | expr '=''=' expr	      { if($1 == $4) $$ = 1; else $$ = 0;}
+       | '!' exprlog		      { if($2) $$ = 0; else $$ = 1;}
+       | exprlog '&''&' exprlog	      { if($1 && $4) $$ = 1; else $$ = 0;}
+       | exprlog '|''|' exprlog	      { if($1 || $4) $$ = 1; else $$ = 0;}
+	;
+
+dato:expr        	{sprintf($$,"%.8g\n",$1);
+					}
+	|exprlog		{	if($1==0){
+							strcpy($$,"falso");
+						}else{
+							strcpy($$,"cierto");	
+						}
+					}
+	|CADENA    		{strcpy($$,$1);
+					}
+	;
 
 comando: AV expr 	{cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
 	|RE expr 		{cmdRetrocede(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
@@ -94,7 +124,9 @@ comando: AV expr 	{cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
 	|MT				{cmdMuestraTortuga(yyout,columna,fila,orientacion, &oculta);}
    	|OT				{cmdOcultaTortuga(yyout,columna,fila,orientacion, &oculta);} 
 	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;}      	
+   	|ESCRIBE {muestra_mensaje("hola")}//dato {muestra_mensaje($2);}
    	;
+
 
 %%
 
