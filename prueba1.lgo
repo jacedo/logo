@@ -1,33 +1,23 @@
-#la tortuga va a dibujar un cuadrado de lado 100
+#hace bucles
 
+escribe "Prueba de bucle"
+escribe "Entra en bucle"
 
-repite 2*2 [
-	av 100
+repite 10 [
+	bl
+	av 200
+	mt
 	giraderecha 90
+	sl
+	re 50
+	gi 180
+	ot
 ]
-escribe "hola"
 
-gi 90
-av200
-gd 10
+escribe "fin de bucle"
 
-av 100
-giraderecha 90
-
-av 100
-giraderecha 90
-
-av 100
-giraderecha 90
-
-av 100
-giraderecha 90
-
-es 2<3
-
-
-#puede haber lÃ­neas en blanco
-
-
-
-
+bl
+mt
+av 300
+gd 90
+escribe "FIN"

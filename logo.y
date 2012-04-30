@@ -115,16 +115,65 @@ dato:expr        	{sprintf($$,"%.8g\n",$1);
 					}
 	;
 
-comando: AV expr 	{cmdAvanza(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
-	|RE expr 		{cmdRetrocede(yyout,&columna,&fila,$2,lapiz,oculta,orientacion);}
-	|GD expr 		{cmdGiraDerecha(yyout,columna,fila,$2,oculta, &orientacion);}
-	|GI expr 		{cmdGiraIzquierda(yyout,columna,fila,$2,oculta, &orientacion);}
-	|BL				{cmdBajaLapiz(&lapiz);}
-	|SL				{cmdSubeLapiz(&lapiz);}
-	|MT				{cmdMuestraTortuga(yyout,columna,fila,orientacion, &oculta);}
-   	|OT				{cmdOcultaTortuga(yyout,columna,fila,orientacion, &oculta);} 
-	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;}      	
-   	|ESCRIBE dato {printf("Recibido %s\n",$2 );
+comando: AV expr 	{
+						if(bucle==1){
+							cmd[contador_cmd].comando=0;
+							cmd[contador_cmd].parametro=$2;
+							contador_cmd++;
+						}
+						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion);}
+	|RE expr 		{
+						if(bucle==1){
+							cmd[contador_cmd].comando=1;
+							cmd[contador_cmd].parametro=$2;
+							contador_cmd++;
+						}
+						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion);}
+	|GD expr 		{
+						if(bucle==1){
+							cmd[contador_cmd].comando=2;
+							cmd[contador_cmd].parametro=$2;
+							contador_cmd++;
+						}
+						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion);}
+	|GI expr 		{
+						if(bucle==1){
+							cmd[contador_cmd].comando=3;
+							cmd[contador_cmd].parametro=$2;
+							contador_cmd++;
+						}
+						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion);}
+	|BL				{
+						if(bucle==1){
+							cmd[contador_cmd].comando=4;
+							contador_cmd++;
+						}
+						cmdBajaLapiz(&lapiz);}
+	|SL				{
+						if(bucle==1){
+							cmd[contador_cmd].comando=5;
+							contador_cmd++;
+						}
+						cmdSubeLapiz(&lapiz);}
+	|MT				{
+						if(bucle==1){
+							cmd[contador_cmd].comando=6;
+							contador_cmd++;
+						}
+						cmdMuestraTortuga(columna,fila,orientacion, &oculta);}
+   	|OT				{
+   						if(bucle==1){
+							cmd[contador_cmd].comando=7;
+							contador_cmd++;
+						}
+   						cmdOcultaTortuga(columna,fila,orientacion, &oculta);} 
+	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;
+						ejecutarBucle($2,cmd,contador_cmd,&columna,&fila,&$2,&lapiz,&oculta,&orientacion);}
+   	|ESCRIBE dato {	if(bucle==1){
+							cmd[contador_cmd].comando=8;
+							//cmd[contador_cmd].parametro=$2;
+							contador_cmd++;
+						}
    					muestra_mensaje($2);readkey();}//dato {muestra_mensaje($2);}
    	;
 
@@ -154,7 +203,7 @@ int main( int argc, char **argv )
 	yyin=fopen(nombre_lgo,"rt");
 		
 
-    cmdInicio(yyout);
+    cmdInicio();
     //inicializamos allegro
    // inicio();
     
@@ -162,7 +211,7 @@ int main( int argc, char **argv )
 
     yyparse(yyout);
 
-    cmdFin(yyout);
+    cmdFin();
 
 
    // printf("Generando la salida.Pulse una tecla para continuar...\n");
