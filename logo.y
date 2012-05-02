@@ -72,7 +72,9 @@ entrada:linea
 	|entrada linea   
       ;
       
-bloque:linea 
+bloque:
+	|comandos
+	|linea 
 	|bloque linea
 	;
 linea: 	'\n'
@@ -180,7 +182,7 @@ comando: AV expr 	{
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
 							contador_cmd++;
 						}
-   					muestra_mensaje($2);readkey();}}
+   					muestra_mensaje($2);readkey();}
    	;
 
 

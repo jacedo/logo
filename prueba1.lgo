@@ -3,6 +3,8 @@
 escribe "Prueba de bucle"
 escribe "Entra en bucle"
 
+es 
+
 repite 2.5*3 [
 	bl
 	av 200
