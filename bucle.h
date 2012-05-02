@@ -1,6 +1,13 @@
-typedef struct instruccion{
+#define MAXCMD 100
+
+typedef union{
+	float numero;
+	char cadena[100];
+}param;
+
+typedef struct {
 	int  comando;
-	int parametro;
+	param parametro;
 }instruccion;
 
 void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion);
@@ -14,3 +21,4 @@ void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta);
 void cmdInicio();
 void cmdFin();
 void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila,void *valor, int *lapiz, int *oculta, int *orientacion);
+void reinicilizaCmd(instruccion cmd[],int *contador_cmd);

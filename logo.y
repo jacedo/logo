@@ -8,7 +8,10 @@
 #include "Entorno.h"
 #include "bucle.h"
 
+
+
 extern int yylex();
+
 
 int numlinea = 1;
 int error = 0;
@@ -21,7 +24,7 @@ int oculta=0; //true oculta, false visible
 int tipoexp=0;  //2 si el logica
 
 //vector de comandos
-instruccion cmd[100];
+instruccion cmd[MAXCMD];
 int contador_cmd=0;
 
 
@@ -86,7 +89,7 @@ expr: 	N_ENTERO				{$$ = $1;}
        	| '-' expr  %prec MENOSUNARIO  		{$$ = - $2;}
        	| expr '+' expr                		{$$ = $1 + $3;}
        	| expr '-' expr                		{$$ = $1 - $3;}
-       	| expr '*' expr                		{$$ = $1 * $3;}
+       	| expr '*' expr                		{$$ = $1 * $3;printf("Multiplacion %.8g\n",$$ );}
        	| expr '/' expr				{$$ = $1 / $3;}
 		| '(' expr ')'		      		{$$ = ( $2 );}
 	 ;
@@ -118,28 +121,28 @@ dato:expr        	{sprintf($$,"%.8g\n",$1);
 comando: AV expr 	{
 						if(bucle==1){
 							cmd[contador_cmd].comando=0;
-							cmd[contador_cmd].parametro=$2;
+							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
 						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion);}
 	|RE expr 		{
 						if(bucle==1){
 							cmd[contador_cmd].comando=1;
-							cmd[contador_cmd].parametro=$2;
+							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
 						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion);}
 	|GD expr 		{
 						if(bucle==1){
 							cmd[contador_cmd].comando=2;
-							cmd[contador_cmd].parametro=$2;
+							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion);}
 	|GI expr 		{
 						if(bucle==1){
 							cmd[contador_cmd].comando=3;
-							cmd[contador_cmd].parametro=$2;
+							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion);}
@@ -167,14 +170,17 @@ comando: AV expr 	{
 							contador_cmd++;
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);} 
-	|REPITE N_ENTERO '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;
-						ejecutarBucle($2,cmd,contador_cmd,&columna,&fila,&$2,&lapiz,&oculta,&orientacion);}
+	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;
+						ejecutarBucle($2,cmd,contador_cmd,&columna,&fila,&$2,&lapiz,&oculta,&orientacion);
+						reinicilizaCmd(cmd,&contador_cmd);
+					}
+	|REPITE N_REAL	{yyerrok;}
    	|ESCRIBE dato {	if(bucle==1){
 							cmd[contador_cmd].comando=8;
-							//cmd[contador_cmd].parametro=$2;
+							strcpy(cmd[contador_cmd].parametro.cadena,$2);
 							contador_cmd++;
 						}
-   					muestra_mensaje($2);readkey();}//dato {muestra_mensaje($2);}
+   					muestra_mensaje($2);readkey();}}
    	;
 
 

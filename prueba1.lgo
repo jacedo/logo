@@ -3,14 +3,18 @@
 escribe "Prueba de bucle"
 escribe "Entra en bucle"
 
-repite 10 [
+repite 2.5*3 [
 	bl
 	av 200
+	es 5*10
 	mt
+	escribe "¿Funcionan los bucles?"
 	giraderecha 90
 	sl
 	re 50
+	es 3<4
 	gi 180
+	escribe "Si funcionan!"
 	ot
 ]
 

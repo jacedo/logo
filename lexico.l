@@ -17,7 +17,6 @@ digito		[0-9]
 num_entero	{digito}+	
 num_real	{num_entero}[.]{num_entero}
 cadena		["][^"]*["]
-
 %%
 
 

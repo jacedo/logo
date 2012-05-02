@@ -11,52 +11,36 @@ void cmdInicio(){
 	inicio();
     pon_tortuga(400,300,0);
 	readkey();
-	
-	//fprintf(yyout,"#include \"entorno.h\"\n\n");
-    //fprintf(yyout,"int main(){\n");
-	//fprintf(yyout,"inicio();\n");
-	//fprintf(yyout,"pon_tortuga(400,300,0);\n");
-	//fprintf(yyout,"readkey();\n\n");
 }
 
 void cmdFin(){
-
 	fin();
-
-    //fprintf(yyout,"fin();\n");
-	//fprintf(yyout,"return(0);\n");
-    //fprintf(yyout,"}\n");
 }
 
 void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion){
 
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
-					//fprintf(yyout,"borra_tortuga(%d,%d);\n",*columna,*fila);
 				}
 
 				switch(orientacion){
 					case 0:		if(lapiz==1){
 								linea(*columna,*fila,*columna,*fila-(int)valor);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna,*fila-(int)valor);
 							}								
 							*fila=*fila-(int)valor;
 							break;//norte
 					case 1: 	if(lapiz==1){
 								linea(*columna,*fila,*columna+(int)valor,*fila);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna+(int)valor,*fila);
 							}
 							*columna=*columna+(int)valor;
 							break;//este
 					case 2: 	if(lapiz==1){
 								linea(*columna,*fila,*columna,*fila+(int)valor);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna,*fila+(int)valor);
 							}
 							*fila=*fila+(int)valor;
 							break;//sur
 					case 3:		if(lapiz==1){
 								linea(*columna,*fila,*columna-(int)valor,*fila);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna-(int)valor,*fila);
 							}
 							*columna=*columna-(int)valor;
 							break;//oeste
@@ -66,41 +50,34 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 				
 				if(oculta==0){
 					pon_tortuga(*columna,*fila,orientacion);
-					//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",*columna,*fila,orientacion);
 				}
 				readkey();
-				//fprintf(yyout,"readkey();\n\n");
 }
 
 void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion){
 
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
-					//fprintf(yyout,"borra_tortuga(%d,%d);\n",*columna,*fila);
 				}
 			
 				switch(orientacion){
 					case 0:		if(lapiz==1){
 								linea(*columna,*fila,*columna,*fila-(int)valor);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna,*fila-(int)valor);
 							}
 							*fila=*fila-(int)valor;
 							break;//norte
 					case 1: 	{
 								linea(*columna,*fila,*columna,*fila+(int)valor);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna,*fila+(int)valor);
 							}
 							*fila=*fila+(int)valor;
 							break;//este
 					case 2: 	if(lapiz==1){
 								linea(*columna,*fila,*columna+(int)valor,*fila);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna+(int)valor,*fila);
 							}
 							*columna=*columna+(int)valor;
 							break;//sur
 					case 3:		if(lapiz==1){
 								linea(*columna,*fila,*columna-(int)valor,*fila);
-								//fprintf(yyout,"linea(%d,%d,%d,%d);\n",*columna,*fila,*columna-(int)valor,*fila);
 							}
 							*columna=*columna-(int)valor;
 							break;//oeste
@@ -109,25 +86,20 @@ void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int o
 				
 				if(oculta==0){
 					pon_tortuga(*columna,*fila,orientacion);
-					//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",*columna,*fila,orientacion);
 				}
 				readkey();
-				//fprintf(yyout,"readkey();\n\n");
 }
 
 void cmdGiraDerecha(int columna,int fila,int valor, int oculta, int *orientacion){
 
 	if(oculta==0){
 		borra_tortuga(columna,fila);
-		//fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 	}
 	*orientacion=(*orientacion+((int)valor/90))%4;
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
-		//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,*orientacion);
 	}
 	readkey();
-	//fprintf(yyout,"readkey();\n\n");
 
 }
 
@@ -135,7 +107,6 @@ void cmdGiraIzquierda(int columna,int fila,int valor, int oculta, int *orientaci
 
 	if(oculta==0){
 		borra_tortuga(columna,fila);
-		//fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 	}
 	*orientacion=(*orientacion+(int)(valor/90))%4;
 	if(*orientacion<0){
@@ -143,10 +114,8 @@ void cmdGiraIzquierda(int columna,int fila,int valor, int oculta, int *orientaci
 	}
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
-		//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,*orientacion);
 	}
 	readkey();
-	//fprintf(yyout,"readkey();\n\n");
 }
 
 void cmdBajaLapiz(int *lapiz){
@@ -160,18 +129,14 @@ void cmdSubeLapiz(int *lapiz){
 void cmdMuestraTortuga(int columna, int fila, int orientacion, int *oculta){
 
 	pon_tortuga(columna,fila,orientacion);
-	//fprintf(yyout,"pon_tortuga(%d,%d,%d)\n",columna,fila,orientacion);
-	readkey();
-	//fprintf(yyout,"readkey();\n\n");				
+	readkey();	
 	*oculta=0;
 }
 
 void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta){
 
 	borra_tortuga(columna,fila);
-	//fprintf(yyout,"borra_tortuga(%d,%d);\n",columna,fila);
 	readkey();
-	//fprintf(yyout,"readkey();\n\n");
 	*oculta=1;
 }
 
@@ -185,24 +150,24 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 	printf("Tipo %d\n", cmd[1].comando);
 	printf("Veces %d\n", veces);
 	printf("Numero de comandos %d\n",num_cmd );
-	// TODO hacer casting de void *valor
+
 	while(i<num_cmd && j<veces){
 		switch(cmd[i].comando){
 			case 0: 
-					printf("Ejecuta en el bucle avanza %d  \n", cmd[i].parametro);
-					cmdAvanza(columna,fila,cmd[i].parametro,*lapiz,*oculta,*orientacion);
+					printf("Ejecuta en el bucle avanza %.8g  \n", cmd[i].parametro.numero);
+					cmdAvanza(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion);
 					break;
 			case 1: 
-					printf("Ejecuta en el bucle avanza %d  \n", cmd[i].parametro);
-					cmdRetrocede(columna,fila,cmd[i].parametro,*lapiz,*oculta,*orientacion);
+					printf("Ejecuta en el bucle avanza %.8g  \n", cmd[i].parametro.numero);
+					cmdRetrocede(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion);
 					break;
 			case 2:
-					printf("Ejecuta en el bucle GiraDerecha %d  \n", cmd[i].parametro);
-					cmdGiraDerecha(*columna,*fila,cmd[i].parametro,*oculta, orientacion);
+					printf("Ejecuta en el bucle GiraDerecha %.8g  \n", cmd[i].parametro.numero);
+					cmdGiraDerecha(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion);
 					break;
 			case 3:
-					printf("Ejecuta en el bucle GiraIzquierda %d  \n", cmd[i].parametro);
-					cmdGiraIzquierda(*columna,*fila,cmd[i].parametro,*oculta, orientacion);
+					printf("Ejecuta en el bucle GiraIzquierda %.8g  \n", cmd[i].parametro.numero);
+					cmdGiraIzquierda(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion);
 					break;
 			case 4:
 					printf("Ejecuta en el bucle BajaLapiz\n" );
@@ -221,9 +186,9 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 					cmdOcultaTortuga(*columna,*fila,*orientacion, oculta);
 					break;
 			case 8:
-					//TODO
-				/*	printf("Ejecuta en el bucle muestramensaje %s\n",);
-					muestra_mensaje(cmd[i].parametro);readkey();*/
+					
+					printf("Ejecuta en el bucle muestramensaje %s\n",cmd[i].parametro.cadena);
+					muestra_mensaje(cmd[i].parametro.cadena);readkey();
 					break;
 
 
@@ -235,4 +200,18 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 			i=0;
 		}
 	}
+}
+
+void reinicilizaCmd(instruccion cmd[],int *contador_cmd){
+	int i=0;
+
+	*contador_cmd=0;
+
+	for (int i = 0; i < MAXCMD; ++i)
+	{
+		cmd[i].comando=-1;
+		cmd[i].parametro.numero=-1;
+		strcpy(cmd[i].parametro.cadena,"");
+	}
+
 }
