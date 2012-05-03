@@ -33,17 +33,17 @@ int bucle=0;
 
 
 
-extern FILE * yyout;
+//extern FILE * yyout;
 extern FILE *yyin;
 
-void yyerror(FILE * yyout,const char * );
-
+//void yyerror(FILE * yyout,const char * );
+void yyerror(const char *);
 %}
 
 %union {
 	int c_entero;
 	float c_real;
-	char c_cadena[50];
+	char c_cadena[100];
 }
 
 %token AV RE GD GI BL SL MT OT ES 
@@ -65,18 +65,13 @@ void yyerror(FILE * yyout,const char * );
 
 
 //utilizado para pasarselo a yyparse()
-%parse-param {FILE * yyout}
+//%parse-param {FILE * yyout}
 
 %%
 
 entrada:linea
 	|entrada linea   
-      ;
-      
-bloque:
-	|comandos
-	|linea 
-	|bloque linea
+	|comandos 
 	;
 linea: 	'\n'
     	|comandos '\n'
@@ -103,10 +98,10 @@ exprlog: '(' exprlog ')' 		  { $$ = $2; }
        | expr '<''=' expr	      { if($1 <= $4) $$ = 1; else $$ = 0;}
        | expr '>''=' expr	      { if($1 >= $4) $$ = 1; else $$ = 0;}
        | expr '!''=' expr	      { if($1 != $4) $$ = 1; else $$ = 0;}
-       | expr '=''=' expr	      { if($1 == $4) $$ = 1; else $$ = 0;}
-       | '!' exprlog		      { if($2) $$ = 0; else $$ = 1;}
-       | exprlog '&''&' exprlog	      { if($1 && $4) $$ = 1; else $$ = 0;}
-       | exprlog '|''|' exprlog	      { if($1 || $4) $$ = 1; else $$ = 0;}
+       | expr '=' expr	      	  { if($1 == $3) $$ = 1; else $$ = 0;}
+       | 'n''o' exprlog		      { if($3) $$ = 0; else $$ = 1;}
+       | exprlog '&' exprlog	  { if($1 && $3) $$ = 1; else $$ = 0;}
+       | exprlog 'o' exprlog	  { if($1 || $3) $$ = 1; else $$ = 0;}
 	;
 
 dato:expr        	{sprintf($$,"%.8g\n",$1);
@@ -173,11 +168,11 @@ comando: AV expr 	{
 							contador_cmd++;
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);} 
-	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;} entrada ']' {bucle=0;
+	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;} entrada']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
-	//|REPITE N_REAL	{yyerrok;} 
+	|REPITE N_REAL	{yyerrok;} 
    	|ESCRIBE dato {	if(bucle==1){
 							cmd[contador_cmd].comando=8;
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
@@ -208,7 +203,7 @@ int main( int argc, char **argv )
     // y le concateno el .cpp, queda pruebaX.cpp
     strcat(nombre_cpp,".cpp");
 	
-	yyout=fopen(nombre_cpp,"wt");
+//	yyout=fopen(nombre_cpp,"wt");
 	yyin=fopen(nombre_lgo,"rt");
 		
 
@@ -218,7 +213,8 @@ int main( int argc, char **argv )
     
 
 
-    yyparse(yyout);
+  //  yyparse(yyout);
+  	  yyparse();
 
     cmdFin();
 
@@ -227,7 +223,7 @@ int main( int argc, char **argv )
     //getchar();
      
 	fclose(yyin);
-	fclose(yyout);
+//	fclose(yyout);
 
 	if (error == 1){
 		remove(nombre_cpp);
@@ -242,7 +238,8 @@ int main( int argc, char **argv )
 
 
 
-void yyerror(FILE * yyout,const char *s )             /* llamada por error sintactico de yacc */
+//void yyerror(FILE * yyout, const char *s )             /* llamada por error sintactico de yacc */
+void yyerror( const char *s)
 {
 	
 	printf("\nError sintáctico en la línea %d\n",numlinea );

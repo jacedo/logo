@@ -1,5 +1,3 @@
-#fichero de prueba para la fase 2 del intérprete de logo
-
 repite 2*2 [av 100 gi 90]			#no hay errores
 
 escribe "Hola, ¿mundo?"

@@ -56,7 +56,7 @@ cadena		["][^"]*["]
 								printf("envio cadena %s\n",yylval.c_cadena);return CADENA;
 							}					
 							
-\t 				; 
+\t 							; 
 
 \n                  		{numlinea++;
 							return yytext[0];
