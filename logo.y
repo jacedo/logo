@@ -172,7 +172,7 @@ comando: AV expr 	{
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
-	|REPITE N_REAL	{yyerrok;} 
+	|REPITE N_REAL 	{yyerrok;} 
    	|ESCRIBE dato {	if(bucle==1){
 							cmd[contador_cmd].comando=8;
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);

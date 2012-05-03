@@ -21,7 +21,7 @@ cadena		["][^"]*["]
 
 
 "#"		BEGIN(COM1);
-<COM1>"\n"	BEGIN(0);
+<COM1>"\n"	numlinea++; BEGIN(0);
 
 <COM1>.				;
 
