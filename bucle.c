@@ -140,7 +140,7 @@ void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta){
 	*oculta=1;
 }
 
-void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila,void *valor, int *lapiz, int *oculta, int *orientacion){
+void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion){
 	int i=0;
 	int j=0;
 
@@ -190,7 +190,7 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 					printf("Ejecuta en el bucle muestramensaje %s\n",cmd[i].parametro.cadena);
 					muestra_mensaje(cmd[i].parametro.cadena);readkey();
 					break;
-
+			default: printf("Comando no reconocido");break;
 
 		};
 

@@ -3,27 +3,24 @@
 escribe "Prueba de bucle"
 escribe "Entra en bucle"
 
-es 
-
-repite 2.5*3 [
-	bl
-	av 200
-	es 5*10
+repite 4.5[
+	gi 90
+	av 100
 	mt
-	escribe "¿Funcionan los bucles?"
-	giraderecha 90
-	sl
-	re 50
-	es 3<4
-	gi 180
-	escribe "Si funcionan!"
-	ot
 ]
-
 escribe "fin de bucle"
+av 200
+escribe "segundo bucle"
+repite (4.5*2)/3+1.5[
+	gi 90
+	av 100
+	mt
+]
+escribe "fin de bucle"
+
 
 bl
 mt
-av 300
+av 50
 gd 90
 escribe "FIN"

@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "Entorno.h"
 #include "bucle.h"
 
@@ -86,14 +87,14 @@ comandos:comando
 	|comandos comando
 			;
 
-expr: 	N_ENTERO				{$$ = $1;}
-	| N_REAL			      	{$$ = $1;}
+expr: 	N_ENTERO							{$$ = $1;}
+		| N_REAL			      			{$$ = $1;}
        	| '-' expr  %prec MENOSUNARIO  		{$$ = - $2;}
        	| expr '+' expr                		{$$ = $1 + $3;}
        	| expr '-' expr                		{$$ = $1 - $3;}
        	| expr '*' expr                		{$$ = $1 * $3;printf("Multiplacion %.8g\n",$$ );}
-       	| expr '/' expr				{$$ = $1 / $3;}
-		| '(' expr ')'		      		{$$ = ( $2 );}
+       	| expr '/' expr						{$$ = $1 / $3;}
+		| '(' expr ')'		      			{$$ = ( $2 );}
 	 ;
 
 exprlog: '(' exprlog ')' 		  { $$ = $2; }
@@ -172,11 +173,11 @@ comando: AV expr 	{
 							contador_cmd++;
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);} 
-	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;}  bloque ']' {bucle=0;
-						ejecutarBucle($2,cmd,contador_cmd,&columna,&fila,&$2,&lapiz,&oculta,&orientacion);
+	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;} entrada ']' {bucle=0;
+						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
-	|REPITE N_REAL	{yyerrok;}
+	//|REPITE N_REAL	{yyerrok;} 
    	|ESCRIBE dato {	if(bucle==1){
 							cmd[contador_cmd].comando=8;
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
