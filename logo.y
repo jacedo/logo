@@ -73,7 +73,7 @@ entrada:linea
 	|entrada linea
 	;
 linea: 	'\n'
-    	|comandos
+    	|comandos '\n'
     	|error '\n' {yyerrok;}
 	 ;
 
@@ -167,7 +167,7 @@ comando: AV expr 	{
 							contador_cmd++;
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);} 
-	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;} entrada']' {bucle=0;
+	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;} comandos ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
