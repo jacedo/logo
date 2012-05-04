@@ -11,7 +11,7 @@ extern int numlinea;
 %}
 
 %option noyywrap
-%x  COM1
+%x  COM1 COM2
 
 digito		[0-9]	
 num_entero	{digito}+	
@@ -20,10 +20,14 @@ cadena		["][^"]*["]
 %%
 
 
-"#"		BEGIN(COM1);
-<COM1>"\n"	numlinea++; BEGIN(0);
+^[#]		BEGIN(COM1);
+<COM1>"\n"	BEGIN(0);
 
-<COM1>.				;
+[#]		BEGIN(COM2);
+<COM2>"\n"	BEGIN(0);
+
+<COM1>.+				{printf("Comentario en una linea\n");numlinea++;return '\n';}
+<COM2>.+				{printf("Comentario despues de un comando\n");numlinea++;return '\n';}
 
 [aA][vV][aA][nN][zZ][aA]					{return AV;}
 [aA][vV]							{return AV;}
