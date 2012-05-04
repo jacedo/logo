@@ -70,11 +70,10 @@ void yyerror(const char *);
 %%
 
 entrada:linea
-	|entrada linea   
-	|comandos 
+	|entrada linea
 	;
 linea: 	'\n'
-    	|comandos '\n'
+    	|comandos
     	|error '\n' {yyerrok;}
 	 ;
 
@@ -178,6 +177,7 @@ comando: AV expr 	{
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
 							contador_cmd++;
 						}
+						printf("Va a escribir %s\n", $2);
    					muestra_mensaje($2);readkey();}
    	;
 
@@ -241,10 +241,8 @@ int main( int argc, char **argv )
 //void yyerror(FILE * yyout, const char *s )             /* llamada por error sintactico de yacc */
 void yyerror( const char *s)
 {
-	
 	printf("\nError sintáctico en la línea %d\n",numlinea );
-	error = 1;
-	
+	error = 1;	
 }
 
 

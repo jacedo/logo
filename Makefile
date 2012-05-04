@@ -22,4 +22,4 @@ lexico.c : lexico.l
 	flex -olexico.c lexico.l
 
 clean : 
-	rm  -f  *.o 
+	rm  -f  *.o lexico.c logo.h logo.c logo

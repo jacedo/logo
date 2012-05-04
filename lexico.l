@@ -3,7 +3,9 @@
 
 %{
 
-#include<stdlib.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "logo.h"
 
 extern int numlinea;
@@ -15,7 +17,7 @@ extern int numlinea;
 
 digito		[0-9]	
 num_entero	{digito}+	
-num_real	{num_entero}[.]{num_entero}
+num_real	{num_entero}+[.]{num_entero}*
 cadena		["][^"]*["]
 %%
 
@@ -49,10 +51,11 @@ cadena		["][^"]*["]
 [eE][sS][cC][rR][iI][bB][eE]		{return ESCRIBE;}
 [eE][sS]							{return ESCRIBE;}
 
-{num_entero}            	{yylval.c_entero=atof(yytext);
+{num_entero}            	{yylval.c_entero=atoi(yytext);
 								return N_ENTERO;
 							}
 {num_real}					{yylval.c_real = atof(yytext);
+								printf("Detecto num real %f que antes de convertir era %s\n",yylval.c_real,yytext);
 								return N_REAL;
 							}
 				

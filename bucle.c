@@ -16,7 +16,7 @@ void cmdInicio(){
 void cmdFin(){
 	fin();
 }
-
+ 	
 void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion){
 
 	if(oculta==0){
