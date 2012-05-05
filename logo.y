@@ -69,12 +69,12 @@ void yyerror(const char *);
 
 %%
 
-entrada:linea
+entrada:linea 
 	|entrada linea
 	;
-linea: 	'\n'
-    	|comandos '\n'
-    	|error '\n' {yyerrok;}
+linea: 	'\n' {numlinea++}
+    	|comandos '\n' {numlinea++}
+    	|error '\n' {yyerrok;} {numlinea++;}
 	 ;
 
 comandos:comando
@@ -167,7 +167,7 @@ comando: AV expr 	{
 							contador_cmd++;
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);} 
-	|REPITE expr '[' {	printf("repite %d\n",(int)$2);bucle=1;} comandos ']' {bucle=0;
+	|REPITE expr '[' {	printf("repite %d en la linea: %d\n",(int)$2,numlinea);bucle=1;} comandos ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
@@ -177,7 +177,7 @@ comando: AV expr 	{
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
 							contador_cmd++;
 						}
-						printf("Va a escribir %s\n", $2);
+						printf("Va a escribir %s en la linea: %d\n", $2,numlinea);
    					muestra_mensaje($2);readkey();}
    	;
 

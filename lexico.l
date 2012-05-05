@@ -28,8 +28,8 @@ cadena		["][^"]*["]
 [#]		BEGIN(COM2);
 <COM2>"\n"	BEGIN(0);
 
-<COM1>.+				{printf("Comentario en una linea\n");numlinea++;return '\n';}
-<COM2>.+				{printf("Comentario despues de un comando\n");numlinea++;return '\n';}
+<COM1>.+				{printf("Comentario en una linea\n");return '\n';}
+<COM2>.+				{printf("Comentario despues de un comando\n");return '\n';}
 
 [aA][vV][aA][nN][zZ][aA]					{return AV;}
 [aA][vV]							{return AV;}
@@ -65,7 +65,7 @@ cadena		["][^"]*["]
 							
 \t 							; 
 
-\n                  		{numlinea++;
+\n                  		{
 							return yytext[0];
 							}
 

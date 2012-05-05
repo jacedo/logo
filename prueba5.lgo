@@ -1,14 +1,17 @@
-#fichero 2 de prueba para la fase 2 del intérprete de logo
+
 #hay errores
-repite 2.5 [av 100 gi 90]		#error	
-escribe 5 "Hola, ¿mundo?"	#error
-asdsd
+repite 2.5 [av 100 gi 90]		
+
+escribe 5 "Hola,_¿mundo?"	#error
 escribe 2.3+5.7*3.0
-escribe no 2*2=4 | 3 < 4.5
-#la sigute linea da error
-esto da error
-gd 180		#esto no da error ni la siguiente
-ot 
-dsad
+
+escribe  no 2*2=4 & 3  		#error
+
+gd 180
+ot
 avanza 150
-escribe "esto se acabo"
+
+escribe "esto_se_acabo"
+
+
+

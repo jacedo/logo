@@ -1,11 +1,15 @@
+#fichero de prueba para la fase 2 del intérprete de logo
+
 repite 2*2 [av 100 gi 90]			#no hay errores
 
-escribe "Hola, ¿mundo?"
-escribe (2.3+5.7)*3.0
-escribe o no 2*2=4 3 < 4.5
+escribe "Hola,_¿mundo?"
 
+escribe (2.3+5.7)*3.0
+escribe no 2*2=4 | 3 < 4.5
 
 gd 180
-ot 
+ot
+
 avanza 150
-escribe "esto se acabo"
+
+escribe "esto_se_acabo"
