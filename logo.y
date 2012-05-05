@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 #include "Entorno.h"
 #include "bucle.h"
 
@@ -100,10 +99,10 @@ exprlog: '(' exprlog ')' 		  { $$ = $2; }
        | expr '=' expr	      	  { if($1 == $3) $$ = 1; else $$ = 0;}
        | 'n''o' exprlog		      { if($3) $$ = 0; else $$ = 1;}
        | exprlog '&' exprlog	  { if($1 && $3) $$ = 1; else $$ = 0;}
-       | exprlog 'o' exprlog	  { if($1 || $3) $$ = 1; else $$ = 0;}
+       | exprlog '|' exprlog	  { if($1 || $3) $$ = 1; else $$ = 0;}
 	;
 
-dato:expr        	{sprintf($$,"%.8g\n",$1);
+dato:expr        	{sprintf($$,"%2.8g",$1);
 					}
 	|exprlog		{	if($1==0){
 							strcpy($$,"falso");
