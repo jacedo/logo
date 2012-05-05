@@ -8,10 +8,7 @@
 #include "Entorno.h"
 #include "bucle.h"
 
-
-
 extern int yylex();
-
 
 int numlinea = 1;
 int error = 0;
@@ -27,15 +24,10 @@ int tipoexp=0;  //2 si el logica
 instruccion cmd[MAXCMD];
 int contador_cmd=0;
 
-
 int bucle=0;
 
-
-
-//extern FILE * yyout;
 extern FILE *yyin;
 
-//void yyerror(FILE * yyout,const char * );
 void yyerror(const char *);
 %}
 
@@ -58,61 +50,54 @@ void yyerror(const char *);
 %left '+' '-' 
 %left '*' '/'  	
 %left MENOSUNARIO 
-%left '(' 
-
-
-
-
-//utilizado para pasarselo a yyparse()
-//%parse-param {FILE * yyout}
+%left '('
 
 %%
 
 entrada:linea 
-	|entrada linea
-	;
-linea: 	'\n' {numlinea++}
-    	|comandos '\n' {numlinea++}
-    	|error '\n' {yyerrok;} {numlinea++;}
-	 ;
+		|entrada linea
+		;
+linea: 	'\n' 								{numlinea++;}
+    	|comandos '\n' 						{numlinea++;}
+    	|error '\n' 						{numlinea++;yyerrok;}
+	 	;
 
 comandos:comando
-	|comandos comando
-			;
+		|comandos comando
+		;
 
 expr: 	N_ENTERO							{$$ = $1;}
-		| N_REAL			      			{$$ = $1;}
-       	| '-' expr  %prec MENOSUNARIO  		{$$ = - $2;}
-       	| expr '+' expr                		{$$ = $1 + $3;}
-       	| expr '-' expr                		{$$ = $1 - $3;}
-       	| expr '*' expr                		{$$ = $1 * $3;printf("Multiplacion %.8g\n",$$ );}
-       	| expr '/' expr						{$$ = $1 / $3;}
-		| '(' expr ')'		      			{$$ = ( $2 );}
+		|N_REAL			      				{$$ = $1;}
+       	|'-' expr  %prec MENOSUNARIO  		{$$ = - $2;}
+       	|expr '+' expr                		{$$ = $1 + $3;}
+       	|expr '-' expr                		{$$ = $1 - $3;}
+       	|expr '*' expr                		{$$ = $1 * $3;}
+       	|expr '/' expr						{$$ = $1 / $3;}
+		|'(' expr ')'		      			{$$ = ( $2 );}
 	 ;
 
-exprlog: '(' exprlog ')' 		  { $$ = $2; }
-	   | expr '<' expr		      { if($1 < $3) $$ = 1; else $$ = 0;}
-       | expr '>' expr		      { if($1 > $3) $$ = 1; else $$ = 0;}
-       | expr '<''=' expr	      { if($1 <= $4) $$ = 1; else $$ = 0;}
-       | expr '>''=' expr	      { if($1 >= $4) $$ = 1; else $$ = 0;}
-       | expr '!''=' expr	      { if($1 != $4) $$ = 1; else $$ = 0;}
-       | expr '=' expr	      	  { if($1 == $3) $$ = 1; else $$ = 0;}
-       | 'n''o' exprlog		      { if($3) $$ = 0; else $$ = 1;}
-       | exprlog '&' exprlog	  { if($1 && $3) $$ = 1; else $$ = 0;}
-       | exprlog '|' exprlog	  { if($1 || $3) $$ = 1; else $$ = 0;}
+exprlog:'(' exprlog ')' 		  			{ $$ = $2; }
+	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;}
+       |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;}
+       |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;}
+       |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;}
+       |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;}
+       |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;}
+       |'n''o' exprlog		      			{ if($3) $$ = 0; else $$ = 1;}
+       |exprlog '&' exprlog	  				{ if($1 && $3) $$ = 1; else $$ = 0;}
+       |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;}
 	;
 
-dato:expr        	{sprintf($$,"%2.8g",$1);
-					}
-	|exprlog		{	if($1==0){
-							strcpy($$,"falso");
-						}else{
-							strcpy($$,"cierto");	
-						}
-					}
-	|CADENA    		{strcpy($$,$1);
-					}
-	;
+dato:expr        							{sprintf($$,"%2.8g",$1);}
+		|exprlog							{	if($1==0)
+												{
+													strcpy($$,"falso");
+												}else{
+													strcpy($$,"cierto");	
+												}
+											}
+		|CADENA    							{strcpy($$,$1);}
+		;
 
 comando: AV expr 	{
 						if(bucle==1){
@@ -165,8 +150,9 @@ comando: AV expr 	{
 							cmd[contador_cmd].comando=7;
 							contador_cmd++;
 						}
-   						cmdOcultaTortuga(columna,fila,orientacion, &oculta);} 
-	|REPITE expr '[' {	printf("repite %d en la linea: %d\n",(int)$2,numlinea);bucle=1;} comandos ']' {bucle=0;
+   						cmdOcultaTortuga(columna,fila,orientacion, &oculta);
+   					} 
+	|REPITE expr '[' {bucle=1;} comandos ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
@@ -176,18 +162,15 @@ comando: AV expr 	{
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
 							contador_cmd++;
 						}
-						printf("Va a escribir %s en la linea: %d\n", $2,numlinea);
-   					muestra_mensaje($2);readkey();}
+   						muestra_mensaje($2);readkey();}
    	;
 
 
 %%
 
 
-
 int main( int argc, char **argv )
 {
-	char nombre_cpp[50];
     char nombre_lgo[50];
 
      if (argc !=2){
@@ -197,50 +180,33 @@ int main( int argc, char **argv )
 
     // copio primero, porque strtok modifica argv[1] 
     strcpy(nombre_lgo,argv[1]);
-    // separo por el punto, queda pruebaX
-    strcpy(nombre_cpp,strtok(argv[1],"."));
-    // y le concateno el .cpp, queda pruebaX.cpp
-    strcat(nombre_cpp,".cpp");
-	
-//	yyout=fopen(nombre_cpp,"wt");
+
 	yyin=fopen(nombre_lgo,"rt");
 		
 
     cmdInicio();
-    //inicializamos allegro
-   // inicio();
     
-
-
-  //  yyparse(yyout);
-  	  yyparse();
+	yyparse();
 
     cmdFin();
-
-
-   // printf("Generando la salida.Pulse una tecla para continuar...\n");
-    //getchar();
      
 	fclose(yyin);
-//	fclose(yyout);
 
 	if (error == 1){
-		remove(nombre_cpp);
-		printf("Archivo de salida eliminado por errores de sintaxis\n");
+		printf("\033[1m \033[31m\nScript logo ejecutado CON errores\n");
 	}  
 	else{
-		printf("Archvo de salida generado correctamente\n");
-	}  
+		printf("\033[1m \033[32m\nScript logo ejecutado SIN errores\n");
+	} 
 
+	printf("\033[22m \033[30m");
  	return 0;
 }
 
-
-
-//void yyerror(FILE * yyout, const char *s )             /* llamada por error sintactico de yacc */
 void yyerror( const char *s)
 {
-	printf("\nError sintáctico en la línea %d\n",numlinea );
+	printf("\033[1m\033[31m\n¡ERROR sintáctico en la línea %d!\n",numlinea);
+	printf("\033[22m \033[30m");
 	error = 1;	
 }
 

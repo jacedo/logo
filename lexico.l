@@ -28,8 +28,8 @@ cadena		["][^"]*["]
 [#]		BEGIN(COM2);
 <COM2>"\n"	BEGIN(0);
 
-<COM1>.+				{printf("Comentario en una linea\n");return '\n';}
-<COM2>.+				{printf("Comentario despues de un comando\n");return '\n';}
+<COM1>.+				{return '\n';}
+<COM2>.+				{return '\n';}
 
 [aA][vV][aA][nN][zZ][aA]					{return AV;}
 [aA][vV]							{return AV;}
@@ -47,7 +47,7 @@ cadena		["][^"]*["]
 [mM][tT]							{return MT;}
 [Oo][Cc][Uu][Ll][Tt][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] 		{return OT;}
 [oO][tT]							{return OT;}
-[rR][eE][pP][iI][tT][eE]					{printf("envio repite \n");return REPITE;}
+[rR][eE][pP][iI][tT][eE]					{return REPITE;}
 [eE][sS][cC][rR][iI][bB][eE]		{return ESCRIBE;}
 [eE][sS]							{return ESCRIBE;}
 
@@ -55,12 +55,11 @@ cadena		["][^"]*["]
 								return N_ENTERO;
 							}
 {num_real}					{yylval.c_real = atof(yytext);
-								printf("Detecto num real %f que antes de convertir era %s\n",yylval.c_real,yytext);
 								return N_REAL;
 							}
 				
 {cadena}					{strcpy(yylval.c_cadena,yytext);
-								printf("envio cadena %s\n",yylval.c_cadena);return CADENA;
+								return CADENA;
 							}					
 							
 \t 							; 

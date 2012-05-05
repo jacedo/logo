@@ -147,47 +147,33 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 	//esto se hace porque ya se ha ejecutado una vez
 	veces--;
 
-	printf("Tipo %d\n", cmd[1].comando);
-	printf("Veces %d\n", veces);
-	printf("Numero de comandos %d\n",num_cmd );
-
 	while(i<num_cmd && j<veces){
 		switch(cmd[i].comando){
 			case 0: 
-					printf("Ejecuta en el bucle avanza %.8g  \n", cmd[i].parametro.numero);
 					cmdAvanza(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion);
 					break;
 			case 1: 
-					printf("Ejecuta en el bucle avanza %.8g  \n", cmd[i].parametro.numero);
 					cmdRetrocede(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion);
 					break;
 			case 2:
-					printf("Ejecuta en el bucle GiraDerecha %.8g  \n", cmd[i].parametro.numero);
 					cmdGiraDerecha(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion);
 					break;
 			case 3:
-					printf("Ejecuta en el bucle GiraIzquierda %.8g  \n", cmd[i].parametro.numero);
 					cmdGiraIzquierda(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion);
 					break;
 			case 4:
-					printf("Ejecuta en el bucle BajaLapiz\n" );
 					cmdBajaLapiz(lapiz);
 					break;
 			case 5:
-					printf("Ejecuta en el bucle SubeLapiz\n" );
 					cmdSubeLapiz(lapiz);
 					break;
 			case 6:
-						printf("Ejecuta en el bucle MuestraTortuga\n");
 					cmdMuestraTortuga(*columna,*fila,*orientacion, oculta);
 					break;
 			case 7:
-					printf("Ejecuta en el bucle OcultaTortuga\n");
 					cmdOcultaTortuga(*columna,*fila,*orientacion, oculta);
 					break;
 			case 8:
-					
-					printf("Ejecuta en el bucle muestramensaje %s\n",cmd[i].parametro.cadena);
 					muestra_mensaje(cmd[i].parametro.cadena);readkey();
 					break;
 			default: printf("Comando no reconocido");break;
