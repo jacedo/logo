@@ -62,12 +62,11 @@ entrada:linea
 		|entrada linea
 		;
 linea: 	'\n' 								{numlinea++;}
-    	|comandos '\n' 						{numlinea++;}
     	|comandos
     	|error '\n' 						{numlinea++;yyerrok;}
 	 	;
 
-comandos:comando
+comandos:comando 
 		|comandos comando
 		;
 
@@ -82,7 +81,6 @@ expr: 	N_ENTERO							{$$ = $1;}
 	 ;
 
 exprnr: 	N_ENTERO							{$$ = $1;}
-		//|N_REAL			      				{$$ = $1;}
        	|'-' exprnr  %prec MENOSUNARIO  		{$$ = - $2;}
        	|exprnr '+' exprnr                		{$$ = $1 + $3;}
        	|exprnr '-' exprnr                		{$$ = $1 - $3;}
@@ -167,11 +165,12 @@ comando: AV expr 	{
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);
    					} 
-	|REPITE exprnr '[' {bucle=1;} entrada ']' {bucle=0;
+   	|REPITE N_REAL 	{yyerrok;} 
+	|REPITE exprnr'[' {bucle=1;} entrada ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
-	|REPITE N_REAL 	{yyerrok;} 
+	
    	|ESCRIBE dato {	if(bucle==1){
 							cmd[contador_cmd].comando=8;
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
