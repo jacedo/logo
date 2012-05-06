@@ -1,6 +1,17 @@
-#este ejemplo tiene tabuladores, cuidado
-	avanza 100	gi 180 gd 270
-	av 100    	gd 90
-	
-	av 100		giraderecha 90
-	av 100		gi 360
+
+#hay errores	
+repite 2.5 [av 100 gi 90]		
+
+escribe 5 "Hola,_¿mundo?"	#error
+escribe 2.3+5.7*3.0
+
+escribe  no 2*2=4 & 3  		#error
+
+gd 180
+ot
+avanza 150
+
+escribe "esto_se_acabo"
+
+
+

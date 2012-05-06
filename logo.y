@@ -18,9 +18,6 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
-int tipoexp=0;  //2 si el logica
-
-
 
 //vector de comandos
 instruccion cmd[MAXCMD];
@@ -47,7 +44,6 @@ void yyerror(const char *);
 
 %type <c_cadena> dato
 %type <c_entero> exprlog
-%type <c_entero> exprnr
 %type <c_real> expr
 
 
@@ -65,7 +61,6 @@ linea: 	'\n' 								{numlinea++;}
     	|comandos
     	|error '\n' 						{numlinea++;yyerrok;}
 	 	;
-
 comandos:comando 
 		|comandos comando
 		;
@@ -78,15 +73,6 @@ expr: 	N_ENTERO							{$$ = $1;}
        	|expr '*' expr                		{$$ = $1 * $3;}
        	|expr '/' expr						{$$ = $1 / $3;}
 		|'(' expr ')'		      			{$$ = ( $2 );}
-	 ;
-
-exprnr: 	N_ENTERO							{$$ = $1;}
-       	|'-' exprnr  %prec MENOSUNARIO  		{$$ = - $2;}
-       	|exprnr '+' exprnr                		{$$ = $1 + $3;}
-       	|exprnr '-' exprnr                		{$$ = $1 - $3;}
-       	|exprnr '*' exprnr                		{$$ = $1 * $3;}
-       	|exprnr '/' exprnr						{$$ = $1 / $3;}
-		|'(' exprnr ')'		      			{$$ = ( $2 );}
 	 ;
 
 exprlog:'(' exprlog ')' 		  			{ $$ = $2; }
@@ -165,8 +151,7 @@ comando: AV expr 	{
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);
    					} 
-   	|REPITE N_REAL 	{yyerrok;} 
-	|REPITE exprnr'[' {bucle=1;} entrada ']' {bucle=0;
+	|REPITE expr'[' {bucle=1;} entrada ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
@@ -192,7 +177,6 @@ int main( int argc, char **argv )
      	return(-1);
      }    
 
-    // copio primero, porque strtok modifica argv[1] 
     strcpy(nombre_lgo,argv[1]);
 
 	yyin=fopen(nombre_lgo,"rt");

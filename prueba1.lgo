@@ -1,29 +1,15 @@
-#hace bucles
+#fichero de prueba para la fase 2 del intérprete de logo
 
-escribe "Prueba de bucle"
-escribe "Entra en bucle"
-
-repite 4.5[ gd 90 av 100 mt ]
 repite 2*2 [av 100 gi 90]			#no hay errores
 
-escribe "Hola, ¿mundo?"
-escribe "fin de bucle"
-av 200
-escribe "segundo bucle"
+escribe "Hola,_¿mundo?"
+
+escribe (2.3+5.7)*3.0
+escribe no 2*2=4 | 3 < 4.5
+
+gd 180
 ot
-sl
-repite 3[
-	gi 90
-	av 100
-	mt
-	bl
-]
-escribe "fin de bucle"
 
-es 4.5*3
+avanza 150
 
-bl
-mt
-av 50
-gd 90
-escribe "FIN"
+escribe "esto_se_acabo"
