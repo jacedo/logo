@@ -63,6 +63,7 @@ entrada:linea
 		;
 linea: 	'\n' 								{numlinea++;}
     	|comandos '\n' 						{numlinea++;}
+    	|comandos
     	|error '\n' 						{numlinea++;yyerrok;}
 	 	;
 
@@ -166,7 +167,7 @@ comando: AV expr 	{
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);
    					} 
-	|REPITE exprnr '[' {bucle=1;} comandos ']' {bucle=0;
+	|REPITE exprnr '[' {bucle=1;} entrada ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
