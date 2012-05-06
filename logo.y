@@ -20,6 +20,8 @@ int oculta=0; //true oculta, false visible
 
 int tipoexp=0;  //2 si el logica
 
+
+
 //vector de comandos
 instruccion cmd[MAXCMD];
 int contador_cmd=0;
@@ -45,7 +47,9 @@ void yyerror(const char *);
 
 %type <c_cadena> dato
 %type <c_entero> exprlog
+%type <c_entero> exprnr
 %type <c_real> expr
+
 
 %left '+' '-' 
 %left '*' '/'  	
@@ -74,6 +78,16 @@ expr: 	N_ENTERO							{$$ = $1;}
        	|expr '*' expr                		{$$ = $1 * $3;}
        	|expr '/' expr						{$$ = $1 / $3;}
 		|'(' expr ')'		      			{$$ = ( $2 );}
+	 ;
+
+exprnr: 	N_ENTERO							{$$ = $1;}
+		//|N_REAL			      				{$$ = $1;}
+       	|'-' exprnr  %prec MENOSUNARIO  		{$$ = - $2;}
+       	|exprnr '+' exprnr                		{$$ = $1 + $3;}
+       	|exprnr '-' exprnr                		{$$ = $1 - $3;}
+       	|exprnr '*' exprnr                		{$$ = $1 * $3;}
+       	|exprnr '/' exprnr						{$$ = $1 / $3;}
+		|'(' exprnr ')'		      			{$$ = ( $2 );}
 	 ;
 
 exprlog:'(' exprlog ')' 		  			{ $$ = $2; }
@@ -152,7 +166,7 @@ comando: AV expr 	{
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);
    					} 
-	|REPITE expr '[' {bucle=1;} comandos ']' {bucle=0;
+	|REPITE exprnr '[' {bucle=1;} comandos ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}

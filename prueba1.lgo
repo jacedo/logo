@@ -12,7 +12,7 @@ av 200
 escribe "segundo bucle"
 ot
 sl
-repite 1.5*3[
+repite 3[
 	gi 90
 	av 100
 	mt
