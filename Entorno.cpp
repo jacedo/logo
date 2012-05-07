@@ -42,8 +42,8 @@ void borra_tortuga(int x1,int y1){
 void muestra_mensaje (const TipoMensaje msg) {
 
 
-	textout_ex( screen, font, "                                        ",  600,500 , makecol( 255,   0, 0), makecol(0, 0, 0));
-	textout_ex( screen, font, msg,                                         600,500 , makecol( 255, 255, 0), makecol(0, 0, 0));
+	textout_ex( screen, font, "                                        ",  500,550 , makecol( 255,   0, 0), makecol(0, 0, 0));
+	textout_ex( screen, font, msg,                                         500,550 , makecol( 255, 255, 0), makecol(0, 0, 0));
 
 }
 

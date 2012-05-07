@@ -6,11 +6,20 @@ repite 2*2 [av 100 gi 90]			#no hay errores
 escribe "Hola,_¿mundo?"
 
 escribe (2.3+5.7)*3.0
-escribe no 2*2=4 | 3 < 4.5
+si no 2*2=4 | 3 < 4.5 [
+	bp
+]
 
+escribe "si pantalla no borrada ok"
+
+si (no 2*2=4 )| 3 < 4.5 [
+	bp
+]
+
+escribe "si borrada pantalla ok"
 gd 180
 
-bp
+
 
 poncl 3
 
