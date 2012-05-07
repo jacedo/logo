@@ -50,6 +50,8 @@ cadena		["][^"]*["]
 [rR][eE][pP][iI][tT][eE]					{return REPITE;}
 [eE][sS][cC][rR][iI][bB][eE]		{return ESCRIBE;}
 [eE][sS]							{return ESCRIBE;}
+[bB][oO][rR][aA][rR][pP][aA][nN][tT][aA][lL][lL][aA] 	{return BP;}
+[bB][pP]												{return BP;}
 
 {num_entero}            	{yylval.c_entero=atoi(yytext);
 								return N_ENTERO;

@@ -35,3 +35,7 @@ void inicio();
 
 void fin();
 /*Finaliza el entorno allegro*/
+
+void borra_pantalla();
+/*borra la pantalla*/
+

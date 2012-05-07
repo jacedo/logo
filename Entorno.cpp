@@ -6,6 +6,8 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 #include "Entorno.h"
+#include <stdio.h>
+#include <string.h>
 
 BITMAP *im_tortuga = NULL; // Declara un BITMAP para la imagen de la tortuga
 			BITMAP *buffer = NULL; // Declara un BITMAP para el buffer principal
@@ -65,3 +67,9 @@ void fin(){
 	destroy_bitmap(buffer2);
 }
 
+void borra_pantalla(){
+	clear_keybuf();
+	clear_bitmap(buffer);
+	clear_bitmap(buffer2);
+	clear_bitmap(screen);
+}

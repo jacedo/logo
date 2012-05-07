@@ -22,3 +22,4 @@ void cmdInicio();
 void cmdFin();
 void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila,int *lapiz, int *oculta, int *orientacion);
 void reinicilizaCmd(instruccion cmd[],int *contador_cmd);
+void cmdBorrarPantalla();

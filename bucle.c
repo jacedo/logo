@@ -201,3 +201,9 @@ void reinicilizaCmd(instruccion cmd[],int *contador_cmd){
 	}
 
 }
+
+void cmdBorrarPantalla(){
+	borra_pantalla();
+    pon_tortuga(400,300,0);
+	readkey();
+}

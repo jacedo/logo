@@ -36,8 +36,8 @@ void yyerror(const char *);
 	char c_cadena[100];
 }
 
-%token AV RE GD GI BL SL MT OT ES 
-%token REPITE ESCRIBE
+%token AV RE GD GI BL SL MT OT ES BP
+%token REPITE ESCRIBE 
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
 %token <c_cadena> CADENA
@@ -151,6 +151,17 @@ comando: AV expr 	{
 						}
    						cmdOcultaTortuga(columna,fila,orientacion, &oculta);
    					} 
+   	|BP 			{
+   						printf("voy a llamar a la funcion de cmdBorrarPantalla");
+   						cmdBorrarPantalla();
+   						fila=300;
+						columna=400;
+						orientacion=0; 
+						lapiz=1;  
+						oculta=0; 
+
+   					}
+
 	|REPITE expr'[' {bucle=1;} entrada ']' {bucle=0;
 						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
 						reinicilizaCmd(cmd,&contador_cmd);
