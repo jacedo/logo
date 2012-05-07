@@ -17,7 +17,7 @@ void cmdFin(){
 	fin();
 }
  	
-void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion){
+void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion,int R, int G, int B){
 
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
@@ -25,22 +25,22 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 
 				switch(orientacion){
 					case 0:		if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila-(int)valor);
+								linea(*columna,*fila,*columna,*fila-(int)valor,R,G,B);
 							}								
 							*fila=*fila-(int)valor;
 							break;//norte
 					case 1: 	if(lapiz==1){
-								linea(*columna,*fila,*columna+(int)valor,*fila);
+								linea(*columna,*fila,*columna+(int)valor,*fila,R,G,B);
 							}
 							*columna=*columna+(int)valor;
 							break;//este
 					case 2: 	if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila+(int)valor);
+								linea(*columna,*fila,*columna,*fila+(int)valor,R,G,B);
 							}
 							*fila=*fila+(int)valor;
 							break;//sur
 					case 3:		if(lapiz==1){
-								linea(*columna,*fila,*columna-(int)valor,*fila);
+								linea(*columna,*fila,*columna-(int)valor,*fila,R,G,B);
 							}
 							*columna=*columna-(int)valor;
 							break;//oeste
@@ -54,7 +54,7 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 				readkey();
 }
 
-void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion){
+void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion,int R, int G, int B){
 
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
@@ -62,22 +62,22 @@ void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int o
 			
 				switch(orientacion){
 					case 0:		if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila-(int)valor);
+								linea(*columna,*fila,*columna,*fila-(int)valor,R,G,B);
 							}
 							*fila=*fila-(int)valor;
 							break;//norte
 					case 1: 	{
-								linea(*columna,*fila,*columna,*fila+(int)valor);
+								linea(*columna,*fila,*columna,*fila+(int)valor,R,G,B);
 							}
 							*fila=*fila+(int)valor;
 							break;//este
 					case 2: 	if(lapiz==1){
-								linea(*columna,*fila,*columna+(int)valor,*fila);
+								linea(*columna,*fila,*columna+(int)valor,*fila,R,G,B);
 							}
 							*columna=*columna+(int)valor;
 							break;//sur
 					case 3:		if(lapiz==1){
-								linea(*columna,*fila,*columna-(int)valor,*fila);
+								linea(*columna,*fila,*columna-(int)valor,*fila,R,G,B);
 							}
 							*columna=*columna-(int)valor;
 							break;//oeste
@@ -140,7 +140,7 @@ void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta){
 	*oculta=1;
 }
 
-void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion){
+void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B){
 	int i=0;
 	int j=0;
 
@@ -150,10 +150,10 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 	while(i<num_cmd && j<veces){
 		switch(cmd[i].comando){
 			case 0: 
-					cmdAvanza(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion);
+					cmdAvanza(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B);
 					break;
 			case 1: 
-					cmdRetrocede(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion);
+					cmdRetrocede(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B);
 					break;
 			case 2:
 					cmdGiraDerecha(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion);

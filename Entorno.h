@@ -17,7 +17,7 @@ typedef char TipoMensaje [MAX_MENSAJE];
 using namespace std;
 
 
-void linea(int x1,int y1,int x2,int y2);
+void linea(int x1,int y1,int x2,int y2, int R, int G, int B);
 /*Dibuja una línea desde las coordenadas (x1,y1) hasta (x2,y2)*/
 
 void pon_tortuga(int x1,int y1,int orientacion);

@@ -18,6 +18,10 @@ int orientacion=0; //0:Norte 1:Este 2:Sur 3:Oeste
 int lapiz=1;  //true pinta, false no
 int oculta=0; //true oculta, false visible
 
+//parametros para seleccion  de color de la linea 
+int R=255;
+int G=255;
+int B=255;
 
 //vector de comandos
 instruccion cmd[MAXCMD];
@@ -36,7 +40,7 @@ void yyerror(const char *);
 	char c_cadena[100];
 }
 
-%token AV RE GD GI BL SL MT OT ES BP
+%token AV RE GD GI BL SL MT OT ES BP PC
 %token REPITE ESCRIBE 
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
@@ -104,14 +108,14 @@ comando: AV expr 	{
 							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
-						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion);}
+						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B);}
 	|RE expr 		{
 						if(bucle==1){
 							cmd[contador_cmd].comando=1;
 							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
-						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion);}
+						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B);}
 	|GD expr 		{
 						if(bucle==1){
 							cmd[contador_cmd].comando=2;
@@ -161,9 +165,23 @@ comando: AV expr 	{
 						oculta=0; 
 
    					}
+   	|PC N_ENTERO		{
+   						switch((int)$2){
+   							case 0: R=0; 	G=0; 	B=0; break;//negro
+   							case 1: R=255; 	G=0; 	B=0; 	break;//rojo
+   							case 2: R=0; 	G=128; 	B=0; 	break;//verde
+   							case 3: R=255; 	G=255; 	B=0; 	break;//amarillo
+   							case 4: R=0; 	G=0; 	B=139;	break;//azul oscuro
+   							case 5: R=255; 	G=192; 	B=203;	break;//rosa
+   							case 6: R=173; 	G=216; 	B=230;	break;//azul claro
+   							case 7: R=255; 	G=255; 	B=255;	break;//blanco
+   							case 8: R=128; 	G=128; 	B=128;	break;//gris
+   						}
+
+   	}
 
 	|REPITE expr'[' {bucle=1;} entrada ']' {bucle=0;
-						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion);
+						ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B);
 						reinicilizaCmd(cmd,&contador_cmd);
 					}
 	

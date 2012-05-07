@@ -6,16 +6,15 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 #include "Entorno.h"
-#include <stdio.h>
-#include <string.h>
+
 
 BITMAP *im_tortuga = NULL; // Declara un BITMAP para la imagen de la tortuga
 			BITMAP *buffer = NULL; // Declara un BITMAP para el buffer principal
 			BITMAP *buffer2 = NULL; // Declara un BITMAP para el buffer secundario (tortuga)
 
 
-void linea(int x1,int y1,int x2,int y2){
-	line( buffer, x1,y1,x2,y2, makecol( 255, 255, 255));
+void linea(int x1,int y1,int x2,int y2, int R, int G, int B){
+	line( buffer, x1,y1,x2,y2, makecol( R, G, B));
 	blit(buffer, screen, 0,0,0,0,800,600);
 }
 

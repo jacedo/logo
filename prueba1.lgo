@@ -1,5 +1,6 @@
 #fichero de prueba para la fase 2 del intérprete de logo
 
+poncl 2
 repite 2*2 [av 100 gi 90]			#no hay errores
 
 escribe "Hola,_¿mundo?"
@@ -11,6 +12,14 @@ gd 180
 
 bp
 
+poncl 3
+
 avanza 150
+
+poncl 10
+
+gi 90
+
+av 100
 
 escribe "esto_se_acabo"
