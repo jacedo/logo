@@ -1,6 +1,7 @@
 #fichero de prueba para la fase 2 del intérprete de logo
 
-poncl 2
+si 2>4[poncl 2][poncl 3]
+
 repite 2*2 [av 100 gi 90]			#no hay errores
 
 escribe "Hola,_¿mundo?"
@@ -16,12 +17,9 @@ si (no 2*2=4 )| 3 < 4.5 [
 	bp
 ]
 
+si 2<4 [poncl 4][poncl 6]
 escribe "si borrada pantalla ok"
 gd 180
-
-
-
-poncl 3
 
 avanza 150
 

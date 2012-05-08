@@ -61,6 +61,7 @@ void yyerror(const char *);
 
 entrada:linea 
 		|entrada linea
+		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
 linea: 	'\n' 								{numlinea++;}
     	|comandos
@@ -104,7 +105,7 @@ dato:expr        							{sprintf($$,"%2.8g",$1);}
 		;
 
 comando: AV expr 	{
-					if(ejecutar==1){
+					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=0;
 							cmd[contador_cmd].parametro.numero=$2;
@@ -113,7 +114,7 @@ comando: AV expr 	{
 						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B);}
 					}
 	|RE expr 		{
-					if(ejecutar==1){
+					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=1;
 							cmd[contador_cmd].parametro.numero=$2;
@@ -122,7 +123,7 @@ comando: AV expr 	{
 						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B);}
 					}
 	|GD expr 		{
-					if(ejecutar==1){
+					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=2;
 							cmd[contador_cmd].parametro.numero=$2;
@@ -131,7 +132,7 @@ comando: AV expr 	{
 						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion);}
 					}
 	|GI expr 		{
-					if(ejecutar==1){
+					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=3;
 							cmd[contador_cmd].parametro.numero=$2;
@@ -140,7 +141,7 @@ comando: AV expr 	{
 						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion);}
 					}
 	|BL				{
-					if(ejecutar==1){
+					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=4;
 							contador_cmd++;
@@ -148,7 +149,7 @@ comando: AV expr 	{
 						cmdBajaLapiz(&lapiz);}
 					}
 	|SL				{
-					if(ejecutar==1){
+					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=5;
 							contador_cmd++;
@@ -156,7 +157,7 @@ comando: AV expr 	{
 						cmdSubeLapiz(&lapiz);}
 					}
 	|MT				{
-					if(ejecutar==1){
+					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=6;
 							contador_cmd++;
@@ -164,7 +165,7 @@ comando: AV expr 	{
 						cmdMuestraTortuga(columna,fila,orientacion, &oculta);}
 					}
    	|OT				{
-   					if(ejecutar==1){
+   					if(ejecutar!=0){
    						if(bucle==1){
 							cmd[contador_cmd].comando=7;
 							contador_cmd++;
@@ -173,7 +174,7 @@ comando: AV expr 	{
    					} 
    					}
    	|BP 			{
-   					if(ejecutar==1){
+   					if(ejecutar!=0){
    						printf("voy a llamar a la funcion de cmdBorrarPantalla");
    						cmdBorrarPantalla();
    						fila=300;
@@ -185,7 +186,7 @@ comando: AV expr 	{
 
    					}
    	|PC N_ENTERO	{
-   					if(ejecutar==1){
+   					if(ejecutar!=0){
    						switch((int)$2){
    							case 0: R=0; 	G=0; 	B=0; break;//negro
    							case 1: R=255; 	G=0; 	B=0; 	break;//rojo
@@ -203,12 +204,24 @@ comando: AV expr 	{
 
 	|REPITE expr'[' {bucle=1;} entrada ']' {bucle=0;
 						
-						if(ejecutar==1){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B);
+						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B);
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
-	|SI exprlog '[' {if(ejecutar==1){if($2==0){ejecutar=0;}}} entrada']'{ejecutar=1}
 	
-   	|ESCRIBE dato {	if(ejecutar==1){
+	|SI exprlog {if(ejecutar!=0){
+						if($2==0){
+							ejecutar=0;
+						}
+					}
+				}'['entrada']'{
+					if(ejecutar==0){
+						ejecutar=2;
+					}else{
+						ejecutar=1;
+					}
+				} entrada
+
+   	|ESCRIBE dato {	if(ejecutar!=0){
    						if(bucle==1){
 							cmd[contador_cmd].comando=8;
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
