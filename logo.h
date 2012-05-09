@@ -39,24 +39,25 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     AV = 258,
-     RE = 259,
-     GD = 260,
-     GI = 261,
-     BL = 262,
-     SL = 263,
-     MT = 264,
-     OT = 265,
-     ES = 266,
-     BP = 267,
-     PC = 268,
-     REPITE = 269,
-     ESCRIBE = 270,
-     SI = 271,
-     N_ENTERO = 272,
-     N_REAL = 273,
-     CADENA = 274,
-     MENOSUNARIO = 275
+     SALIR = 258,
+     AV = 259,
+     RE = 260,
+     GD = 261,
+     GI = 262,
+     BL = 263,
+     SL = 264,
+     MT = 265,
+     OT = 266,
+     ES = 267,
+     BP = 268,
+     PC = 269,
+     REPITE = 270,
+     ESCRIBE = 271,
+     SI = 272,
+     N_ENTERO = 273,
+     N_REAL = 274,
+     CADENA = 275,
+     MENOSUNARIO = 276
    };
 #endif
 
@@ -67,7 +68,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 38 "logo.y"
+#line 42 "logo.y"
 
 	int c_entero;
 	float c_real;
@@ -76,7 +77,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 80 "logo.h"
+#line 81 "logo.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

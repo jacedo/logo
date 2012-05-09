@@ -32,6 +32,10 @@ int ejecutar=1;
 
 extern FILE *yyin;
 
+//fichero (1) o consola (0)
+int modo;
+
+void prompt(void);
 void yyerror(const char *);
 %}
 
@@ -41,6 +45,7 @@ void yyerror(const char *);
 	char c_cadena[100];
 }
 
+%token SALIR
 %token AV RE GD GI BL SL MT OT ES BP PC
 %token REPITE ESCRIBE SI
 %token <c_entero> N_ENTERO 
@@ -59,13 +64,16 @@ void yyerror(const char *);
 
 %%
 
-entrada:linea 
+entrada:{prompt();}
 		|entrada linea
 		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
 linea: 	'\n' 								{numlinea++;}
     	|comando
     	|error '\n' 						{numlinea++;yyerrok;}
+    	|SALIR '\n'	{
+				return(0);
+			}
 	 	;
 
 expr: 	N_ENTERO							{$$ = $1;}
@@ -108,7 +116,7 @@ comando: AV expr 	{
 							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
-						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B);}
+						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
 					}
 	|RE expr 		{
 					if(ejecutar!=0){
@@ -117,7 +125,7 @@ comando: AV expr 	{
 							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
-						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B);}
+						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
 					}
 	|GD expr 		{
 					if(ejecutar!=0){
@@ -126,7 +134,7 @@ comando: AV expr 	{
 							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
-						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion);}
+						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion,modo);}
 					}
 	|GI expr 		{
 					if(ejecutar!=0){
@@ -135,7 +143,7 @@ comando: AV expr 	{
 							cmd[contador_cmd].parametro.numero=$2;
 							contador_cmd++;
 						}
-						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion);}
+						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion,modo);}
 					}
 	|BL				{
 					if(ejecutar!=0){
@@ -159,7 +167,7 @@ comando: AV expr 	{
 							cmd[contador_cmd].comando=6;
 							contador_cmd++;
 						}
-						cmdMuestraTortuga(columna,fila,orientacion, &oculta);}
+						cmdMuestraTortuga(columna,fila,orientacion, &oculta,modo);}
 					}
    	|OT				{
    					if(ejecutar!=0){
@@ -167,13 +175,13 @@ comando: AV expr 	{
 							cmd[contador_cmd].comando=7;
 							contador_cmd++;
 						}
-   						cmdOcultaTortuga(columna,fila,orientacion, &oculta);
+   						cmdOcultaTortuga(columna,fila,orientacion, &oculta,modo);
    					} 
    					}
    	|BP 			{
    					if(ejecutar!=0){
    						printf("voy a llamar a la funcion de cmdBorrarPantalla");
-   						cmdBorrarPantalla();
+   						cmdBorrarPantalla(modo);
    						fila=300;
 						columna=400;
 						orientacion=0; 
@@ -201,7 +209,7 @@ comando: AV expr 	{
 
 	|REPITE expr'[' {bucle=1;} entrada ']' {bucle=0;
 						
-						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B);
+						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo);
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	
@@ -236,24 +244,34 @@ int main( int argc, char **argv )
 {
     char nombre_lgo[50];
 
-     if (argc !=2){
+     if (argc >2){
      	printf("Sintaxis incorrecta\n");
      	return(-1);
      }    
-
+     if(argc == 2){
+     	modo=1;
     strcpy(nombre_lgo,argv[1]);
 
 	yyin=fopen(nombre_lgo,"rt");
 		
 
-    cmdInicio();
+    cmdInicio(modo);
     
 	yyparse();
 
     cmdFin();
      
 	fclose(yyin);
+	}else{
 
+		modo=0;
+		cmdInicio(modo);
+    
+	yyparse();
+
+    cmdFin();
+
+    }
 	if (error == 1){
 		printf("\033[1m \033[31m\nScript logo ejecutado CON errores\n");
 	}  
@@ -262,6 +280,9 @@ int main( int argc, char **argv )
 	} 
 
 	printf("\033[22m \033[30m");
+	
+
+	
  	return 0;
 }
 
@@ -272,5 +293,9 @@ void yyerror( const char *s)
 	error = 1;	
 }
 
+void prompt( void )
+{
 
+  printf("LISTO> ");
+}
 

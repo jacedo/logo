@@ -18,6 +18,7 @@ extern int numlinea;
 digito		[0-9]	
 num_entero	{digito}+	
 num_real	{num_entero}+[.]{num_entero}*
+identificador	[a-zA-Z]+
 cadena		["][^"]*["]
 %%
 
@@ -54,6 +55,9 @@ cadena		["][^"]*["]
 [bB][pP]												{return BP;}
 [pP][oO][nN][cC][lL]								{return PC;}
 [sS][iI]											{return SI;}
+[sS][aA][lL][iI][rR]			{	strcpy(yylval.c_cadena, yytext);
+								return SALIR;
+							}
 
 {num_entero}            	{yylval.c_entero=atoi(yytext);
 								return N_ENTERO;
@@ -66,6 +70,8 @@ cadena		["][^"]*["]
 								return CADENA;
 							}					
 							
+
+
 \t 							; 
 
 \n                  		{

@@ -6,18 +6,18 @@
 #include "Entorno.h"
 
 
-void cmdInicio(){
+void cmdInicio(int modo){
 
 	inicio();
     pon_tortuga(400,300,0);
-	readkey();
+	if(modo)readkey();
 }
 
 void cmdFin(){
 	fin();
 }
  	
-void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion,int R, int G, int B){
+void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion,int R, int G, int B, int modo){
 
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
@@ -51,10 +51,10 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 				if(oculta==0){
 					pon_tortuga(*columna,*fila,orientacion);
 				}
-				readkey();
+				if(modo)readkey();
 }
 
-void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion,int R, int G, int B){
+void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion,int R, int G, int B,int modo){
 
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
@@ -62,24 +62,24 @@ void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int o
 			
 				switch(orientacion){
 					case 0:		if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila-(int)valor,R,G,B);
-							}
-							*fila=*fila-(int)valor;
-							break;//norte
-					case 1: 	{
 								linea(*columna,*fila,*columna,*fila+(int)valor,R,G,B);
 							}
 							*fila=*fila+(int)valor;
-							break;//este
-					case 2: 	if(lapiz==1){
-								linea(*columna,*fila,*columna+(int)valor,*fila,R,G,B);
-							}
-							*columna=*columna+(int)valor;
-							break;//sur
-					case 3:		if(lapiz==1){
+							break;//norte
+					case 1: 	{
 								linea(*columna,*fila,*columna-(int)valor,*fila,R,G,B);
 							}
 							*columna=*columna-(int)valor;
+							break;//este
+					case 2: 	if(lapiz==1){
+								linea(*columna,*fila,*columna,*fila-(int)valor,R,G,B);
+							}
+							*fila=*fila-(int)valor;
+							break;//sur
+					case 3:		if(lapiz==1){
+								linea(*columna,*fila,*columna+(int)valor,*fila,R,G,B);
+							}
+							*columna=*columna+(int)valor;
 							break;//oeste
 				};
 					
@@ -87,10 +87,10 @@ void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int o
 				if(oculta==0){
 					pon_tortuga(*columna,*fila,orientacion);
 				}
-				readkey();
+				if(modo)readkey();
 }
 
-void cmdGiraDerecha(int columna,int fila,int valor, int oculta, int *orientacion){
+void cmdGiraDerecha(int columna,int fila,int valor, int oculta, int *orientacion,int modo){
 
 	if(oculta==0){
 		borra_tortuga(columna,fila);
@@ -99,11 +99,11 @@ void cmdGiraDerecha(int columna,int fila,int valor, int oculta, int *orientacion
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
 	}
-	readkey();
+	if(modo)readkey();
 
 }
 
-void cmdGiraIzquierda(int columna,int fila,int valor, int oculta, int *orientacion){
+void cmdGiraIzquierda(int columna,int fila,int valor, int oculta, int *orientacion,int modo){
 
 	if(oculta==0){
 		borra_tortuga(columna,fila);
@@ -115,7 +115,7 @@ void cmdGiraIzquierda(int columna,int fila,int valor, int oculta, int *orientaci
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
 	}
-	readkey();
+	if(modo)readkey();
 }
 
 void cmdBajaLapiz(int *lapiz){
@@ -126,21 +126,21 @@ void cmdSubeLapiz(int *lapiz){
 	*lapiz=0;
 }
 
-void cmdMuestraTortuga(int columna, int fila, int orientacion, int *oculta){
+void cmdMuestraTortuga(int columna, int fila, int orientacion, int *oculta,int modo){
 
 	pon_tortuga(columna,fila,orientacion);
-	readkey();	
+	if(modo)readkey();	
 	*oculta=0;
 }
 
-void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta){
+void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta,int modo){
 
 	borra_tortuga(columna,fila);
-	readkey();
+	if(modo)readkey();
 	*oculta=1;
 }
 
-void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B){
+void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B,int modo){
 	int i=0;
 	int j=0;
 
@@ -150,16 +150,16 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 	while(i<num_cmd && j<veces){
 		switch(cmd[i].comando){
 			case 0: 
-					cmdAvanza(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B);
+					cmdAvanza(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B,modo);
 					break;
 			case 1: 
-					cmdRetrocede(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B);
+					cmdRetrocede(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B,modo);
 					break;
 			case 2:
-					cmdGiraDerecha(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion);
+					cmdGiraDerecha(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion,modo);
 					break;
 			case 3:
-					cmdGiraIzquierda(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion);
+					cmdGiraIzquierda(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion,modo);
 					break;
 			case 4:
 					cmdBajaLapiz(lapiz);
@@ -168,13 +168,13 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 					cmdSubeLapiz(lapiz);
 					break;
 			case 6:
-					cmdMuestraTortuga(*columna,*fila,*orientacion, oculta);
+					cmdMuestraTortuga(*columna,*fila,*orientacion, oculta,modo);
 					break;
 			case 7:
-					cmdOcultaTortuga(*columna,*fila,*orientacion, oculta);
+					cmdOcultaTortuga(*columna,*fila,*orientacion, oculta,modo);
 					break;
 			case 8:
-					muestra_mensaje(cmd[i].parametro.cadena);readkey();
+					muestra_mensaje(cmd[i].parametro.cadena);if(modo)readkey();
 					break;
 			default: printf("Comando no reconocido");break;
 
@@ -202,8 +202,8 @@ void reinicilizaCmd(instruccion cmd[],int *contador_cmd){
 
 }
 
-void cmdBorrarPantalla(){
+void cmdBorrarPantalla(int modo){
 	borra_pantalla();
     pon_tortuga(400,300,0);
-	readkey();
+	if(modo)readkey();
 }
