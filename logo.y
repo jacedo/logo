@@ -64,12 +64,9 @@ entrada:linea
 		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
 linea: 	'\n' 								{numlinea++;}
-    	|comandos
+    	|comando
     	|error '\n' 						{numlinea++;yyerrok;}
 	 	;
-comandos:comando 
-		|comandos comando
-		;
 
 expr: 	N_ENTERO							{$$ = $1;}
 		|N_REAL			      				{$$ = $1;}
