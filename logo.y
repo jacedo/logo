@@ -12,6 +12,7 @@
 extern int yylex();
 
 simbolo sim[TAM];
+tipoValor valor;
 
 int numlinea = 1;
 int error = 0;
@@ -50,7 +51,7 @@ void yyerror(const char *);
 
 %token SALIR
 %token AV RE GD GI BL SL MT OT ES BP PC
-%token REPITE ESCRIBE SI
+%token REPITE ESCRIBE SI HAZ
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
 %token <c_cadena> CADENA
@@ -237,6 +238,13 @@ comando: AV expr 	{
 						}
    						muestra_mensaje($2);readkey();}
    					}
+
+   	//no lo reconoce con la " delante. he probado '"' y '\"' y nada...
+	
+   							 
+   	|HAZ '*' IDENT dato     {printf("Inserto simbolo %s con valor %s\n",$3,$4);
+   							//TODO averiguar tipo e insertar
+   							}				
    	;
 
 
@@ -289,7 +297,8 @@ int main( int argc, char **argv )
 	printf("\033[22m \033[30m");
 	
 
-	
+	mostrarSimbolos(sim);
+
  	return 0;
 }
 

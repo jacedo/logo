@@ -16,3 +16,4 @@ void inicializarSimbolos(simbolo sim[]);
 void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor);
 simbolo obtenerSimbolo(simbolo sim[],char _nombre[]);
 int existeSimbolo(simbolo sim[],char _nombre[]);
+void mostrarSimbolos(simbolo sim[]);

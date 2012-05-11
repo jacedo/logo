@@ -55,6 +55,7 @@ cadena		["][^"]*["]
 [bB][pP]												{return BP;}
 [pP][oO][nN][cC][lL]								{return PC;}
 [sS][iI]											{return SI;}
+[Hh][Aa][Zz]									{return HAZ;}
 [sS][aA][lL][iI][rR]			{	strcpy(yylval.c_cadena, yytext);
 								return SALIR;
 							}
