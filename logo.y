@@ -64,7 +64,7 @@ void yyerror(const char *);
 
 %%
 
-entrada:{prompt();}
+entrada:{/*prompt();*/}
 		|entrada linea
 		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;

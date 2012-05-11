@@ -95,7 +95,7 @@ void cmdGiraDerecha(int columna,int fila,int valor, int oculta, int *orientacion
 	if(oculta==0){
 		borra_tortuga(columna,fila);
 	}
-	*orientacion=(*orientacion+((int)valor/90))%4;
+	*orientacion=(*orientacion+(int)(valor/90))%4;
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
 	}
