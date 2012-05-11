@@ -64,16 +64,14 @@ void yyerror(const char *);
 
 %%
 
-entrada:{/*prompt();*/}
+entrada:{}
 		|entrada linea
 		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
-linea: 	'\n' 								{numlinea++;}
-    	|comando
+linea: 	'\n' 								{numlinea++;if(modo==0) prompt();}
+    	|comando 							
     	|error '\n' 						{numlinea++;yyerrok;}
-    	|SALIR '\n'	{
-				return(0);
-			}
+    	|SALIR '\n'							{return(0);}
 	 	;
 
 expr: 	N_ENTERO							{$$ = $1;}
@@ -265,6 +263,7 @@ int main( int argc, char **argv )
 	}else{
 
 		modo=0;
+		prompt();
 		cmdInicio(modo);
     
 	yyparse();
@@ -288,9 +287,11 @@ int main( int argc, char **argv )
 
 void yyerror( const char *s)
 {
+	
 	printf("\033[1m\033[31m\n¡ERROR sintáctico en la línea %d!\n",numlinea);
 	printf("\033[22m \033[30m");
 	error = 1;	
+	if(modo==0) prompt();
 }
 
 void prompt( void )
