@@ -68,7 +68,11 @@ cadena		["][^"]*["]
 				
 {cadena}					{strcpy(yylval.c_cadena,yytext);
 								return CADENA;
-							}					
+							}				
+
+{identificador}				{strcpy(yylval.c_cadena, yytext);
+								return IDENT;
+							}	
 							
 
 

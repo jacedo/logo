@@ -1,7 +1,7 @@
 typedef union{
-	int entero;
-	float real;
-	char cadena[100];
+	int entero; //1
+	float real; //2
+	char cadena[100]; //3
 }tipoValor;
 
 typedef struct simbolo{
@@ -10,7 +10,9 @@ typedef struct simbolo{
 	tipoValor valor;
 }simbolo;
 
-void iniciarSimbolo(simbolo s[]);
-void insertarSimbolo(simbolo s[],char n[],int t, valorTipo v);
-simbolo obtenerSimbolo(simbolo[],char n[]);
-int existeSimbolo(simbolo[],char n[]);
+#define TAM 50
+
+void inicializarSimbolos(simbolo sim[]);
+void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor);
+simbolo obtenerSimbolo(simbolo sim[],char _nombre[]);
+int existeSimbolo(simbolo sim[],char _nombre[]);

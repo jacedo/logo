@@ -7,8 +7,11 @@
 #include <string.h>
 #include "Entorno.h"
 #include "bucle.h"
+#include "simbolos.h"
 
 extern int yylex();
+
+simbolo sim[TAM];
 
 int numlinea = 1;
 int error = 0;
@@ -51,6 +54,7 @@ void yyerror(const char *);
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
 %token <c_cadena> CADENA
+%token <c_cadena> IDENT
 
 %type <c_cadena> dato
 %type <c_entero> exprlog
@@ -211,18 +215,19 @@ comando: AV expr 	{
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	
-	|SI exprlog {if(ejecutar!=0){
-						if($2==0){
-							ejecutar=0;
-						}
-					}
-				}'['entrada']'{
-					if(ejecutar==0){
-						ejecutar=2;
-					}else{
-						ejecutar=1;
-					}
-				} entrada
+   |SI exprlog {if(ejecutar!=0){
+                                                if($2==0){
+                                                        ejecutar=0;
+                                                }
+                                        }
+                                }'['entrada']'{
+                                        if(ejecutar==0){
+                                                ejecutar=2;
+                                        }else{
+                                                ejecutar=1;
+                                        }
+                                } entrada
+
 
    	|ESCRIBE dato {	if(ejecutar!=0){
    						if(bucle==1){
@@ -245,7 +250,10 @@ int main( int argc, char **argv )
      if (argc >2){
      	printf("Sintaxis incorrecta\n");
      	return(-1);
-     }    
+     }   
+
+    inicializarSimbolos(sim);
+
      if(argc == 2){
      	modo=1;
     strcpy(nombre_lgo,argv[1]);
@@ -286,8 +294,7 @@ int main( int argc, char **argv )
 }
 
 void yyerror( const char *s)
-{
-	
+{	
 	printf("\033[1m\033[31m\n¡ERROR sintáctico en la línea %d!\n",numlinea);
 	printf("\033[22m \033[30m");
 	error = 1;	

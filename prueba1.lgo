@@ -17,7 +17,7 @@ si (no 2*2=4 )| 3 < 4.5 [
 	bp
 ]
 
-si 2<4 [poncl 4][poncl 6]
+si 2<4 [poncl 4][poncl 5]
 escribe "si borrada pantalla ok"
 gd 180
 
