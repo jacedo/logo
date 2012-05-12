@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "Entorno.h"
-#include "bucle.h"
+#include "comandos.h"
 #include "simbolos.h"
 
 extern int yylex();

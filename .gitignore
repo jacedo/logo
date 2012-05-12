@@ -1,6 +1,6 @@
 *.[ao]
 *~
 lexico.c
-logo.c
-logo.h
+sintaxis.c
+sintaxis.h
 logo

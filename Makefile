@@ -1,15 +1,15 @@
 #fichero Makefile
 
-logo: logo.o lexico.o Entorno.o bucle.o simbolos.o
-	g++ -ologo -lm lexico.o logo.o Entorno.o bucle.o simbolos.o -lalleg -lX11 -lXpm -lXext -lXcursor -lpthread -lXxf86vm
+logo: sintaxis.o lexico.o Entorno.o comandos.o simbolos.o
+	g++ -ologo -lm lexico.o sintaxis.o Entorno.o comandos.o simbolos.o -lalleg -lX11 -lXpm -lXext -lXcursor -lpthread -lXxf86vm
 
-logo.o: logo.c 
-	g++ -c logo.c
+sintaxis.o: sintaxis.c 
+	g++ -c sintaxis.c
 
-bucle.o: bucle.c bucle.h
-	g++ -c bucle.c 
+comandos.o: comandos.c comandos.h
+	g++ -c comandos.c 
 
-lexico.o:lexico.c logo.h
+lexico.o:lexico.c sintaxis.h
 	g++ -c lexico.c
 
 simbolos.o: simbolos.c
@@ -18,11 +18,11 @@ simbolos.o: simbolos.c
 Entorno.o: Entorno.cpp
 	g++ -c Entorno.cpp
 
-logo.c: logo.y 
-	bison -d -ologo.c logo.y
+sintaxis.c: sintaxis.y 
+	bison -d -osintaxis.c sintaxis.y
 
 lexico.c: lexico.l
 	flex -olexico.c lexico.l
 
 clean: 
-	rm  -f  *.o lexico.c logo.h logo.c logo
+	rm  -f  *.o lexico.c sintaxis.h sintaxis.c logo

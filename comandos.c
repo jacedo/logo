@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "bucle.h"
+#include "comandos.h"
 #include "Entorno.h"
 
 

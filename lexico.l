@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "logo.h"
+#include "sintaxis.h"
 
 extern int numlinea;
 
