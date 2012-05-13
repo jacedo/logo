@@ -44,13 +44,13 @@ void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor)
 	//3 cadena
 	switch(_tipo){
 		case 1:	sim[pos].valor.entero=_valor.entero;
-				printf("Inserto %s de tipo %d con valor %d en %d", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.entero,pos);
+				printf("Inserto %s de tipo %d con valor %d en %d\n", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.entero,pos);
 				break;
 		case 2: sim[pos].valor.real=_valor.real;
-				printf("Inserto %s de tipo %d con valor %f en %d", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.real,pos);
+				printf("Inserto %s de tipo %d con valor %f en %d\n", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.real,pos);
 				break;
 		case 3: strcpy(sim[pos].valor.cadena,_valor.cadena);
-				printf("Inserto %s de tipo %d con valor %s en %d", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.cadena,pos);
+				printf("Inserto %s de tipo %d con valor %s en %d\n", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.cadena,pos);
 				break;
 	}
 

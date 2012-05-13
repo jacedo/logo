@@ -12,6 +12,7 @@
 extern int yylex();
 
 simbolo sim[TAM];
+simbolo aux;
 tipoValor valor;
 
 int numlinea = 1;
@@ -110,6 +111,20 @@ dato:expr        							{sprintf($$,"%2.8g",$1);}
 												}
 											}
 		|CADENA    							{strcpy($$,$1);}
+		//TODO falta que no reconozca : IDENT(con espacios entre medias, al igual que para con el haz " IDENT)
+		|':'IDENT							{
+												aux=obtenerSimbolo(sim,$2);
+												switch(aux.tipo){
+													case 1: sprintf($$,"%d",aux.valor.entero);
+															break;
+													case 2: sprintf($$,"%2.8g",aux.valor.real);
+															break;
+													case 3: strcpy($$,aux.valor.cadena);
+															break;
+													default: printf("La variable %s no existe\n",$2);  yyerrok;
+															break;
+												}
+											}
 		;
 
 comando: AV expr 	{
@@ -183,7 +198,7 @@ comando: AV expr 	{
    					}
    	|BP 			{
    					if(ejecutar!=0){
-   						printf("voy a llamar a la funcion de cmdBorrarPantalla");
+   						//printf("voy a llamar a la funcion de cmdBorrarPantalla\n");
    						cmdBorrarPantalla(modo);
    						fila=300;
 						columna=400;
@@ -236,7 +251,7 @@ comando: AV expr 	{
 							strcpy(cmd[contador_cmd].parametro.cadena,$2);
 							contador_cmd++;
 						}
-   						muestra_mensaje($2);readkey();}
+   						muestra_mensaje($2);if(modo!=0) readkey();}
    					}
 
    	//no lo reconoce con la " delante. he probado '"' y '\"' y nada...
@@ -262,6 +277,26 @@ int main( int argc, char **argv )
 
     inicializarSimbolos(sim);
 
+    //esto simplemente para probar si es capaz de recuperar bien los valores de las variables
+    //luego hay que quitarlo
+    //entero
+    tipoValor  valor;
+    valor.entero=56;
+    char nombre[50];
+    strcpy(nombre,"a");
+    insertarSimbolo(sim,nombre,1, valor);
+    //real
+    valor.entero=0;
+    valor.real=45.23;
+    strcpy(nombre,"b");
+    insertarSimbolo(sim,nombre,2, valor);
+    //cadena
+    valor.real=0;
+    strcpy(valor.cadena,"esto es una cadena");
+    strcpy(nombre,"c");
+    insertarSimbolo(sim,nombre,3, valor);
+    //hasta aqui
+    
      if(argc == 2){
      	modo=1;
     strcpy(nombre_lgo,argv[1]);
