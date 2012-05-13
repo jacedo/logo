@@ -119,19 +119,26 @@ dato:expr        							{sprintf($$,"%2.8g",$1);}
 		|CADENA    							{strcpy($$,$1);tipodato=3;}
 		//TODO falta que no reconozca : IDENT(con espacios entre medias, al igual que para con el haz " IDENT)
 		|':'IDENT							{
-												aux=obtenerSimbolo(sim,$2);
-												switch(aux.tipo){
-													case 1: sprintf($$,"%d",aux.valor.entero);
-															tipodato=1;
-															break;
-													case 2: sprintf($$,"%2.8g",aux.valor.real);
-															tipodato=2;
-															break;
-													case 3: strcpy($$,aux.valor.cadena);
-															tipodato=3;
-															break;
-													default: printf("La variable %s no existe\n",$2);  yyerrok;
-															break;
+												if(existeSimbolo(sim,$2)==1)
+												{
+													aux=obtenerSimbolo(sim,$2);
+													switch(aux.tipo){
+														case 1: sprintf($$,"%d",aux.valor.entero);
+																tipodato=1;
+																break;
+														case 2: sprintf($$,"%2.8g",aux.valor.real);
+																tipodato=2;
+																break;
+														case 3: strcpy($$,aux.valor.cadena);
+																tipodato=3;
+																break;
+														default: printf("La variable %s no tiene valor\n",$2);  yyerrok;
+																break;
+													}
+												}
+												else
+												{
+													printf("La variable %s no tiene valor\n", $2);
 												}
 											}
 		;

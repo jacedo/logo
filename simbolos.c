@@ -89,6 +89,8 @@ simbolo obtenerSimbolo(simbolo sim[],char _nombre[]){
 		if(strcmp(sim[i].nombre,_nombre)==0) return sim[i];
 	}
 }
+
+
 int existeSimbolo(simbolo sim[],char _nombre[]){
 	int i=0;
 	 for(i=0;i<TAM;i++){
