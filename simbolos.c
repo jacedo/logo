@@ -64,16 +64,18 @@ void mostrarSimbolos(simbolo sim[])
 {
 	int i=0;
 
+	printf("\n=================TABLA DE SIMBOLOS=============\n");
+
 	for(i=0;i<TAM;i++){
 			
-					if(sim[i].tipo==0){
-							printf("\nLa variable %s es de tipo entero y tiene el valor %.8g", sim[i].nombre, sim[i].valor.entero);
-					}
 					if(sim[i].tipo==1){
-							printf("\nLa variable %s es de tipo float y tiene el valor %.8g", sim[i].nombre, sim[i].valor.real);
+							printf("La variable %s es de tipo entero y tiene el valor %d\n", sim[i].nombre, sim[i].valor.entero);
 					}
 					if(sim[i].tipo==2){
-							printf("\nLa variable %s es de tipo cadena y tiene el valor %s",	 sim[i].nombre, sim[i].valor.cadena);
+							printf("La variable %s es de tipo float y tiene el valor %.8g\n", sim[i].nombre, sim[i].valor.real);
+					}
+					if(sim[i].tipo==3){
+							printf("La variable %s es de tipo cadena y tiene el valor %s\n",	 sim[i].nombre, sim[i].valor.cadena);
 					}
 	}
 }
