@@ -17,6 +17,17 @@ si (no 2*2=4 )| 3 < 4.5 [
 	bp
 ]
 
+
+#prueba de variables
+haz *myvar 356
+es :myvar
+haz *myvar 3.14
+es :myvar
+haz *myvar "Hola Mundo"
+es :myvar
+
+
+
 si 2<4 [poncl 4][poncl 5]
 escribe "si borrada pantalla ok"
 gd 180

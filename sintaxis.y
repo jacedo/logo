@@ -15,6 +15,10 @@ simbolo sim[TAM];
 simbolo aux;
 tipoValor valor;
 
+//variable para saber el tipo de la variable $$ en dato:
+//1-entero;2-real;3-cadena;4-exprlog
+int tipodato;
+
 int numlinea = 1;
 int error = 0;
 int fila=300;
@@ -80,8 +84,8 @@ linea: 	'\n' 								{numlinea++;if(modo==0) prompt();}
     	|SALIR '\n'							{return(0);}
 	 	;
 
-expr: 	N_ENTERO							{$$ = $1;}
-		|N_REAL			      				{$$ = $1;}
+expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
+		|N_REAL			      				{$$ = $1;tipodato=2;}
        	|'-' expr  %prec MENOSUNARIO  		{$$ = - $2;}
        	|expr '+' expr                		{$$ = $1 + $3;}
        	|expr '-' expr                		{$$ = $1 - $3;}
@@ -103,23 +107,28 @@ exprlog:'(' exprlog ')' 		  			{ $$ = $2; }
 	;
 
 dato:expr        							{sprintf($$,"%2.8g",$1);}
-		|exprlog							{	if($1==0)
+		|exprlog							{	
+												tipodato=4;
+												if($1==0)
 												{
 													strcpy($$,"falso");
 												}else{
 													strcpy($$,"cierto");	
 												}
 											}
-		|CADENA    							{strcpy($$,$1);}
+		|CADENA    							{strcpy($$,$1);tipodato=3;}
 		//TODO falta que no reconozca : IDENT(con espacios entre medias, al igual que para con el haz " IDENT)
 		|':'IDENT							{
 												aux=obtenerSimbolo(sim,$2);
 												switch(aux.tipo){
 													case 1: sprintf($$,"%d",aux.valor.entero);
+															tipodato=1;
 															break;
 													case 2: sprintf($$,"%2.8g",aux.valor.real);
+															tipodato=2;
 															break;
 													case 3: strcpy($$,aux.valor.cadena);
+															tipodato=3;
 															break;
 													default: printf("La variable %s no existe\n",$2);  yyerrok;
 															break;
@@ -258,7 +267,22 @@ comando: AV expr 	{
 	
    							 
    	|HAZ '*' IDENT dato     {printf("Inserto simbolo %s con valor %s\n",$3,$4);
-   							//TODO averiguar tipo e insertar
+   							tipoValor valor;
+   							char nombre[100];
+   							switch(tipodato){
+   								case 1: valor.entero=atoi($4);
+   										strcpy(nombre,$3);
+   										insertarSimbolo( sim,$3,1, valor);
+   										break;	
+   								case 2: valor.real=atof($4);
+   										strcpy(nombre,$3);
+   										insertarSimbolo( sim,$3,2, valor);
+   										break;	
+   								case 3: strcpy(valor.cadena,$4);
+   										strcpy(nombre,$3);
+   										insertarSimbolo( sim,$3,3, valor);
+   										break;	
+   							}
    							}				
    	;
 
