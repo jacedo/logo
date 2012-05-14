@@ -61,7 +61,8 @@ void yyerror(const char *);
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
 %token <c_cadena> CADENA
-%token <c_cadena> IDENT
+%token <c_cadena> ASIG_IDENT
+%token <c_cadena> RECUP_IDENT
 
 %type <c_cadena> dato
 %type <c_entero> exprlog
@@ -119,11 +120,11 @@ dato:expr        							{sprintf($$,"%2.8g",$1);}
 												}
 											}
 		|CADENA    							{strcpy($$,$1);tipodato=3;}
-		//TODO falta que no reconozca : IDENT(con espacios entre medias, al igual que para con el haz " IDENT)
-		|':'IDENT							{
-												if(existeSimbolo(sim,$2)==1)
+		|RECUP_IDENT							{
+
+												if(existeSimbolo(sim,$1)==1)
 												{
-													aux=obtenerSimbolo(sim,$2);
+													aux=obtenerSimbolo(sim,$1);
 													switch(aux.tipo){
 														case 1: sprintf($$,"%d",aux.valor.entero);
 																tipodato=1;
@@ -134,13 +135,13 @@ dato:expr        							{sprintf($$,"%2.8g",$1);}
 														case 3: strcpy($$,aux.valor.cadena);
 																tipodato=3;
 																break;
-														default: printf("La variable %s no tiene valor\n",$2);  yyerrok;
+														default: printf("La variable %s no tiene valor\n",$1);  yyerrok;
 																break;
 													}
 												}
 												else
 												{
-													printf("La variable %s no tiene valor\n", $2);
+													printf("La variable %s no tiene valor\n", $1);
 												}
 											}
 		;
@@ -271,25 +272,22 @@ comando: AV expr 	{
 						}
    						muestra_mensaje($2);if(modo!=0) readkey();}
    					}
-
-   	//no lo reconoce con la " delante. he probado '"' y '\"' y nada...
-	
    							 
-   	|HAZ '*' IDENT dato     {printf("Inserto simbolo %s con valor %s\n",$3,$4);
+   	|HAZ ASIG_IDENT dato     {printf("Inserto simbolo %s con valor %s\n",$2,$3);
    							tipoValor valor;
    							char nombre[100];
    							switch(tipodato){
-   								case 1: valor.entero=atoi($4);
-   										strcpy(nombre,$3);
-   										insertarSimbolo( sim,$3,1, valor);
+   								case 1: valor.entero=atoi($3);
+   										strcpy(nombre,$2);
+   										insertarSimbolo( sim,$2,1, valor);
    										break;	
-   								case 2: valor.real=atof($4);
-   										strcpy(nombre,$3);
-   										insertarSimbolo( sim,$3,2, valor);
+   								case 2: valor.real=atof($3);
+   										strcpy(nombre,$2);
+   										insertarSimbolo( sim,$2,2, valor);
    										break;	
-   								case 3: strcpy(valor.cadena,$4);
-   										strcpy(nombre,$3);
-   										insertarSimbolo( sim,$3,3, valor);
+   								case 3: strcpy(valor.cadena,$3);
+   										strcpy(nombre,$2);
+   										insertarSimbolo( sim,$2,3, valor);
    										break;	
    							}
    							}				

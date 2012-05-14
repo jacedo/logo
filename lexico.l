@@ -18,8 +18,8 @@ extern int numlinea;
 digito		[0-9]	
 num_entero	{digito}+	
 num_real	{num_entero}+[.]{num_entero}*
-identificador	[a-zA-Z]+
-cadena		["][^"]*["]
+identificador	[^ ][a-zA-Z]*
+cadena		["][^"][a-zA-Z0-9]+["]
 %%
 
 
@@ -67,14 +67,33 @@ cadena		["][^"]*["]
 {num_real}					{yylval.c_real = atof(yytext);
 								return N_REAL;
 							}
+
+["]{identificador}		{
+								//Jooooooder strcpy no pone '\0' al final de yylval.c_cadena
+								memset (yylval.c_cadena,' ',strlen(yylval.c_cadena));
+								strncpy(yylval.c_cadena,yytext+1,strlen(yytext)-1);
+								yylval.c_cadena[strlen(yytext)-1]='\0';
+								//printf("Identificador con comillas %s",yylval.c_cadena);
+								memcpy (yytext,"\0",1);
+								return ASIG_IDENT;
+							}	
+
+[:]{identificador}                         {
+								//Jooooooder strcpy no pone '\0' al final de yylval.c_cadena
+								memset (yylval.c_cadena,' ',strlen(yylval.c_cadena));
+								strncpy(yylval.c_cadena,yytext+1,strlen(yytext)-1);
+								yylval.c_cadena[strlen(yytext)-1]='\0';
+								//printf("Identificador con : %s",yylval.c_cadena);
+								memcpy (yytext,"\0",1);
+								return RECUP_IDENT;
+                                                        } 
 				
 {cadena}					{strcpy(yylval.c_cadena,yytext);
+								printf("pillo cadena");
 								return CADENA;
-							}				
+							}
+	
 
-{identificador}				{strcpy(yylval.c_cadena, yytext);
-								return IDENT;
-							}	
 
 							
 
