@@ -55,7 +55,8 @@ void yyerror(const char *);
 }
 
 %token SALIR
-%token AV RE GD GI BL SL MT OT ES BP PC
+%token AV RE GD GI BL SL MT OT BP PC
+%token NO
 %token REPITE ESCRIBE SI HAZ
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
@@ -74,15 +75,18 @@ void yyerror(const char *);
 
 %%
 
-entrada:{}
+entrada:linea
 		|entrada linea
 		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
 linea: 	'\n' 								{numlinea++;if(modo==0) prompt();}
-    	|comando 							
+    	|comandos 							
     	|error '\n' 						{numlinea++;yyerrok;}
     	|SALIR '\n'							{return(0);}
 	 	;
+
+comandos:comando
+		|comandos comando
 
 expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 		|N_REAL			      				{$$ = $1;tipodato=2;}
@@ -94,14 +98,14 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 		|'(' expr ')'		      			{$$ = ( $2 );}
 	 ;
 
-exprlog:'(' exprlog ')' 		  			{ $$ = $2; }
+exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); }
 	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;}
        |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;}
        |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;}
        |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;}
        |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;}
        |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;}
-       |'n''o' exprlog		      			{ if($3) $$ = 0; else $$ = 1;}
+       |NO exprlog		      			{ if($2 == 1) $$ = 0; else $$ = 1;}
        |exprlog '&' exprlog	  				{ if($1 && $3) $$ = 1; else $$ = 0;}
        |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;}
 	;

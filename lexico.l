@@ -59,7 +59,8 @@ cadena		["][^"]*["]
 [sS][aA][lL][iI][rR]			{	strcpy(yylval.c_cadena, yytext);
 								return SALIR;
 							}
-
+[nN][oO]					{return NO;
+							 }
 {num_entero}            	{yylval.c_entero=atoi(yytext);
 								return N_ENTERO;
 							}
@@ -74,6 +75,7 @@ cadena		["][^"]*["]
 {identificador}				{strcpy(yylval.c_cadena, yytext);
 								return IDENT;
 							}	
+
 							
 
 
