@@ -75,18 +75,16 @@ void yyerror(const char *);
 
 %%
 
-entrada:linea
+entrada:{}
 		|entrada linea
 		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
 linea: 	'\n' 								{numlinea++;if(modo==0) prompt();}
-    	|comandos 							
+    	|comando							
     	|error '\n' 						{numlinea++;yyerrok;}
     	|SALIR '\n'							{return(0);}
 	 	;
 
-comandos:comando
-		|comandos comando
 
 expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 		|N_REAL			      				{$$ = $1;tipodato=2;}
