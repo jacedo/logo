@@ -2,42 +2,6 @@
 
 si 2>4[poncl 2][poncl 3]
 
-repite 2*2 [av 100 gi 90]			#no hay errores
+repite 2.3[av 100 gi 90]			#no hay errores
 
-escribe "Hola,_¿mundo?"
-
-escribe (2.3+5.7)*3.0
-si no 2*2=4 | 3 < 4.5 [
-	bp
-]
-
-escribe "si pantalla no borrada ok"
-
-si (no 2*2=4 )| 3 < 4.5 [
-	bp
-]
-
-
-#prueba de variables
-haz *myvar 356
-es :myvar
-haz *myvar 3.14
-es :myvar
-haz *myvar "Hola Mundo"
-es :myvar
-
-
-
-si 2<4 [poncl 4][poncl 5]
-escribe "si borrada pantalla ok"
-gd 180
-
-re -150
-
-poncl 10
-
-gi 90
-
-re -100
-
-escribe "esto_se_acabo"
+repite 3[av 100 gi 90]			#no hay errores
