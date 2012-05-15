@@ -244,7 +244,8 @@ comando: AV expr 	{
 
    					}
 
-	|REPITE expr'[' {bucle=1;} entrada ']' {bucle=0;
+	|REPITE expr'[' {if(tipodato==2){yyerrok;printf("\033[1m\033[31m\n%2.8g no es un numero entero!\n",$2);
+	printf("\033[22m \033[30m");}else{ bucle=1;}} entrada ']' {bucle=0;
 						
 						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo,tipodato);
 						reinicilizaCmd(cmd,&contador_cmd);}

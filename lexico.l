@@ -18,8 +18,8 @@ extern int numlinea;
 digito		[0-9]	
 num_entero	{digito}+	
 num_real	{num_entero}+[.]{num_entero}*
-identificador	[^ ][a-zA-Z]*
-cadena		["][^"][a-zA-Z0-9]+["]
+identificador	[a-zA-Z]+
+cadena		["][^"][,.?¿!¡*A-Za-z ]+[^ ]["]
 %%
 
 
@@ -89,7 +89,7 @@ cadena		["][^"][a-zA-Z0-9]+["]
                                                         } 
 				
 {cadena}					{strcpy(yylval.c_cadena,yytext);
-								
+								//printf("pillo cadena");
 								return CADENA;
 							}
 	
