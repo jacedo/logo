@@ -89,7 +89,7 @@ cadena		["][^"][a-zA-Z0-9]+["]
                                                         } 
 				
 {cadena}					{strcpy(yylval.c_cadena,yytext);
-								printf("pillo cadena");
+								
 								return CADENA;
 							}
 	

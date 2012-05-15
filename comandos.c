@@ -1,9 +1,5 @@
-//Hector Molano Macias
-
-#include <stdio.h>
-#include <string.h>
 #include "comandos.h"
-#include "Entorno.h"
+
 
 
 void cmdInicio(int modo){
@@ -140,7 +136,27 @@ void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta,int mo
 	*oculta=1;
 }
 
-void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B,int modo){
+void cmdHaz(char par1[],char par2[], int tipodato){
+	printf("Inserto simbolo %s con valor %s\n",par1,par2);
+   							tipoValor valor;
+   							char nombre[100];
+   							switch(tipodato){
+   								case 1: valor.entero=atoi(par2);
+   										strcpy(nombre,par1);
+   										insertarSimbolo( sim,par1,1, valor);
+   										break;	
+   								case 2: valor.real=atof(par2);
+   										strcpy(nombre,par1);
+   										insertarSimbolo( sim,par1,2, valor);
+   										break;	
+   								case 3: strcpy(valor.cadena,par2);
+   										strcpy(nombre,par1);
+   										insertarSimbolo( sim,par1,3, valor);
+   										break;	
+   								}
+}
+
+void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B,int modo, int tipodato){
 	int i=0;
 	int j=0;
 
@@ -150,16 +166,16 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 	while(i<num_cmd && j<veces){
 		switch(cmd[i].comando){
 			case 0: 
-					cmdAvanza(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B,modo);
+					cmdAvanza(columna,fila,cmd[i].parametro1.numero,*lapiz,*oculta,*orientacion,R,G,B,modo);
 					break;
 			case 1: 
-					cmdRetrocede(columna,fila,cmd[i].parametro.numero,*lapiz,*oculta,*orientacion,R,G,B,modo);
+					cmdRetrocede(columna,fila,cmd[i].parametro1.numero,*lapiz,*oculta,*orientacion,R,G,B,modo);
 					break;
 			case 2:
-					cmdGiraDerecha(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion,modo);
+					cmdGiraDerecha(*columna,*fila,cmd[i].parametro1.numero,*oculta, orientacion,modo);
 					break;
 			case 3:
-					cmdGiraIzquierda(*columna,*fila,cmd[i].parametro.numero,*oculta, orientacion,modo);
+					cmdGiraIzquierda(*columna,*fila,cmd[i].parametro1.numero,*oculta, orientacion,modo);
 					break;
 			case 4:
 					cmdBajaLapiz(lapiz);
@@ -174,7 +190,10 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 					cmdOcultaTortuga(*columna,*fila,*orientacion, oculta,modo);
 					break;
 			case 8:
-					muestra_mensaje(cmd[i].parametro.cadena);if(modo)readkey();
+					muestra_mensaje(cmd[i].parametro1.cadena);if(modo)readkey();
+					break;
+			case 9:
+					cmdHaz(cmd[i].parametro1.cadena,cmd[i].parametro2.cadena,tipodato);if(modo)readkey();
 					break;
 			default: printf("Comando no reconocido");break;
 
@@ -196,8 +215,10 @@ void reinicilizaCmd(instruccion cmd[],int *contador_cmd){
 	for (int i = 0; i < MAXCMD; ++i)
 	{
 		cmd[i].comando=-1;
-		cmd[i].parametro.numero=-1;
-		strcpy(cmd[i].parametro.cadena,"");
+		cmd[i].parametro1.numero=-1;
+		cmd[i].parametro2.numero=-1;
+		strcpy(cmd[i].parametro1.cadena,"");
+		strcpy(cmd[i].parametro2.cadena,"");
 	}
 
 }

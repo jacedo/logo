@@ -6,12 +6,12 @@
 #include <stdio.h>
 #include <string.h>
 #include "Entorno.h"
-#include "comandos.h"
 #include "simbolos.h"
+#include "comandos.h"
+
 
 extern int yylex();
 
-simbolo sim[TAM];
 simbolo aux;
 tipoValor valor;
 
@@ -150,7 +150,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=0;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
@@ -159,7 +159,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=1;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
@@ -168,7 +168,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=2;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion,modo);}
@@ -177,7 +177,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=3;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion,modo);}
@@ -246,7 +246,7 @@ comando: AV expr 	{
 
 	|REPITE expr'[' {bucle=1;} entrada ']' {bucle=0;
 						
-						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo);
+						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo,tipodato);
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	
@@ -267,13 +267,21 @@ comando: AV expr 	{
    	|ESCRIBE dato {	if(ejecutar!=0){
    						if(bucle==1){
 							cmd[contador_cmd].comando=8;
-							strcpy(cmd[contador_cmd].parametro.cadena,$2);
+							strcpy(cmd[contador_cmd].parametro1.cadena,$2);
 							contador_cmd++;
 						}
    						muestra_mensaje($2);if(modo!=0) readkey();}
    					}
    							 
-   	|HAZ ASIG_IDENT dato     {printf("Inserto simbolo %s con valor %s\n",$2,$3);
+   	|HAZ ASIG_IDENT dato     {
+   								if(bucle==1){
+   									cmd[contador_cmd].comando=9;
+							strcpy(cmd[contador_cmd].parametro1.cadena,$2);
+							strcpy(cmd[contador_cmd].parametro2.cadena,$3);
+							contador_cmd++;
+   								}
+
+   								printf("Inserto simbolo %s con valor %s\n",$2,$3);
    							tipoValor valor;
    							char nombre[100];
    							switch(tipodato){

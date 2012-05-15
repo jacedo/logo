@@ -1,3 +1,11 @@
+#ifndef __simbolos_h
+#define __simbolos_h
+
+
+#include <stdio.h>
+#include <string.h>
+
+
 typedef union{
 	int entero; //1
 	float real; //2
@@ -12,8 +20,13 @@ typedef struct simbolo{
 
 #define TAM 50
 
+simbolo sim[TAM];
+
+
 void inicializarSimbolos(simbolo sim[]);
 void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor);
 simbolo obtenerSimbolo(simbolo sim[],char _nombre[]);
 int existeSimbolo(simbolo sim[],char _nombre[]);
 void mostrarSimbolos(simbolo sim[]);
+
+#endif
