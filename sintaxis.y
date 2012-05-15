@@ -5,12 +5,15 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "Entorno.h"
 #include "simbolos.h"
+#include "Entorno.h"
+
 #include "comandos.h"
 
 
 extern int yylex();
+
+ simbolo sim[TAM];
 
 simbolo aux;
 tipoValor valor;
@@ -247,7 +250,7 @@ comando: AV expr 	{
 	|REPITE expr'[' {if(tipodato==2){yyerrok;printf("\033[1m\033[31m\n%2.8g no es un numero entero!\n",$2);
 	printf("\033[22m \033[30m");}else{ bucle=1;}} entrada ']' {bucle=0;
 						
-						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo,tipodato);
+						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo,tipodato,sim);
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	

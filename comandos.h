@@ -31,9 +31,9 @@ void cmdMuestraTortuga(int columna, int fila, int orientacion, int *oculta, int 
 void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta,int modo);
 void cmdInicio(int modo);
 void cmdFin();
-void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B,int modo, int tipodato);
+void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B,int modo, int tipodato,simbolo sim[]);
 void reinicilizaCmd(instruccion cmd[],int *contador_cmd);
 void cmdBorrarPantalla(int modo);
-void cmdHaz(char par1[],char par2[], int tipodato);
+void cmdHaz(char par1[],char par2[], int tipodato,simbolo sim[]);
 
 #endif

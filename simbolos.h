@@ -20,7 +20,7 @@ typedef struct simbolo{
 
 #define TAM 50
 
-simbolo sim[TAM];
+
 
 
 void inicializarSimbolos(simbolo sim[]);

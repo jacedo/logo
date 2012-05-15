@@ -136,7 +136,7 @@ void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta,int mo
 	*oculta=1;
 }
 
-void cmdHaz(char par1[],char par2[], int tipodato){
+void cmdHaz(char par1[],char par2[], int tipodato,simbolo sim[]){
 	printf("Inserto simbolo %s con valor %s\n",par1,par2);
    							tipoValor valor;
    							char nombre[100];
@@ -156,7 +156,7 @@ void cmdHaz(char par1[],char par2[], int tipodato){
    								}
 }
 
-void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B,int modo, int tipodato){
+void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fila, int *lapiz, int *oculta, int *orientacion,int R, int G, int B,int modo, int tipodato,simbolo sim[]){
 	int i=0;
 	int j=0;
 
@@ -193,7 +193,7 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 					muestra_mensaje(cmd[i].parametro1.cadena);if(modo)readkey();
 					break;
 			case 9:
-					cmdHaz(cmd[i].parametro1.cadena,cmd[i].parametro2.cadena,tipodato);if(modo)readkey();
+					cmdHaz(cmd[i].parametro1.cadena,cmd[i].parametro2.cadena,tipodato,sim);if(modo)readkey();
 					break;
 			default: printf("Comando no reconocido");break;
 
