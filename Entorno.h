@@ -9,8 +9,10 @@
 #ifndef __entorno_h
 #define __entorno_h
 
-
+#include <stdio.h>
 #include <allegro.h>
+#include <string.h>
+#include "simbolos.h"
 // Máximo tamaño de un mensaje a imprimir en el entorno
 const int MAX_MENSAJE   = 50;
 

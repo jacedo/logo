@@ -5,3 +5,15 @@ si 2>4[poncl 2][poncl 3]
 repite 2.3[av 100 gi 90]			#no hay errores
 
 repite 3[av 100 gi 90]			#no hay errores
+
+haz "myvar 123
+
+
+#prueba de variables en bucles
+repite 4[
+	es :myvar
+	haz "myvar :a
+	haz "a 999
+	es :myvar
+	es :a
+]

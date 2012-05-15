@@ -17,6 +17,8 @@ extern int yylex();
 
 simbolo aux;
 tipoValor valor;
+int esdatovar;
+char nombrevar[100];
 
 //variable para saber el tipo de la variable $$ en dato:
 //1-entero;2-real;3-cadena;4-exprlog
@@ -112,8 +114,9 @@ exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); }
        |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;}
 	;
 
-dato:expr        							{sprintf($$,"%2.8g",$1);}
+dato:expr        							{esdatovar=0;sprintf($$,"%2.8g",$1);}
 		|exprlog							{	
+												esdatovar=0;
 												tipodato=4;
 												if($1==0)
 												{
@@ -122,9 +125,11 @@ dato:expr        							{sprintf($$,"%2.8g",$1);}
 													strcpy($$,"cierto");	
 												}
 											}
-		|CADENA    							{strcpy($$,$1);tipodato=3;}
+		|CADENA    							{esdatovar=0;strcpy($$,$1);tipodato=3;}
 		|RECUP_IDENT							{
-
+												esdatovar=1;
+												memset(nombrevar,0x00,strlen(nombrevar));
+												strcpy(nombrevar,$1);
 												if(existeSimbolo(sim,$1)==1)
 												{
 													aux=obtenerSimbolo(sim,$1);
@@ -271,7 +276,14 @@ comando: AV expr 	{
    	|ESCRIBE dato {	if(ejecutar!=0){
    						if(bucle==1){
 							cmd[contador_cmd].comando=8;
+							if(esdatovar==1){
+								strcpy(cmd[contador_cmd].parametro1.cadena,nombrevar);
+								cmd[contador_cmd].parametro3.numero=1;
+							}
+							else
+							{
 							strcpy(cmd[contador_cmd].parametro1.cadena,$2);
+						}
 							contador_cmd++;
 						}
    						muestra_mensaje($2);if(modo!=0) readkey();}
@@ -280,8 +292,14 @@ comando: AV expr 	{
    	|HAZ ASIG_IDENT dato     {
    								if(bucle==1){
    									cmd[contador_cmd].comando=9;
-							strcpy(cmd[contador_cmd].parametro1.cadena,$2);
-							strcpy(cmd[contador_cmd].parametro2.cadena,$3);
+									strcpy(cmd[contador_cmd].parametro1.cadena,$2);
+									if(esdatovar==1){	
+										strcpy(cmd[contador_cmd].parametro2.cadena,nombrevar);
+										cmd[contador_cmd].parametro3.numero=1;
+									}else{
+										strcpy(cmd[contador_cmd].parametro2.cadena,$3);	
+									}
+							
 							contador_cmd++;
    								}
 

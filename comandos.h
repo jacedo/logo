@@ -19,6 +19,7 @@ typedef struct {
 	int  comando;
 	param parametro1;
 	param parametro2;
+	param parametro3;
 }instruccion;
 
 void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orientacion,int R, int G, int B,int modo);

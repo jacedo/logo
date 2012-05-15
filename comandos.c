@@ -136,22 +136,74 @@ void cmdOcultaTortuga(int columna, int fila, int orientacion, int *oculta,int mo
 	*oculta=1;
 }
 
-void cmdHaz(char par1[],char par2[], int tipodato,simbolo sim[]){
+void cmdHaz(char par1[],char par2[],int esvar, int tipodato,simbolo sim[]){
 	printf("Inserto simbolo %s con valor %s\n",par1,par2);
+							simbolo aux;
    							tipoValor valor;
    							char nombre[100];
+
    							switch(tipodato){
-   								case 1: valor.entero=atoi(par2);
+   								case 1: 
+   										//TODO aqui ver si esvar es 1, entonces obtener el simbolo
+   										//y si no lo que estaba puesto antes
    										strcpy(nombre,par1);
-   										insertarSimbolo( sim,par1,1, valor);
+   										if(esvar==1){
+   											if(existeSimbolo(sim,par2)==1)
+											{
+													aux=obtenerSimbolo(sim,par2);
+													valor.entero=aux.valor.entero;
+													insertarSimbolo( sim,par1,1, valor);
+											}
+											else
+											{
+												printf("La variable %s no tiene valor\n",par2);
+											}
+   										}
+   										else
+   										{
+   											valor.entero=atoi(par2);
+	   										insertarSimbolo( sim,par1,1, valor);
+   										}
+   										
    										break;	
-   								case 2: valor.real=atof(par2);
-   										strcpy(nombre,par1);
-   										insertarSimbolo( sim,par1,2, valor);
+   								case 2: strcpy(nombre,par1);
+   										if(esvar==1){
+   											if(existeSimbolo(sim,par2)==1)
+											{
+													aux=obtenerSimbolo(sim,par2);
+													valor.real=aux.valor.real;
+													insertarSimbolo( sim,par1,2, valor);
+											}
+											else
+											{
+												printf("La variable %s no tiene valor\n",par2);
+											}
+   										}
+   										else
+   										{
+   											valor.entero=atof(par2);
+	   										insertarSimbolo( sim,par1,2, valor);
+   										}
    										break;	
-   								case 3: strcpy(valor.cadena,par2);
+   								case 3: 
    										strcpy(nombre,par1);
-   										insertarSimbolo( sim,par1,3, valor);
+   										if(esvar==1){
+   											if(existeSimbolo(sim,par2)==1)
+											{
+													aux=obtenerSimbolo(sim,par2);
+													strcpy(valor.cadena,aux.valor.cadena);
+													insertarSimbolo( sim,par1,3, valor);
+											}
+											else
+											{
+												printf("La variable %s no tiene valor\n",par2);
+											}
+   										}
+   										else
+   										{
+   											strcpy(valor.cadena,par2);
+	   										insertarSimbolo( sim,par1,3, valor);
+   										}
    										break;	
    								}
 }
@@ -190,10 +242,37 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 					cmdOcultaTortuga(*columna,*fila,*orientacion, oculta,modo);
 					break;
 			case 8:
-					muestra_mensaje(cmd[i].parametro1.cadena);if(modo)readkey();
+						simbolo aux;
+						char cad[100];
+
+					if(cmd[i].parametro3.numero==1)
+					{
+						if(existeSimbolo(sim,cmd[i].parametro1.cadena)==1)
+						{
+							aux=obtenerSimbolo(sim,cmd[i].parametro1.cadena);
+							switch(aux.tipo){
+								case 1: sprintf(cad,"%d",aux.valor.entero);
+										tipodato=1;
+										break;
+								case 2: sprintf(cad,"%2.8g",aux.valor.real);
+										tipodato=2;
+										break;
+								case 3: strcpy(cad,aux.valor.cadena);
+										tipodato=3;
+										break;
+								default: printf("La variable %s no tiene valor\n",cad); 
+										break;
+							}
+						}
+						else
+						{
+							printf("La variable %s no tiene valor\n", cad);
+						}
+					}
+					muestra_mensaje(cad);if(modo)readkey();
 					break;
 			case 9:
-					cmdHaz(cmd[i].parametro1.cadena,cmd[i].parametro2.cadena,tipodato,sim);if(modo)readkey();
+					cmdHaz(cmd[i].parametro1.cadena,cmd[i].parametro2.cadena,(int)cmd[i].parametro3.numero,tipodato,sim);if(modo)readkey();
 					break;
 			default: printf("Comando no reconocido");break;
 
@@ -219,6 +298,8 @@ void reinicilizaCmd(instruccion cmd[],int *contador_cmd){
 		cmd[i].parametro2.numero=-1;
 		strcpy(cmd[i].parametro1.cadena,"");
 		strcpy(cmd[i].parametro2.cadena,"");
+		cmd[i].parametro3.numero=-1;
+		strcpy(cmd[i].parametro3.cadena,"");
 	}
 
 }
