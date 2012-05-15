@@ -5,15 +5,20 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "Entorno.h"
-#include "comandos.h"
 #include "simbolos.h"
+#include "Entorno.h"
+
+#include "comandos.h"
+
 
 extern int yylex();
 
-simbolo sim[TAM];
+ simbolo sim[TAM];
+
 simbolo aux;
 tipoValor valor;
+int esdatovar;
+char nombrevar[100];
 
 //variable para saber el tipo de la variable $$ en dato:
 //1-entero;2-real;3-cadena;4-exprlog
@@ -109,8 +114,9 @@ exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); }
        |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;}
 	;
 
-dato:expr        							{sprintf($$,"%2.8g",$1);}
+dato:expr        							{esdatovar=0;sprintf($$,"%2.8g",$1);}
 		|exprlog							{	
+												esdatovar=0;
 												tipodato=4;
 												if($1==0)
 												{
@@ -119,9 +125,11 @@ dato:expr        							{sprintf($$,"%2.8g",$1);}
 													strcpy($$,"cierto");	
 												}
 											}
-		|CADENA    							{strcpy($$,$1);tipodato=3;}
+		|CADENA    							{esdatovar=0;strcpy($$,$1);tipodato=3;}
 		|RECUP_IDENT							{
-
+												esdatovar=1;
+												memset(nombrevar,0x00,strlen(nombrevar));
+												strcpy(nombrevar,$1);
 												if(existeSimbolo(sim,$1)==1)
 												{
 													aux=obtenerSimbolo(sim,$1);
@@ -150,7 +158,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=0;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
@@ -159,7 +167,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=1;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
@@ -168,7 +176,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=2;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion,modo);}
@@ -177,7 +185,7 @@ comando: AV expr 	{
 					if(ejecutar!=0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=3;
-							cmd[contador_cmd].parametro.numero=$2;
+							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion,modo);}
@@ -247,7 +255,7 @@ comando: AV expr 	{
 	|REPITE expr'[' {if(tipodato==2){ejecutar=0;error=1;yyerrok;printf("\033[1m\033[31m\n%2.8g no es un numero entero!\n",$2);
 	printf("\033[22m \033[30m");}else{ bucle=1;}} entrada ']' {ejecutar=1;bucle=0;
 						
-						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo);
+						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo,tipodato,sim);
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	
@@ -268,13 +276,34 @@ comando: AV expr 	{
    	|ESCRIBE dato {	if(ejecutar!=0){
    						if(bucle==1){
 							cmd[contador_cmd].comando=8;
-							strcpy(cmd[contador_cmd].parametro.cadena,$2);
+							if(esdatovar==1){
+								strcpy(cmd[contador_cmd].parametro1.cadena,nombrevar);
+								cmd[contador_cmd].parametro3.numero=1;
+							}
+							else
+							{
+							strcpy(cmd[contador_cmd].parametro1.cadena,$2);
+						}
 							contador_cmd++;
 						}
    						muestra_mensaje($2);if(modo!=0) readkey();}
    					}
    							 
-   	|HAZ ASIG_IDENT dato     {printf("Inserto simbolo %s con valor %s\n",$2,$3);
+   	|HAZ ASIG_IDENT dato     {
+   								if(bucle==1){
+   									cmd[contador_cmd].comando=9;
+									strcpy(cmd[contador_cmd].parametro1.cadena,$2);
+									if(esdatovar==1){	
+										strcpy(cmd[contador_cmd].parametro2.cadena,nombrevar);
+										cmd[contador_cmd].parametro3.numero=1;
+									}else{
+										strcpy(cmd[contador_cmd].parametro2.cadena,$3);	
+									}
+							
+							contador_cmd++;
+   								}
+
+   								printf("Inserto simbolo %s con valor %s\n",$2,$3);
    							tipoValor valor;
    							char nombre[100];
    							switch(tipodato){

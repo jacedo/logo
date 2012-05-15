@@ -5,7 +5,14 @@
 // Copyright   : Your copyright notice
 // Description : Hello World in C++, Ansi-style
 //============================================================================
+
+#ifndef __entorno_h
+#define __entorno_h
+
+#include <stdio.h>
 #include <allegro.h>
+#include <string.h>
+#include "simbolos.h"
 // Máximo tamaño de un mensaje a imprimir en el entorno
 const int MAX_MENSAJE   = 50;
 
@@ -39,3 +46,4 @@ void fin();
 void borra_pantalla();
 /*borra la pantalla*/
 
+#endif

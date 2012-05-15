@@ -1,6 +1,4 @@
 #include "simbolos.h"
-#include <stdio.h>
-#include <string.h>
 
 
 void inicializarSimbolos(simbolo sim[])
