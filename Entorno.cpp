@@ -19,15 +19,18 @@ void linea(int x1,int y1,int x2,int y2, int R, int G, int B){
 }
 
 void pon_tortuga(int x1,int y1,int orientacion){
+	
+
 	switch (orientacion){
 	case 0: draw_sprite(buffer2, im_tortuga, 0,0);
 			break;
-	case 1: rotate_sprite(buffer2,im_tortuga,0,0,itofix(64));
-			break;
-	case 2: rotate_sprite(buffer2,im_tortuga,0,0,itofix(128));
-			break;
-	case 3: rotate_sprite(buffer2,im_tortuga,0,0,itofix(192));
-			break;
+	//case 1: rotate_sprite(buffer2,im_tortuga,0,0,itofix(64));
+	//		break;
+	//case 2: rotate_sprite(buffer2,im_tortuga,0,0,itofix(128));
+	//		break;
+	//case 3: rotate_sprite(buffer2,im_tortuga,0,0,itofix(192));
+	//		break;
+	default:rotate_sprite(buffer2,im_tortuga,0,0,itofix(orientacion));break;
 	}
 
 		  blit(buffer2, screen, 0,0,x1,y1,64,70);

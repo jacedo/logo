@@ -44,6 +44,7 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 							}
 							*columna=*columna-(int)valor;
 							break;//oeste
+					default: break;
 				};
 					
 				
@@ -95,7 +96,14 @@ void cmdGiraDerecha(int columna,int fila,int valor, int oculta, int *orientacion
 	if(oculta==0){
 		borra_tortuga(columna,fila);
 	}
-	*orientacion=(*orientacion+(int)(valor/90))%4;
+	
+	int aux;
+	aux=(valor*256)/360;
+	*orientacion=(*orientacion+aux);
+	while(*orientacion>256){
+		*orientacion=*orientacion-256;
+	}
+
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
 	}
@@ -108,9 +116,11 @@ void cmdGiraIzquierda(int columna,int fila,int valor, int oculta, int *orientaci
 	if(oculta==0){
 		borra_tortuga(columna,fila);
 	}
-	*orientacion=(*orientacion-(int)(valor/90))%4;
-	if(*orientacion<0){
-		*orientacion=*orientacion+4;
+	int aux;
+	aux=(valor*256)/360;
+	*orientacion=(*orientacion-aux);
+	while(*orientacion<0){
+		*orientacion=*orientacion+256;
 	}
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
