@@ -34,7 +34,7 @@ void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor)
 	}
 
 	
-
+	normalizarNombre(_nombre);
 	strcpy(sim[pos].nombre,_nombre);
 	sim[pos].tipo=_tipo;
 	//1 entero
@@ -81,7 +81,7 @@ void mostrarSimbolos(simbolo sim[])
 simbolo obtenerSimbolo(simbolo sim[],char _nombre[]){
 	
 	int i=0;
-
+	normalizarNombre(_nombre);
 	for(i=0;i<TAM;i++){
 		if(sim[i].tipo==-1) return sim[i];			
 		if(strcmp(sim[i].nombre,_nombre)==0) return sim[i];
@@ -91,6 +91,7 @@ simbolo obtenerSimbolo(simbolo sim[],char _nombre[]){
 
 int existeSimbolo(simbolo sim[],char _nombre[]){
 	int i=0;
+	normalizarNombre(_nombre);
 	 for(i=0;i<TAM;i++){
 				
 		if(strcmp(sim[i].nombre,_nombre)==0) return 1;
@@ -99,3 +100,10 @@ int existeSimbolo(simbolo sim[],char _nombre[]){
 }
 
 
+void normalizarNombre(char nombre[100]){
+	int i;
+	for (int i = 0; i < strlen(nombre); ++i)
+	{	
+		nombre[i]=tolower(nombre[i]);
+	}
+}

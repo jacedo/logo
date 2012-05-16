@@ -3,6 +3,7 @@
 
 
 #include <stdio.h>
+#include <ctype.h>
 #include <string.h>
 
 
@@ -28,5 +29,6 @@ void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor);
 simbolo obtenerSimbolo(simbolo sim[],char _nombre[]);
 int existeSimbolo(simbolo sim[],char _nombre[]);
 void mostrarSimbolos(simbolo sim[]);
+void normalizarNombre(char nombre[100]);
 
 #endif
