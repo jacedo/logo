@@ -1,0 +1,59 @@
+para rec :alto :ancho
+     # dibuja un rectangulo de altura :alto y anchura :ancho
+   repite 2 [avanza :alto giraderecha 90 avanza :ancho giraderecha 90]
+fin
+
+para cuadrado :c
+    # dibuja una cuadrado de lado :c
+   repite 4 [avanza :c giraderecha 90]
+fin
+
+para tri :c
+     # dibuja un triangulo equilatero de lado :c
+   repite 3 [avanza :c giraderecha 120]
+fin
+
+para piernas :c
+   rec 2*:c 3*:c
+   cuadrado 2*:c
+fin
+
+para antenas :c
+   avanza 3*:c giraizquierda 90 avanza :c giraderecha 90 cuadrado 2*:c
+   subelapiz
+      retrocede 3 *:c giraderecha 90 avanza :c giraizquierda 90
+   bajalapiz
+fin
+
+para robot :c
+   borrapantalla ocultatortuga
+      # El cuerpo
+   rec 4*:c 28*:c
+      # Las piernas
+   giraderecha 90 avanza 2*:c
+   piernas :c avanza 4*:c
+   piernas :c avanza 14*:c
+   piernas :c avanza 4*:c
+   piernas :c
+      # La cola
+   subelapiz giraizquierda 90 avanza 4* :c bajalapiz
+   giraderecha 45 avanza 11*:c retrocede 11*:c giraizquierda 135
+     # el cuello y la cabeza
+   avanza 18*:c cuadrado :c
+   avanza 3*:c cuadrado :c
+   giraderecha 90 avanza :c giraizquierda 90 avanza 3*:c giraderecha 90
+   cuadrado 8* :c
+     # Orejas
+   avanza 4*:c giraizquierda 60 tri 3*:c
+   subelapiz giraderecha 150 avanza 8 *:c giraizquierda 90 bajalapiz tri 3*:c
+     # Las antenas
+   avanza 4 *:c giraizquierda 90 avanza 2*:c giraderecha 90 antenas :c
+   giraizquierda 90 avanza 4*:c giraderecha 90 antenas :c
+      # los ojos
+   subelapiz retrocede 3 *:c bajalapiz cuadrado :c
+   giraderecha 90 subelapiz avanza 3*:c bajalapiz giraizquierda 90 cuadrado :c
+     # La boca
+   subelapiz retrocede 3*:c giraizquierda 90 avanza 3*:c giraderecha 90 bajalapiz rec :c 4*:c
+fin
+
+

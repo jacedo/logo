@@ -1,0 +1,45 @@
+  haz "c 10    #c es el tamaño del robot
+   bp ocultatortuga 
+      # El cuerpo
+   repite 2 [av 4*:c gd 90 av 28*:c gd 90]
+   
+      # Las piernas
+   giraderecha 90 avanza 2*:c
+   repite 2 [av 2*:c gd 90 av 3*:c gd 90]
+   repite 4[av 2*:c gd 90]   avanza 4*:c
+   repite 2 [av 2*:c gd 90 av 3*:c gd 90]
+   repite 4[av 2*:c gd 90] avanza 14*:c
+   repite 2 [av 2*:c gd 90 av 3*:c gd 90]
+   repite 4[av 2*:c gd 90] avanza 4*:c
+   repite 2 [av 2*:c gd 90 av 3*:c gd 90]
+   repite 4[av 2*:c gd 90]   
+
+      # La cola
+   subelapiz giraizquierda 90 avanza 4* :c bajalapiz
+   giraderecha 45 avanza 11*:c retrocede 11*:c giraizquierda 135
+     
+	# el cuello y la cabeza
+   avanza 18*:c repite 4 [av :c gd 90]
+   avanza 3*:c repite 4 [av :c gd 90]
+   giraderecha 90 avanza :c giraizquierda 90 avanza 3*:c giraderecha 90
+   repite 4 [av 8*:c gd 90]
+    
+ # Orejas
+   avanza 4*:c giraizquierda 60 repite 3 [avanza 3*:c giraderecha 120]
+   subelapiz giraderecha 150 avanza 8 *:c giraizquierda 90 bajalapiz repite 3 [avanza 3*:c giraderecha 120]
+    
+ # Las antenas
+   avanza 4 *:c giraizquierda 90 avanza 2*:c giraderecha 90 
+   giraizquierda 90 avanza 4*:c giraderecha 90 
+
+      # los ojos
+   subelapiz retrocede 3 *:c bajalapiz repite 4 [av :c gd 90]
+   giraderecha 90 subelapiz avanza 3*:c bajalapiz giraizquierda 90 
+repite 4 [av :c gd 90]
+     
+# La boca
+   subelapiz retrocede 3*:c giraizquierda 90 avanza 3*:c giraderecha 90 bajalapiz 
+ repite 2 [av :c gd 90 av 4*:c gd 90]
+fin
+
+

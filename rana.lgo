@@ -1,0 +1,20 @@
+#dibuja una rana
+#el valor de c indica el tamaño de la tortuga   
+haz "c 10
+
+   borrapantalla ocultatortuga
+   avanza 2*:c     giraderecha 90   avanza 5*:c   giraizquierda 90
+   avanza 4*:c     giraizquierda 90 avanza 7 *:c  giraderecha 90
+   avanza 7*:c     giraderecha 90   avanza 21*:c giraderecha 90
+   avanza 2*:c     giraizquierda 90 avanza 2*:c   giraderecha 90
+   avanza 9*:c     giraderecha 90   avanza 2*:c   giraizquierda 90
+   avanza 2*:c     giraderecha 90   avanza 9*:c   giraderecha 90
+   avanza 2*:c     giraderecha 90   avanza 7*:c
+   retrocede 5*:c giraizquierda 90 avanza 4*:c   giraderecha 90
+   avanza 4*:c     retrocede 4*:c    giraizquierda 90
+   retrocede 2*:c giraizquierda 90 avanza 5*:c giraizquierda 90
+   avanza 4*:c     giraderecha 90   avanza 7*:c giraderecha 90
+   subelapiz        avanza 9*:c        bajalapiz
+   repite 4
+      [ avanza 2*:c giraderecha 90 ]
+
