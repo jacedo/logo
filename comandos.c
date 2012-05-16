@@ -49,20 +49,20 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 					default:if(orientacion<64)
 							{	
 								fila2=*fila-(int)(valor*sin(aux));
-								columna2=*columna+(int)valor*cos(aux);
+								columna2=*columna+(int)(valor*sin(aux));
 							}else{
 								if(orientacion<128)
 								{
 									fila2=*fila+(int)(valor*sin(aux));
-									columna2=*columna+(int)valor*cos(aux);	
+									columna2=*columna+(int)(valor*sin(aux));	
 								}else{
 									if (orientacion<192)
 									{
 										fila2=*fila+(int)(valor*sin(aux));
-										columna2=*columna-(int)valor*cos(aux);
+										columna2=*columna-(int)(valor*sin(aux));
 									}else{
 										fila2=*fila-(int)(valor*sin(aux));
-										columna2=*columna-(int)valor*cos(aux);
+										columna2=*columna-(int)(valor*sin(aux));
 									}
 								}
 							}break;
