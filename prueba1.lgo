@@ -17,3 +17,13 @@ repite 4[
 	es :myvar
 	es :a
 ]
+
+#prueba de variables
+es :a
+es :A
+es :B
+es :b
+es :C
+es :c
+es :MyVaR
+es :mYvAr
