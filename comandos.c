@@ -4,6 +4,7 @@
 #include <string.h>
 #include "comandos.h"
 #include "Entorno.h"
+#include <math.h>
 
 
 void cmdInicio(int modo){
@@ -22,32 +23,56 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
 				}
-
+				int columna2;
+				int fila2;
+				int aux=(orientacion*360)/256;
+				while(aux>90){
+					aux=aux-90;
+				}
+				aux=90-aux;
 				switch(orientacion){
-					case 0:		if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila-(int)valor,R,G,B);
-							}								
-							*fila=*fila-(int)valor;
+					case 0: 	
+							columna2=*columna;				
+							fila2=*fila-(int)valor;
 							break;//norte
-					case 1: 	if(lapiz==1){
-								linea(*columna,*fila,*columna+(int)valor,*fila,R,G,B);
-							}
-							*columna=*columna+(int)valor;
+					case 64: fila2=*fila;
+							columna2=*columna+(int)valor;
 							break;//este
-					case 2: 	if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila+(int)valor,R,G,B);
-							}
-							*fila=*fila+(int)valor;
+					case 128:
+							columna2=*columna;
+							fila2=*fila+(int)valor;
 							break;//sur
-					case 3:		if(lapiz==1){
-								linea(*columna,*fila,*columna-(int)valor,*fila,R,G,B);
-							}
-							*columna=*columna-(int)valor;
+					case 192:	
+							fila2=*fila;
+							columna2=*columna-(int)valor;
 							break;//oeste
-					default: break;
+					default:if(orientacion<64)
+							{	
+								fila2=*fila-(int)(valor*sin(aux));
+								columna2=*columna+(int)valor*cos(aux);
+							}else{
+								if(orientacion<128)
+								{
+									fila2=*fila+(int)(valor*sin(aux));
+									columna2=*columna+(int)valor*cos(aux);	
+								}else{
+									if (orientacion<192)
+									{
+										fila2=*fila+(int)(valor*sin(aux));
+										columna2=*columna-(int)valor*cos(aux);
+									}else{
+										fila2=*fila-(int)(valor*sin(aux));
+										columna2=*columna-(int)valor*cos(aux);
+									}
+								}
+							}break;
 				};
-					
 				
+				if(lapiz==1){	
+					linea(*columna,*fila,columna2,fila2,R,G,B);
+				}
+				*columna=columna2;
+				*fila=fila2;
 				
 				if(oculta==0){
 					pon_tortuga(*columna,*fila,orientacion);
@@ -61,29 +86,56 @@ void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int o
 					borra_tortuga(*columna,*fila);
 				}
 			
+				int columna2;
+				int fila2;
+				int aux=(orientacion*360)/256;
+				while(aux>90){
+					aux=aux-90;
+				}
+				aux=90-aux;
 				switch(orientacion){
-					case 0:		if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila+(int)valor,R,G,B);
-							}
-							*fila=*fila+(int)valor;
+					case 128: 	
+							columna2=*columna;				
+							fila2=*fila-(int)valor;
 							break;//norte
-					case 1: 	{
-								linea(*columna,*fila,*columna-(int)valor,*fila,R,G,B);
-							}
-							*columna=*columna-(int)valor;
+					case 192: fila2=*fila;
+							columna2=*columna+(int)valor;
 							break;//este
-					case 2: 	if(lapiz==1){
-								linea(*columna,*fila,*columna,*fila-(int)valor,R,G,B);
-							}
-							*fila=*fila-(int)valor;
+					case 0:
+							columna2=*columna;
+							fila2=*fila+(int)valor;
 							break;//sur
-					case 3:		if(lapiz==1){
-								linea(*columna,*fila,*columna+(int)valor,*fila,R,G,B);
-							}
-							*columna=*columna+(int)valor;
+					case 64:	
+							fila2=*fila;
+							columna2=*columna-(int)valor;
 							break;//oeste
+					default:if(orientacion<64)
+							{	
+								fila2=*fila-(int)(valor*sin(aux));
+								columna2=*columna+(int)valor*cos(aux);
+							}else{
+								if(orientacion<128)
+								{
+									fila2=*fila-(int)(valor*sin(aux));
+									columna2=*columna-(int)valor*cos(aux);	
+								}else{
+									if (orientacion<192)
+									{
+										fila2=*fila-(int)(valor*sin(aux));
+										columna2=*columna+(int)valor*cos(aux);
+									}else{
+										fila2=*fila+(int)(valor*sin(aux));
+										columna2=*columna-(int)valor*cos(aux);
+									}
+								}
+							}break;
 				};
-					
+				
+				if(lapiz==1){	
+					linea(*columna,*fila,columna2,fila2,R,G,B);
+				}
+				*columna=columna2;
+				*fila=fila2;	
 				
 				if(oculta==0){
 					pon_tortuga(*columna,*fila,orientacion);
@@ -100,10 +152,10 @@ void cmdGiraDerecha(int columna,int fila,int valor, int oculta, int *orientacion
 	int aux;
 	aux=(valor*256)/360;
 	*orientacion=(*orientacion+aux);
-	while(*orientacion>256){
+	while(*orientacion>=256){
 		*orientacion=*orientacion-256;
 	}
-
+	printf("orientacion: %d\n",*orientacion);
 	if(oculta==0){
 		pon_tortuga(columna,fila,*orientacion);
 	}
