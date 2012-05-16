@@ -100,6 +100,20 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
        	|expr '*' expr                		{$$ = $1 * $3;}
        	|expr '/' expr						{$$ = $1 / $3;}
 		|'(' expr ')'		      			{$$ = ( $2 );}
+		|RECUP_IDENT						{
+												if(tipodato==1)
+												{
+													$$ = (obtenerSimbolo(sim,$1)).valor.entero;
+												}else
+												{
+													if(tipodato==2)
+													{
+														$$ = (obtenerSimbolo(sim,$1)).valor.real;
+													}else{
+														yyerrok;
+													}
+												}
+											}
 	 ;
 
 exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); }
