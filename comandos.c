@@ -305,7 +305,7 @@ void ejecutarBucle(int veces,instruccion cmd[],int num_cmd,int *columna,int *fil
 			case 8:
 						simbolo aux;
 						char cad[100];
-
+					
 					if(cmd[i].parametro3.numero==1)
 					{
 						if(existeSimbolo(sim,cmd[i].parametro1.cadena)==1)

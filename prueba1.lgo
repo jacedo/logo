@@ -7,6 +7,9 @@ repite 2.3[av 100 gi 90]			#no hay errores
 repite 3[av 100 gi 90]			#no hay errores
 
 haz "myvar 123
+haz "a 12
+haz "B 2.234
+haz "c "estoescadena"
 
 
 #prueba de variables en bucles
@@ -27,3 +30,10 @@ es :C
 es :c
 es :MyVaR
 es :mYvAr
+
+#prueba de variables booleanas
+
+haz "booleana FalSo
+es :booleana
+es no :booleana   #da error pero no deberia, entra en expr y no en exprlog
+es no cIerTo

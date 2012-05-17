@@ -103,18 +103,18 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
        	|expr '*' expr                		{$$ = $1 * $3;}
        	|expr '/' expr						{$$ = $1 / $3;}
 		|'(' expr ')'		      			{$$ = ( $2 );}
-		|RECUP_IDENT						{
-												if(tipodato==1)
-												{
-													$$ = (obtenerSimbolo(sim,$1)).valor.entero;
-												}else
-												{
-													if(tipodato==2)
-													{
-														$$ = (obtenerSimbolo(sim,$1)).valor.real;
-													}else{
-														strcpy(cad,(obtenerSimbolo(sim,$1)).valor.cadena);
-													}
+		|RECUP_IDENT						{	esdatovar=1;
+												aux=obtenerSimbolo(sim,$1);
+												strcpy(nombrevar,aux.nombre);
+												switch(aux.tipo){
+													case 1: $$ = (aux.valor.entero);
+															break;
+													case 2: $$ = (aux.valor.real);
+															break;
+													case 3: strcpy(cad,(aux.valor.cadena));
+															break;
+													case 4: $$ = aux.valor.entero;
+															break;
 												}
 											}
 	 ;
@@ -129,16 +129,27 @@ exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); }
        |NO exprlog		      			{ if($2 == 1) $$ = 0; else $$ = 1;}
        |exprlog '&' exprlog	  				{ if($1 && $3) $$ = 1; else $$ = 0;}
        |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;}
+       |CIERTO 								{$$=1;}
+       |FALSO 								{$$=0;}
+       |RECUP_IDENT							{	esdatovar=1;
+       											aux=obtenerSimbolo(sim,$1);
+       											strcpy(nombrevar,aux.nombre);
+       											printf("Tipo=%d\n", aux.tipo);
+       											if(aux.tipo==4){
+       												$$ = aux.valor.entero;
+       											}
+       										}
 	;
 
 dato:expr        							{	if(tipodato==3){
+													
                                                   	strcpy($$,cad);
 												}else{
-													esdatovar=0;sprintf($$,"%2.8g",$1);
+													;sprintf($$,"%2.8g",$1);
 												}
 											}
 		|exprlog							{	
-												esdatovar=0;
+												
 												tipodato=4;
 												if($1==0)
 												{
@@ -272,8 +283,10 @@ comando: AV expr 	{
 
    	|ESCRIBE dato {	if(ejecutar!=0){
    						if(bucle==1){
+
 							cmd[contador_cmd].comando=8;
 							if(esdatovar==1){
+								printf("Imprimo en Bucle %s\n", cmd[contador_cmd].parametro1.cadena);
 								strcpy(cmd[contador_cmd].parametro1.cadena,nombrevar);
 								cmd[contador_cmd].parametro3.numero=1;
 							}
@@ -315,6 +328,18 @@ comando: AV expr 	{
    								case 3: strcpy(valor.cadena,$3);
    										strcpy(nombre,$2);
    										insertarSimbolo( sim,$2,3, valor);
+   										break;	
+   								case 4: 
+   										if(strcmp($3,"cierto")==0){
+   											valor.entero=1;
+   										}
+   										else
+   										{
+   											valor.entero=0;
+   										}
+   										//strcpy(valor.cadena,$3);
+   										strcpy(nombre,$2);
+   										insertarSimbolo( sim,$2,4, valor);
    										break;	
    							}
    							}				
