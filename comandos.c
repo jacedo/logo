@@ -30,37 +30,34 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 							columna2=*columna;				
 							fila2=*fila-(int)valor;
 							break;//norte
+					case 32: 
+							fila2=*fila-(int)(valor*sin(aux));
+							columna2=*columna+(int)(valor*sin(aux));
+							break;
 					case 64: fila2=*fila;
 							columna2=*columna+(int)valor;
 							break;//este
+					case 96: 
+							fila2=*fila+(int)(valor*sin(aux));
+							columna2=*columna+(int)(valor*sin(aux));
+							break;
 					case 128:
 							columna2=*columna;
 							fila2=*fila+(int)valor;
 							break;//sur
+					case 160:
+							fila2=*fila+(int)(valor*sin(aux));
+							columna2=*columna-(int)(valor*sin(aux));
+							break;
 					case 192:	
 							fila2=*fila;
 							columna2=*columna-(int)valor;
 							break;//oeste
-					default:if(orientacion<64)
-							{	
-								fila2=*fila-(int)(valor*sin(aux));
-								columna2=*columna+(int)(valor*sin(aux));
-							}else{
-								if(orientacion<128)
-								{
-									fila2=*fila+(int)(valor*sin(aux));
-									columna2=*columna+(int)(valor*sin(aux));	
-								}else{
-									if (orientacion<192)
-									{
-										fila2=*fila+(int)(valor*sin(aux));
-										columna2=*columna-(int)(valor*sin(aux));
-									}else{
-										fila2=*fila-(int)(valor*sin(aux));
-										columna2=*columna-(int)(valor*sin(aux));
-									}
-								}
-							}break;
+					case 224: 
+							fila2=*fila-(int)(valor*sin(aux));
+							columna2=*columna-(int)(valor*sin(aux));
+							break;
+					default:break;
 				};
 				
 				if(lapiz==1){	
@@ -90,40 +87,34 @@ void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int o
 				aux=90-aux;
 				switch(orientacion){
 					case 128: 	
-							columna2=*columna;				
-							fila2=*fila-(int)valor;
-							break;//norte
-					case 192: fila2=*fila;
-							columna2=*columna+(int)valor;
-							break;//este
+							 columna2=*columna;				
+							 fila2=*fila-(int)valor;
+							 break;//norte
+					case 192:fila2=*fila;
+							 columna2=*columna+(int)valor;
+							 break;//este
 					case 0:
-							columna2=*columna;
-							fila2=*fila+(int)valor;
-							break;//sur
+							 columna2=*columna;
+							 fila2=*fila+(int)valor;
+							 break;//sur
 					case 64:	
-							fila2=*fila;
-							columna2=*columna-(int)valor;
-							break;//oeste
-					default:if(orientacion<64)
-							{	
-								fila2=*fila-(int)(valor*sin(aux));
-								columna2=*columna+(int)valor*cos(aux);
-							}else{
-								if(orientacion<128)
-								{
-									fila2=*fila-(int)(valor*sin(aux));
-									columna2=*columna-(int)valor*cos(aux);	
-								}else{
-									if (orientacion<192)
-									{
-										fila2=*fila-(int)(valor*sin(aux));
-										columna2=*columna+(int)valor*cos(aux);
-									}else{
-										fila2=*fila+(int)(valor*sin(aux));
-										columna2=*columna-(int)valor*cos(aux);
-									}
-								}
-							}break;
+							 fila2=*fila;
+							 columna2=*columna-(int)valor;
+							 break;//oeste
+					case 32: fila2=*fila-(int)(valor*sin(aux));
+							 columna2=*columna+(int)valor*cos(aux);
+							 break;
+					case 96: fila2=*fila-(int)(valor*sin(aux));
+							 columna2=*columna-(int)valor*cos(aux); 
+							 break;
+					case 160:fila2=*fila-(int)(valor*sin(aux));
+							 columna2=*columna+(int)valor*cos(aux);
+							 break;
+					case 224:
+					 		 fila2=*fila+(int)(valor*sin(aux));
+				  			 columna2=*columna-(int)valor*cos(aux);
+							 break;
+					default: break;
 				};
 				
 				if(lapiz==1){	
