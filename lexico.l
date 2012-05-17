@@ -40,23 +40,23 @@ cadena		["][^"][,.?¿!¡*A-Za-z]+["]
 [gG][dD][ ]							{return GD;}
 [Gg][Ii][Rr][Aa][Ii][Zz][Qq][Uu][Ii][Ee][Rr][Dd][Aa][ ]		{return GI;}
 [gG][iI][ ]							{return GI;}
-[Ss][Uu][Bb][Ee][Ll][Aa][Pp][Ii][Zz][ ] 				{return SL;}
-[sS][lL][ ]							{return SL;}
-[Bb][Aa][Jj][Aa][Ll][Aa][Pp][Ii][Zz][ ] 				{return BL;}
-[bB][lL][ ]							{return BL;}
-[Mm][Uu][Ee][Ss][Tt][Rr][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa][ ] 	{return MT;}
-[mM][tT][ ]							{return MT;}
-[Oo][Cc][Uu][Ll][Tt][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa][ ] 		{return OT;}
-[oO][tT][ ]							{return OT;}
+[Ss][Uu][Bb][Ee][Ll][Aa][Pp][Ii][Zz]				{return SL;}
+[sS][lL]							{return SL;}
+[Bb][Aa][Jj][Aa][Ll][Aa][Pp][Ii][Zz] 				{return BL;}
+[bB][lL]							{return BL;}
+[Mm][Uu][Ee][Ss][Tt][Rr][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] 	{return MT;}
+[mM][tT]							{return MT;}
+[Oo][Cc][Uu][Ll][Tt][Aa][Tt][Oo][Rr][Tt][Uu][Gg][Aa] 		{return OT;}
+[oO][tT]							{return OT;}
 [rR][eE][pP][iI][tT][eE][ ]					{return REPITE;}
 [eE][sS][cC][rR][iI][bB][eE][ ]		{return ESCRIBE;}
 [eE][sS][ ]							{return ESCRIBE;}
-[bB][oO][rR][aA][rR][pP][aA][nN][tT][aA][lL][lL][aA][ ] 	{return BP;}
-[bB][pP][ ]												{return BP;}
+[bB][oO][rR][aA][rR][pP][aA][nN][tT][aA][lL][lL][aA] 	{return BP;}
+[bB][pP]												{return BP;}
 [pP][oO][nN][cC][lL][ ]								{return PC;}
 [sS][iI][ ]											{return SI;}
 [Hh][Aa][Zz][ ]									{return HAZ;}
-[sS][aA][lL][iI][rR][ ]			{	strcpy(yylval.c_cadena, yytext);
+[sS][aA][lL][iI][rR]			{	strcpy(yylval.c_cadena, yytext);
 								return SALIR;
 							}
 [nN][oO][ ]					{return NO;
