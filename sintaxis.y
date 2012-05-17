@@ -20,6 +20,8 @@ tipoValor valor;
 int esdatovar;
 char nombrevar[100];
 
+char cad[100];
+
 //variable para saber el tipo de la variable $$ en dato:
 //1-entero;2-real;3-cadena;4-exprlog
 int tipodato;
@@ -110,7 +112,7 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 													{
 														$$ = (obtenerSimbolo(sim,$1)).valor.real;
 													}else{
-														yyerrok;
+														strcpy(cad,(obtenerSimbolo(sim,$1)).valor.cadena);
 													}
 												}
 											}
@@ -128,7 +130,12 @@ exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); }
        |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;}
 	;
 
-dato:expr        							{esdatovar=0;sprintf($$,"%2.8g",$1);}
+dato:expr        							{	if(tipodato==3){
+                                                  	strcpy($$,cad);
+												}else{
+													esdatovar=0;sprintf($$,"%2.8g",$1);
+												}
+											}
 		|exprlog							{	
 												esdatovar=0;
 												tipodato=4;
@@ -140,32 +147,7 @@ dato:expr        							{esdatovar=0;sprintf($$,"%2.8g",$1);}
 												}
 											}
 		|CADENA    							{esdatovar=0;strcpy($$,$1);tipodato=3;}
-		|RECUP_IDENT							{
-												esdatovar=1;
-												memset(nombrevar,0x00,strlen(nombrevar));
-												strcpy(nombrevar,$1);
-												if(existeSimbolo(sim,$1)==1)
-												{
-													aux=obtenerSimbolo(sim,$1);
-													switch(aux.tipo){
-														case 1: sprintf($$,"%d",aux.valor.entero);
-																tipodato=1;
-																break;
-														case 2: sprintf($$,"%2.8g",aux.valor.real);
-																tipodato=2;
-																break;
-														case 3: strcpy($$,aux.valor.cadena);
-																tipodato=3;
-																break;
-														default: printf("La variable %s no tiene valor\n",$1);  yyerrok;
-																break;
-													}
-												}
-												else
-												{
-													printf("La variable %s no tiene valor\n", $1);
-												}
-											}
+		
 		;
 
 comando: AV expr 	{
@@ -374,27 +356,27 @@ int main( int argc, char **argv )
     
      if(argc == 2){
      	modo=1;
-    strcpy(nombre_lgo,argv[1]);
+ 	   strcpy(nombre_lgo,argv[1]);
 
-	yyin=fopen(nombre_lgo,"rt");
+		yyin=fopen(nombre_lgo,"rt");
 		
 
-    cmdInicio(modo);
+	    cmdInicio(modo);
     
-	yyparse();
+		yyparse();
 
-    cmdFin();
-     
-	fclose(yyin);
+	    cmdFin();
+	     
+		fclose(yyin);
 	}else{
 
 		modo=0;
 		prompt();
 		cmdInicio(modo);
     
-	yyparse();
+		yyparse();
 
-    cmdFin();
+    	cmdFin();
 
     }
 	if (error == 1){
