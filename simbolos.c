@@ -40,6 +40,7 @@ void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor)
 	//1 entero
 	//2 real
 	//3 cadena
+	//4 booleano
 	switch(_tipo){
 		case 1:	sim[pos].valor.entero=_valor.entero;
 				printf("Inserto %s de tipo %d con valor %d en %d\n", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.entero,pos);
@@ -49,6 +50,16 @@ void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor)
 				break;
 		case 3: strcpy(sim[pos].valor.cadena,_valor.cadena);
 				printf("Inserto %s de tipo %d con valor %s en %d\n", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.cadena,pos);
+				break;
+		case 4: sim[pos].valor.entero=_valor.entero;
+				if(valor.entero==1)
+				{
+					printf("Inserto %s de tipo %d con valor cierto en %d\n", sim[pos].nombre,sim[pos].tipo,pos);
+				}
+				else{
+					printf("Inserto %s de tipo %d con valor falso en %d\n", sim[pos].nombre,sim[pos].tipo,pos);
+				}
+				
 				break;
 	}
 
@@ -74,6 +85,16 @@ void mostrarSimbolos(simbolo sim[])
 					}
 					if(sim[i].tipo==3){
 							printf("La variable %s es de tipo cadena y tiene el valor %s\n",	 sim[i].nombre, sim[i].valor.cadena);
+					}
+					if(sim[i].tipo==4){
+							if(sim[i].valor.entero==1){
+								printf("La variable %s es de tipo booleano y tiene el valor cierto\n",	 sim[i].nombre);
+							}
+							else
+							{
+								printf("La variable %s es de tipo booleano y tiene el valor falso\n",	 sim[i].nombre);
+							}
+							
 					}
 	}
 }
