@@ -366,6 +366,11 @@ int main( int argc, char **argv )
 
 		yyin=fopen(nombre_lgo,"rt");
 		
+		if(yyin==0){
+			printf("\033[1m \033[31m\nEl script logo no existe, introduzca un nombre de fichero valido\n");
+			printf("\033[22m \033[30m");
+			return 0;
+		}
 
 	    cmdInicio(modo);
     
