@@ -61,6 +61,9 @@ cadena		["][^"][,.?¿!¡*A-Za-z]+["]
 							}
 [nN][oO][ ]					{return NO;
 							 }
+[Cc][Ii][Ee][Rr][Tt][Oo]	{return CIERTO;}
+[Ff][Aa][Ll][Ss][Oo]		{return FALSO;}
+
 {num_entero}            	{yylval.c_entero=atoi(yytext);
 								return N_ENTERO;
 							}

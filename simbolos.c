@@ -52,7 +52,7 @@ void insertarSimbolo(simbolo sim[],char _nombre[],int _tipo, tipoValor  _valor)
 				printf("Inserto %s de tipo %d con valor %s en %d\n", sim[pos].nombre,sim[pos].tipo,sim[pos].valor.cadena,pos);
 				break;
 		case 4: sim[pos].valor.entero=_valor.entero;
-				if(valor.entero==1)
+				if(_valor.entero==1)
 				{
 					printf("Inserto %s de tipo %d con valor cierto en %d\n", sim[pos].nombre,sim[pos].tipo,pos);
 				}

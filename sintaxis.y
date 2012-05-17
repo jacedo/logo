@@ -65,6 +65,7 @@ void yyerror(const char *);
 %token AV RE GD GI BL SL MT OT BP PC
 %token NO
 %token REPITE ESCRIBE SI HAZ
+%token CIERTO FALSO
 %token <c_entero> N_ENTERO 
 %token <c_real> N_REAL 
 %token <c_cadena> CADENA
