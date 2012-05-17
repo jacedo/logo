@@ -333,26 +333,6 @@ int main( int argc, char **argv )
      }   
 
     inicializarSimbolos(sim);
-
-    //esto simplemente para probar si es capaz de recuperar bien los valores de las variables
-    //luego hay que quitarlo
-    //entero
-    tipoValor  valor;
-    valor.entero=56;
-    char nombre[50];
-    strcpy(nombre,"a");
-    insertarSimbolo(sim,nombre,1, valor);
-    //real
-    valor.entero=0;
-    valor.real=45.23;
-    strcpy(nombre,"b");
-    insertarSimbolo(sim,nombre,2, valor);
-    //cadena
-    valor.real=0;
-    strcpy(valor.cadena,"esto es una cadena");
-    strcpy(nombre,"c");
-    insertarSimbolo(sim,nombre,3, valor);
-    //hasta aqui
     
      if(argc == 2){
      	modo=1;
