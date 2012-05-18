@@ -18,8 +18,8 @@ void cmdAvanza(int *columna,int *fila,int valor, int lapiz, int oculta, int orie
 	if(oculta==0){
 					borra_tortuga(*columna,*fila);
 				}
-				int columna2;
-				int fila2;
+				int columna2=*columna;
+				int fila2=*fila;
 				int aux=(orientacion*360)/256;
 				while(aux>90){
 					aux=aux-90;
@@ -78,8 +78,8 @@ void cmdRetrocede(int *columna,int *fila,int valor, int lapiz, int oculta, int o
 					borra_tortuga(*columna,*fila);
 				}
 			
-				int columna2;
-				int fila2;
+				int columna2=*columna;
+				int fila2=*fila;
 				int aux=(orientacion*360)/256;
 				while(aux>90){
 					aux=aux-90;

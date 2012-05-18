@@ -21,6 +21,7 @@ int esdatovar;
 char nombrevar[100];
 
 char cad[100];
+int log;
 
 //variable para saber el tipo de la variable $$ en dato:
 //1-entero;2-real;3-cadena;4-exprlog
@@ -113,42 +114,52 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 															break;
 													case 3: strcpy(cad,(aux.valor.cadena));
 															break;
-													case 4: $$ = aux.valor.entero;
+													case 4: $$ = aux.valor.entero;tipodato=4;
 															break;
 												}
 											}
 	 ;
 
-exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); }
-	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;}
-       |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;}
-       |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;}
-       |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;}
-       |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;}
-       |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;}
-       |NO exprlog		      			{ if($2 == 1) $$ = 0; else $$ = 1;}
-       |exprlog '&' exprlog	  				{ if($1 && $3) $$ = 1; else $$ = 0;}
-       |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;}
-       |CIERTO 								{$$=1;}
-       |FALSO 								{$$=0;}
+
+exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
+	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |NO exprlog		      			{ if($2 == 1) $$ = 0; else $$ = 1;tipodato=4;}
+       |exprlog '&' exprlog	  				{ if($1 && $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |CIERTO 								{$$=1;tipodato=4;}
+       |FALSO 								{$$=0;tipodato=4;}
        |RECUP_IDENT							{	esdatovar=1;
        											aux=obtenerSimbolo(sim,$1);
        											strcpy(nombrevar,aux.nombre);
        											printf("Tipo=%d\n", aux.tipo);
        											if(aux.tipo==4){
        												$$ = aux.valor.entero;
-       											}
+       											}tipodato=4;
        										}
 	;
 
-dato:expr        							{	if(tipodato==3){
+dato:expr        							{
+												if(tipodato==4){
+													if($1==1){
+														strcpy($$,"cierto");
+														}else{
+															strcpy($$,"falso");
+														}
+												}else{	
+												if(tipodato==3){
 													
                                                   	strcpy($$,cad);
 												}else{
 													;sprintf($$,"%2.8g",$1);
-												}
+												}}
+												
 											}
-		|exprlog							{	
+		|exprlog							{	printf("entra en exprlog");
 												
 												tipodato=4;
 												if($1==0)
