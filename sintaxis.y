@@ -87,7 +87,7 @@ void yyerror(const char *);
 
 entrada:{}
 		|entrada linea
-		|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
+		//|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
 linea: 	'\n' 								{numlinea++;if(modo==0) prompt();}
     	|comando							
@@ -119,6 +119,7 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 												}
 											}
 	 ;
+
 
 
 exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
@@ -278,18 +279,7 @@ comando: AV expr 	{
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	
-   |SI exprlog {if(ejecutar!=0){
-                                                if($2==0){
-                                                        ejecutar=0;
-                                                }
-                                        }
-                                }'['entrada']'{
-                                        if(ejecutar==0){
-                                                ejecutar=2;
-                                        }else{
-                                                ejecutar=1;
-                                        }
-                                } entrada
+   |SI exprlog  { if($2==0){ejecutar=0;}} condicion
 
 
    	|ESCRIBE dato {	if(ejecutar!=0){
@@ -355,7 +345,16 @@ comando: AV expr 	{
    							}
    							}				
    	;
+   	condicion:'['entrada']'{
+                                        if(ejecutar==0){
+                                                ejecutar=2;
+                                        }else{
+                                                ejecutar=0;
+                                        }
+                                }'['entrada']' {ejecutar=1;}
+              |'['entrada']' {ejecutar=1;}
 
+   	;
 
 %%
 
