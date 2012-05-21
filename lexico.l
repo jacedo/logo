@@ -51,7 +51,7 @@ cadena		["][^"][,.?¿!¡*A-Za-z]+["]
 [rR][eE][pP][iI][tT][eE][ ]					{return REPITE;}
 [eE][sS][cC][rR][iI][bB][eE][ ]		{return ESCRIBE;}
 [eE][sS][ ]							{return ESCRIBE;}
-[bB][oO][rR][aA][rR][pP][aA][nN][tT][aA][lL][lL][aA] 	{return BP;}
+[bB][oO][rR][rR][aA][pP][aA][nN][tT][aA][lL][lL][aA] 	{return BP;}
 [bB][pP]												{return BP;}
 [pP][oO][nN][cC][lL][ ]								{return PC;}
 [sS][iI][ ]											{return SI;}
