@@ -47,6 +47,9 @@ int contador_cmd=0;
 int bucle=0;
 int ejecutar=1; 
 
+//indica si se ejecuta o no el comando escribe. 0 no, 1 si
+int escribir=1;
+
 extern FILE *yyin;
 
 //fichero (1) o consola (0)
@@ -74,7 +77,7 @@ void yyerror(const char *);
 %token <c_cadena> RECUP_IDENT
 
 %type <c_cadena> dato
-%type <c_entero> exprlog
+//%type <c_entero> exprlog
 %type <c_real> expr
 
 
@@ -108,39 +111,42 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 												aux=obtenerSimbolo(sim,$1);
 												strcpy(nombrevar,aux.nombre);
 												switch(aux.tipo){
-													case 1: $$ = (aux.valor.entero);
+													case 1: if(tipodato!=aux.tipo){escribir=0;error=1;printf("\033[1m\033[31m\n Tipo de dato invalido\n\033[22m \033[30m");}else{$$ = (aux.valor.entero);tipodato=1;}
 															break;
-													case 2: $$ = (aux.valor.real);
+													case 2: if(tipodato!=aux.tipo){escribir=0;error=1;printf("\033[1m\033[31m\n Tipo de dato invalido\n\033[22m \033[30m");}else{$$ = (aux.valor.real);tipodato=2;}
 															break;
-													case 3: strcpy(cad,(aux.valor.cadena));
+													case 3: if(tipodato!=aux.tipo){escribir=0;error=1;printf("\033[1m\033[31m\n Tipo de dato invalido\n\033[22m \033[30m");}else{strcpy(cad,(aux.valor.cadena));tipodato=3;}
 															break;
-													case 4: $$ = aux.valor.entero;tipodato=4;
+													case 4: if(tipodato!=aux.tipo){escribir=0;error=1;printf("\033[1m\033[31m\n Tipo de dato invalido\n\033[22m \033[30m");}else{$$ = aux.valor.entero;tipodato=4;}
 															break;
 												}
 											}
-	 ;
-
-
-exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
+	//|'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
 	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;tipodato=4;}
        |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;tipodato=4;}
        |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;tipodato=4;}
        |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;tipodato=4;}
        |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;tipodato=4;}
        |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |NO exprlog		      			{ if($2 == 1) $$ = 0; else $$ = 1;tipodato=4;}
-       |exprlog '&' exprlog	  				{ if($1 && $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |NO expr		      			{ if(tipodato==4){if($2 == 1) $$ = 0; else $$ = 1;tipodato=4;}else{	escribir=0;error=1;printf("\033[1m\033[31m\nLa operacion solo es valida para expresiones logicas\n\033[22m \033[30m");}}
+       |expr '&' expr	  				{ if(tipodato!=4)
+       									{
+									       	escribir=0;error=1;printf("\033[1m\033[31m\nLa operacion solo es valida para expresiones logicas\n\033[22m \033[30m");
+									     }else
+									     {	if($1 && $3) $$ = 1; else $$ = 0;tipodato=4;
+									     }
+									 	}
+       |expr '|' expr	  				{ if($1 || $3) $$ = 1; else $$ = 0;tipodato=4;}
        |CIERTO 								{$$=1;tipodato=4;}
        |FALSO 								{$$=0;tipodato=4;}
-       |RECUP_IDENT							{	esdatovar=1;
+       /*|RECUP_IDENT							{	esdatovar=1;
        											aux=obtenerSimbolo(sim,$1);
        											strcpy(nombrevar,aux.nombre);
        											printf("Tipo=%d\n", aux.tipo);
        											if(aux.tipo==4){
        												$$ = aux.valor.entero;
        											}tipodato=4;
-       										}
+       										}*/
 	;
 
 dato:expr        							{
@@ -159,7 +165,7 @@ dato:expr        							{
 												}}
 												
 											}
-		|exprlog							{	printf("entra en exprlog");
+		/*|exprlog							{	printf("entra en exprlog");
 												
 												tipodato=4;
 												if($1==0)
@@ -168,7 +174,7 @@ dato:expr        							{
 												}else{
 													strcpy($$,"cierto");	
 												}
-											}
+											}*/
 		|CADENA    							{esdatovar=0;strcpy($$,$1);tipodato=3;}
 		
 		;
@@ -278,7 +284,7 @@ comando: AV expr 	{
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	
-   |SI exprlog {if(ejecutar!=0){
+   |SI expr {if(ejecutar!=0){
                                                 if($2==0){
                                                         ejecutar=0;
                                                 }
@@ -307,7 +313,9 @@ comando: AV expr 	{
 						}
 							contador_cmd++;
 						}
-   						muestra_mensaje($2);if(modo!=0) readkey();}
+   						if(escribir){muestra_mensaje($2);if(modo!=0) readkey();}
+   						escribir=1;
+   					}
    					}
    							 
    	|HAZ ASIG_IDENT dato     {
