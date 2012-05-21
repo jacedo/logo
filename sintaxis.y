@@ -89,11 +89,16 @@ entrada:{}
 		|entrada linea
 		//|'[' {if(ejecutar==2){ejecutar=1;}else{ejecutar=0;}}entrada ']'{ejecutar=1;}
 		;
-linea: 	'\n' 								{numlinea++;if(modo==0) prompt();}
+linea: 	'\n'								{numlinea++;if(modo==0) prompt();}
     	|comando							
     	|error '\n' 						{numlinea++;yyerrok;}
     	|SALIR '\n'							{return(0);}
 	 	;
+espacios:
+		|espacios '\n'
+		|espacios '\t' 
+		|espacios ' '
+	;
 
 
 expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
@@ -272,7 +277,7 @@ comando: AV expr 	{
 
    					}
 
-	|REPITE expr'[' {if(tipodato==2){ejecutar=0;error=1;yyerrok;printf("\033[1m\033[31m\n%2.8g no es un numero entero!\n",$2);
+	|REPITE expr espacios '[' {if(tipodato==2){ejecutar=0;error=1;yyerrok;printf("\033[1m\033[31m\n%2.8g no es un numero entero!\n",$2);
 	printf("\033[22m \033[30m");}else{ bucle=1;}} entrada ']' {ejecutar=1;bucle=0;
 						
 						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo,tipodato,sim);
