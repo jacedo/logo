@@ -18,7 +18,7 @@ extern int numlinea;
 digito		[0-9]	
 num_entero	{digito}+	
 num_real	{num_entero}+[.]{num_entero}*
-identificador	[a-zA-Z][_a-zA-Z0-9]*
+identificador	[_a-zA-Z0-9]*[a-zA-Z][_a-zA-Z0-9]*
 cadena		["][^"][,.?¿!¡*A-Za-z]+["]
 %%
 
