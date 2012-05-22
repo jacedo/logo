@@ -209,6 +209,38 @@ dato:expr        							{
 													strcpy($$,"cierto");	
 												}
 											}
+		|RECUP_IDENT						{esdatovar=1;
+												if(existeSimbolo(sim,$1)==1)
+												{
+													aux=obtenerSimbolo(sim,$1);
+													strcpy(nombrevar,aux.nombre);
+													switch(aux.tipo){
+														case 1: sprintf($$,"%d",(aux.valor.entero));
+																break;
+														case 2: sprintf($$,"%2.8g",(aux.valor.real));
+																break;
+														case 3: strcpy(cad,(aux.valor.cadena));
+																strcpy($$,cad);
+																break;
+														case 4: if(aux.valor.entero==1){
+																	strcpy($$,"cierto");
+																}else
+																{
+																	strcpy($$,"falso");
+																};tipodato=4;
+																break;
+													}
+													variable_existe=1;
+												}
+												else{
+														printf("La variable %s no tiene valor\n",$1);
+														variable_existe=0;
+														error=1;
+														yyerrok;
+
+												}
+
+											}
 		|CADENA    							{esdatovar=0;strcpy($$,$1);tipodato=3;variable_existe=1;}
 		
 		;
