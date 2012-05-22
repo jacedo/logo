@@ -46,6 +46,7 @@ int contador_cmd=0;
 
 int bucle=0;
 int ejecutar=1; 
+int variable_existe=1;
 
 extern FILE *yyin;
 
@@ -110,17 +111,28 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
        	|expr '/' expr						{$$ = $1 / $3;}
 		|'(' expr ')'		      			{$$ = ( $2 );}
 		|RECUP_IDENT						{	esdatovar=1;
-												aux=obtenerSimbolo(sim,$1);
-												strcpy(nombrevar,aux.nombre);
-												switch(aux.tipo){
-													case 1: $$ = (aux.valor.entero);
-															break;
-													case 2: $$ = (aux.valor.real);
-															break;
-													case 3: strcpy(cad,(aux.valor.cadena));
-															break;
-													case 4: $$ = aux.valor.entero;tipodato=4;
-															break;
+												if(existeSimbolo(sim,$1)==1)
+												{
+													aux=obtenerSimbolo(sim,$1);
+													strcpy(nombrevar,aux.nombre);
+													switch(aux.tipo){
+														case 1: $$ = (aux.valor.entero);
+																break;
+														case 2: $$ = (aux.valor.real);
+																break;
+														case 3: strcpy(cad,(aux.valor.cadena));
+																break;
+														case 4: $$ = aux.valor.entero;tipodato=4;
+																break;
+													}
+													variable_existe=1;
+												}
+												else{
+														printf("La variable %s no tiene valor\n",$1);
+														variable_existe=0;
+														error=1;
+														yyerrok;
+
 												}
 											}
 	 ;
@@ -140,12 +152,23 @@ exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
        |CIERTO 								{$$=1;tipodato=4;}
        |FALSO 								{$$=0;tipodato=4;}
        |RECUP_IDENT							{	esdatovar=1;
-       											aux=obtenerSimbolo(sim,$1);
-       											strcpy(nombrevar,aux.nombre);
-       											printf("Tipo=%d\n", aux.tipo);
-       											if(aux.tipo==4){
-       												$$ = aux.valor.entero;
-       											}tipodato=4;
+       											if(existeSimbolo(sim,$1)==1)
+												{
+	       											aux=obtenerSimbolo(sim,$1);
+	       											strcpy(nombrevar,aux.nombre);
+	       											printf("Tipo=%d\n", aux.tipo);
+	       											if(aux.tipo==4){
+	       												$$ = aux.valor.entero;
+	       											}
+	       											tipodato=4;
+	       											variable_existe=1;
+	       										}
+												else{
+														printf("La variable %s no tiene valor\n",$1);
+														variable_existe=0;
+														error=1;
+														yyerrok;
+												}
        										}
 	;
 
@@ -175,7 +198,7 @@ dato:expr        							{
 													strcpy($$,"cierto");	
 												}
 											}
-		|CADENA    							{esdatovar=0;strcpy($$,$1);tipodato=3;}
+		|CADENA    							{esdatovar=0;strcpy($$,$1);tipodato=3;variable_existe=1;}
 		
 		;
 
@@ -287,7 +310,7 @@ comando: AV expr 	{
    |SI exprlog  { if($2==0){ejecutar=0;}} condicion
 
 
-   	|ESCRIBE dato {	if(ejecutar!=0){
+   	|ESCRIBE dato {	if(ejecutar!=0 && variable_existe==1){
    						if(bucle==1){
 
 							cmd[contador_cmd].comando=8;
@@ -305,7 +328,7 @@ comando: AV expr 	{
    						muestra_mensaje($2);if(modo!=0) readkey();}
    					}
    							 
-   	|HAZ ASIG_IDENT dato     {
+   	|HAZ ASIG_IDENT dato     { if(variable_existe){
    								if(bucle==1){
    									cmd[contador_cmd].comando=9;
 									strcpy(cmd[contador_cmd].parametro1.cadena,$2);
@@ -347,6 +370,7 @@ comando: AV expr 	{
    										strcpy(nombre,$2);
    										insertarSimbolo( sim,$2,4, valor);
    										break;	
+   							}
    							}
    							}				
    	;
