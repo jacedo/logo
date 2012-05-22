@@ -77,6 +77,8 @@ void yyerror(const char *);
 %type <c_cadena> dato
 %type <c_entero> exprlog
 %type <c_real> expr
+%type <c_entero> exprlogvar
+%type <c_real> exprvar
 
 
 %left '+' '-' 
@@ -102,14 +104,7 @@ espacios:
 	;
 
 
-expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
-		|N_REAL			      				{$$ = $1;tipodato=2;}
-       	|'-' expr  %prec MENOSUNARIO  		{$$ = - $2;}
-       	|expr '+' expr                		{$$ = $1 + $3;}
-       	|expr '-' expr                		{$$ = $1 - $3;}
-       	|expr '*' expr                		{$$ = $1 * $3;}
-       	|expr '/' expr						{$$ = $1 / $3;}
-		|'(' expr ')'		      			{$$ = ( $2 );}
+exprvar:expr
 		|RECUP_IDENT						{	esdatovar=1;
 												if(existeSimbolo(sim,$1)==1)
 												{
@@ -135,23 +130,21 @@ expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
 
 												}
 											}
+
+	;
+expr: 	N_ENTERO							{$$ = $1;tipodato=1;}
+		|N_REAL			      				{$$ = $1;tipodato=2;}
+       	|'-' exprvar  %prec MENOSUNARIO  		{$$ = - $2;}
+       	|exprvar '+' exprvar                		{$$ = $1 + $3;}
+       	|exprvar '-' exprvar                		{$$ = $1 - $3;}
+       	|exprvar '*' exprvar                		{$$ = $1 * $3;}
+       	|exprvar '/' exprvar						{$$ = $1 / $3;}
+		|'(' exprvar ')'		      			{$$ = ( $2 );}
+		
 	 ;
 
-
-
-exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
-	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |NO exprlog		      			{ if($2 == 1) $$ = 0; else $$ = 1;tipodato=4;}
-       |exprlog '&' exprlog	  				{ if($1 && $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |exprlog '|' exprlog	  				{ if($1 || $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |CIERTO 								{$$=1;tipodato=4;}
-       |FALSO 								{$$=0;tipodato=4;}
-       |RECUP_IDENT							{	esdatovar=1;
+exprlogvar:exprlog
+		 |RECUP_IDENT							{	esdatovar=1;
        											if(existeSimbolo(sim,$1)==1)
 												{
 	       											aux=obtenerSimbolo(sim,$1);
@@ -159,8 +152,12 @@ exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
 	       											printf("Tipo=%d\n", aux.tipo);
 	       											if(aux.tipo==4){
 	       												$$ = aux.valor.entero;
+	       												tipodato=4;
+	       											}else{
+	       												printf("la variable no es de tipo logico\n");
+	       												ejecutar=0;
 	       											}
-	       											tipodato=4;
+	       											
 	       											variable_existe=1;
 	       										}
 												else{
@@ -170,6 +167,20 @@ exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
 														yyerrok;
 												}
        										}
+
+exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
+	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |NO exprlogvar		      			{ if($2 == 1) $$ = 0; else $$ = 1;tipodato=4;}
+       |exprlogvar '&' exprlogvar	  				{ if($1 && $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |exprlogvar '|' exprlogvar	  				{ if($1 || $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |CIERTO 								{$$=1;tipodato=4;}
+       |FALSO 								{$$=0;tipodato=4;}
+      
 	;
 
 dato:expr        							{
@@ -307,7 +318,7 @@ comando: AV expr 	{
 						reinicilizaCmd(cmd,&contador_cmd);}
 					}
 	
-   |SI exprlog  { if($2==0){ejecutar=0;}} condicion
+   |SI exprlogvar  { if($2==0){ejecutar=0;}} condicion
 
 
    	|ESCRIBE dato {	if(ejecutar!=0 && variable_existe==1){
@@ -326,6 +337,7 @@ comando: AV expr 	{
 							contador_cmd++;
 						}
    						muestra_mensaje($2);if(modo!=0) readkey();}
+   						ejecutar=1;
    					}
    							 
    	|HAZ ASIG_IDENT dato     { if(variable_existe){
