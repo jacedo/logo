@@ -111,11 +111,11 @@ exprvar:expr
 													aux=obtenerSimbolo(sim,$1);
 													strcpy(nombrevar,aux.nombre);
 													switch(aux.tipo){
-														case 1: $$ = (aux.valor.entero);
+														case 1: $$ = (aux.valor.entero);tipodato=1;
 																break;
-														case 2: $$ = (aux.valor.real);
+														case 2: $$ = (aux.valor.real);tipodato=2;
 																break;
-														case 3: strcpy(cad,(aux.valor.cadena));
+														case 3: strcpy(cad,(aux.valor.cadena));tipodato=3;
 																break;
 														case 4: $$ = aux.valor.entero;tipodato=4;
 																break;
@@ -215,11 +215,11 @@ dato:expr        							{
 													aux=obtenerSimbolo(sim,$1);
 													strcpy(nombrevar,aux.nombre);
 													switch(aux.tipo){
-														case 1: sprintf($$,"%d",(aux.valor.entero));
+														case 1: sprintf($$,"%d",(aux.valor.entero));tipodato=1;
 																break;
-														case 2: sprintf($$,"%2.8g",(aux.valor.real));
+														case 2: sprintf($$,"%2.8g",(aux.valor.real));tipodato=2;
 																break;
-														case 3: strcpy(cad,(aux.valor.cadena));
+														case 3: strcpy(cad,(aux.valor.cadena));tipodato=3;
 																strcpy($$,cad);
 																break;
 														case 4: if(aux.valor.entero==1){
@@ -245,44 +245,44 @@ dato:expr        							{
 		
 		;
 
-comando: AV expr 	{
-					if(ejecutar!=0){
+comando: AV exprvar {if(tipodato==1){
+					if(ejecutar>0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=0;
 							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdAvanza(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
-					}
-	|RE expr 		{
-					if(ejecutar!=0){
+					}variable_existe=1;}
+	|RE exprvar 		{if(tipodato==1){
+					if(ejecutar>0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=1;
 							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdRetrocede(&columna,&fila,$2,lapiz,oculta,orientacion,R,G,B,modo);}
-					}
-	|GD expr 		{
-					if(ejecutar!=0){
+					}variable_existe=1;}
+	|GD exprvar 		{if(tipodato==1){
+					if(ejecutar>0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=2;
 							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraDerecha(columna,fila,$2,oculta, &orientacion,modo);}
-					}
-	|GI expr 		{
-					if(ejecutar!=0){
+					}variable_existe=1;}
+	|GI exprvar		{if(tipodato==1){
+					if(ejecutar>0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=3;
 							cmd[contador_cmd].parametro1.numero=$2;
 							contador_cmd++;
 						}
 						cmdGiraIzquierda(columna,fila,$2,oculta, &orientacion,modo);}
-					}
+					}variable_existe=1;}
 	|BL				{
-					if(ejecutar!=0){
+					if(ejecutar>0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=4;
 							contador_cmd++;
@@ -290,7 +290,7 @@ comando: AV expr 	{
 						cmdBajaLapiz(&lapiz);}
 					}
 	|SL				{
-					if(ejecutar!=0){
+					if(ejecutar>0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=5;
 							contador_cmd++;
@@ -298,7 +298,7 @@ comando: AV expr 	{
 						cmdSubeLapiz(&lapiz);}
 					}
 	|MT				{
-					if(ejecutar!=0){
+					if(ejecutar>0){
 						if(bucle==1){
 							cmd[contador_cmd].comando=6;
 							contador_cmd++;
@@ -306,7 +306,7 @@ comando: AV expr 	{
 						cmdMuestraTortuga(columna,fila,orientacion, &oculta,modo);}
 					}
    	|OT				{
-   					if(ejecutar!=0){
+   					if(ejecutar>0){
    						if(bucle==1){
 							cmd[contador_cmd].comando=7;
 							contador_cmd++;
@@ -315,7 +315,7 @@ comando: AV expr 	{
    					} 
    					}
    	|BP 			{
-   					if(ejecutar!=0){
+   					if(ejecutar>0){
    						//printf("voy a llamar a la funcion de cmdBorrarPantalla\n");
    						cmdBorrarPantalla(modo);
    						fila=300;
@@ -343,17 +343,17 @@ comando: AV expr 	{
 
    					}
 
-	|REPITE expr espacios '[' {if(tipodato==2){ejecutar=0;error=1;yyerrok;printf("\033[1m\033[31m\n%2.8g no es un numero entero!\n",$2);
+	|REPITE exprvar {if(tipodato!=1 || !variable_existe){ejecutar=0;}} espacios '[' {if(tipodato==2){ejecutar=0;error=1;yyerrok;printf("\033[1m\033[31m\n%2.8g no es un numero entero!\n",$2);
 	printf("\033[22m \033[30m");}else{ bucle=1;}} entrada ']' {ejecutar=1;bucle=0;
 						
 						if(ejecutar!=0){ejecutarBucle((int)$2,cmd,contador_cmd,&columna,&fila,&lapiz,&oculta,&orientacion,R,G,B,modo,tipodato,sim);
-						reinicilizaCmd(cmd,&contador_cmd);}
+						reinicilizaCmd(cmd,&contador_cmd);variable_existe=1;}
 					}
 	
-   |SI exprlogvar  { if($2==0){ejecutar=0;}} condicion
+   |SI exprlogvar  { if(!variable_existe){ejecutar=-1;}else{if($2==0){ejecutar=0;}}} condicion {variable_existe=1;}
 
 
-   	|ESCRIBE dato {	if(ejecutar!=0 && variable_existe==1){
+   	|ESCRIBE dato {	if(ejecutar>0 && variable_existe==1){
    						if(bucle==1){
 
 							cmd[contador_cmd].comando=8;
@@ -370,6 +370,7 @@ comando: AV expr 	{
 						}
    						muestra_mensaje($2);if(modo!=0) readkey();}
    						ejecutar=1;
+   						variable_existe=1;
    					}
    							 
    	|HAZ ASIG_IDENT dato     { if(variable_existe){
