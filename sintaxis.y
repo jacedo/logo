@@ -169,12 +169,12 @@ exprlogvar:exprlog
        										}
 
 exprlog:'(' exprlog ')' 		  			{ $$ = ( $2 ); tipodato=4;}
-	   |expr '<' expr		      			{ if($1 < $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '>' expr		      			{ if($1 > $3) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '<''=' expr	     			{ if($1 <= $4) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '>''=' expr	      			{ if($1 >= $4) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '!''=' expr	      			{ if($1 != $4) $$ = 1; else $$ = 0;tipodato=4;}
-       |expr '=' expr	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;tipodato=4;}
+	   |exprvar '<' exprvar		      			{ if($1 < $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |exprvar '>' exprvar		      			{ if($1 > $3) $$ = 1; else $$ = 0;tipodato=4;}
+       |exprvar '<''=' exprvar	     			{ if($1 <= $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |exprvar '>''=' exprvar	      			{ if($1 >= $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |exprvar '!''=' exprvar	      			{ if($1 != $4) $$ = 1; else $$ = 0;tipodato=4;}
+       |exprvar '=' exprvar	      	  			{ if($1 == $3) $$ = 1; else $$ = 0;tipodato=4;}
        |NO exprlogvar		      			{ if($2 == 1) $$ = 0; else $$ = 1;tipodato=4;}
        |exprlogvar '&' exprlogvar	  				{ if($1 && $3) $$ = 1; else $$ = 0;tipodato=4;}
        |exprlogvar '|' exprlogvar	  				{ if($1 || $3) $$ = 1; else $$ = 0;tipodato=4;}
